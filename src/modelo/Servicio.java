@@ -1,58 +1,52 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package modelo;
-
-/**
- *
- * @author aleswise
+/*  Author:  aleswise
+    <>
+    Author: Didier Stevenson Calvache Grajales
+    <didiermaxilo3@gmail.com>
+    Date: July 2020
  */
-public class Servicio {
-    
+public class Servicio{
+    // Definición de atributos
     private int codigo;
     private String nombre;
     private int costo;
 
-    public Servicio(int codigo, String nombre, int costo) throws Exception {
-        
-        if (nombre == null || nombre.equals("".trim())) {
-            throw new Exception("Rellena el campo correctamente");
-        }
-        
-        if (costo < 0) {
-            throw new Exception("Rellena el campo correctamente");
-        }
-        
-        this.codigo = codigo;
-        this.nombre = nombre;
-        this.costo = costo;
-        
+    // Constructores
+    public Servicio(){
     }
-
-    public int getCodigo() {
+    public Servicio(int codigo, String nombre, int costo) throws Exception {
+        setCodigo(codigo);
+        setNombre(nombre);
+        setCosto(costo);
+    }
+    // Definición de los métodos
+    // Implementación de validación de valores en los metodos Set
+    public int getCodigo(){
         return codigo;
     }
-
-    public void setCodigo(int codigo) {
+    public void setCodigo(int codigo) throws Exception{
+        if(codigo<=0){
+            throw new Exception("El Código del SERVICIO debe ser ENTERO POSITIVO");
+        }
         this.codigo = codigo;
     }
-
-    public String getNombre() {
+    public String getNombre(){
         return nombre;
     }
-
-    public void setNombre(String nombre) {
+    public void setNombre(String nombre) throws Exception{
+        nombre = nombre.trim();
+        if(nombre == null || "".equals(nombre)){
+            throw new Exception("El Nombre del SERVICIO NO debe ser valor null o cadena vacía");
+        }
         this.nombre = nombre;
     }
-
-    public int getCosto() {
+    public int getCosto(){
         return costo;
     }
-
-    public void setCosto(int costo) {
+    public void setCosto(int costo) throws Exception{
+        if(costo<=0){
+            throw new Exception("El COSTO del SERVICIO debe ser ENTERO POSITIVO");
+        }
         this.costo = costo;
     }
-    
 }

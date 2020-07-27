@@ -1,16 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package modelo;
-
-/**
- *
- * @author aleswise
+/*  Author:  aleswise
+    <>
+    Author: Didier Stevenson Calvache Grajales
+    <didiermaxilo3@gmail.com>
+    Date: July 2020
  */
-public class Vehiculo {
-    
+public class Vehiculo{
+    // Definición de atributos
     private String placa;
     private String marca;
     private String linea;
@@ -18,79 +14,78 @@ public class Vehiculo {
     private TipoVehiculo tipoVehiculo;
     private Persona persona;
 
-    public Vehiculo(String placa, String marca, String linea, short año, TipoVehiculo tipoVehiculo, Persona persona) throws Exception {
-        
-        if (placa == null || placa.equals("".trim())) {
-            throw new Exception("Rellena el campo correctamente");
-        }
-        
-        if (marca == null || marca.equals("".trim())) {
-            throw new Exception("Rellena el campo correctamente");
-        }
-        
-        if (linea == null || linea.equals("".trim())) {
-            throw new Exception("Rellena el campo correctamente");
-        }
-        
-        if (año < 1800) {
-            throw new Exception("Rellena el campo correctamente");
-        }
-        
-        this.placa = placa;
-        this.marca = marca;
-        this.linea = linea;
-        this.año = año;
-        this.tipoVehiculo = tipoVehiculo;
-        this.persona = persona;
-        
+    // Constructores
+    public Vehiculo(){
     }
-
-    public String getPlaca() {
+    public Vehiculo(String placa, String marca, String linea, short año, 
+            TipoVehiculo tipoVehiculo, Persona persona) throws Exception{
+        setPlaca(placa);
+        setMarca(marca);
+        setLinea(linea);
+        setAño(año);
+        setTipoVehiculo(tipoVehiculo);
+        setPersona(persona);
+    }
+    // Definición de los métodos
+    // Implementación de validación de valores en los metodos Set
+    public String getPlaca(){
         return placa;
     }
-
-    public void setPlaca(String placa) {
+    public void setPlaca(String placa) throws Exception{
+        placa = placa.trim();
+        if (placa == null || "".equals(placa)){
+            throw new Exception("Debe ingresar una PLACA");
+        }
+        if (!(placa.length() == 6)){
+            throw new Exception("La PLACA ingresada NO es válida");
+        }
         this.placa = placa;
     }
-
-    public String getMarca() {
+    public String getMarca(){
         return marca;
     }
-
-    public void setMarca(String marca) {
+    public void setMarca(String marca) throws Exception{
+        marca = marca.trim();
+        if (marca == null || "".equals(marca)){
+            throw new Exception("Debe ingresar una MARCA del Vehículo");
+        }
         this.marca = marca;
     }
-
-    public String getLinea() {
+    public String getLinea(){
         return linea;
     }
-
-    public void setLinea(String linea) {
+    public void setLinea(String linea) throws Exception{
+        linea = linea.trim();
+        if (linea == null || "".equals(linea)){
+            throw new Exception("Debe ingresar una LINEA del Vehículo");
+        }
         this.linea = linea;
     }
-
-    public short getAño() {
+    public short getAño(){
         return año;
     }
-
-    public void setAño(short año) {
+    public void setAño(short año) throws Exception{
+        if (año < 1900 || año > 2021){// año > Date.getYear()+1
+            throw new Exception("El AÑO ingresado NO es válido");
+        }
         this.año = año;
     }
-
-    public TipoVehiculo getTipoVehiculo() {
+    public TipoVehiculo getTipoVehiculo(){
         return tipoVehiculo;
     }
-
-    public void setTipoVehiculo(TipoVehiculo tipoVehiculo) {
+    public void setTipoVehiculo(TipoVehiculo tipoVehiculo)throws Exception{
+        if (tipoVehiculo == null){
+            throw new Exception("Debe ingresar un TIPO de Vehículo");
+        }
         this.tipoVehiculo = tipoVehiculo;
     }
-
-    public Persona getPersona() {
+    public Persona getPersona(){
         return persona;
     }
-
-    public void setPersona(Persona persona) {
+    public void setPersona(Persona persona) throws Exception{
+        if (persona == null){
+            throw new Exception("Debe ingresar un CLIENTE/DUEÑO del vehículo");
+        }
         this.persona = persona;
     }
-    
 }
