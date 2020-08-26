@@ -5,6 +5,7 @@ package modelo;
     <didiermaxilo3@gmail.com>
     Date: July 2020
  */
+
 public class Servicio{
     // Definición de atributos
     private int codigo;
@@ -14,25 +15,30 @@ public class Servicio{
     // Constructores
     public Servicio(){
     }
+    
     public Servicio(int codigo, String nombre, int costo) throws Exception {
         setCodigo(codigo);
         setNombre(nombre);
         setCosto(costo);
     }
+    
     // Definición de los métodos
     // Implementación de validación de valores en los metodos Set
     public int getCodigo(){
         return codigo;
     }
+    
     public void setCodigo(int codigo) throws Exception{
-        if(codigo<=0){
+        if(codigo <= 0){
             throw new Exception("El Código del SERVICIO debe ser ENTERO POSITIVO");
         }
         this.codigo = codigo;
     }
+    
     public String getNombre(){
         return nombre;
     }
+    
     public void setNombre(String nombre) throws Exception{
         nombre = nombre.trim();
         if(nombre == null || "".equals(nombre)){
@@ -40,11 +46,13 @@ public class Servicio{
         }
         this.nombre = nombre;
     }
+    
     public int getCosto(){
         return costo;
     }
+    
     public void setCosto(int costo) throws Exception{
-        if(costo<=0){
+        if(costo <= 0){
             throw new Exception("El COSTO del SERVICIO debe ser ENTERO POSITIVO");
         }
         this.costo = costo;

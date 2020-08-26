@@ -6,7 +6,7 @@ package modelo;
     Date: July 2020
  */
 import java.util.regex.Pattern;
-///////////////////////////////////////////////////////////////////////////////
+
 public class Persona {
     // Definición de atributos
     private long nuip;
@@ -17,6 +17,7 @@ public class Persona {
     // Constructores
     public Persona(){
     }
+    
     public Persona(long nuip, String nombre, String apellido, Long telefono) throws Exception{
         setNuip(nuip);
         setNombre(nombre);
@@ -29,15 +30,18 @@ public class Persona {
     public long getNuip(){
         return nuip;
     }
+    
     public void setNuip(long nuip) throws Exception{
-        if(!((nuip>=1000000L && nuip<=99999999L) || nuip>=1000000000L && nuip<=9999999999L)){
+        if(!((nuip >= 1000000L && nuip <= 99999999L) || nuip >= 1000000000L && nuip <= 9999999999L)){
             throw new Exception("La identificación debe ser entre 7, 8 o 10 números");
         }
         this.nuip = nuip;
     }
+    
     public String getNombre(){
         return nombre;
     }
+    
     public void setNombre(String nombre) throws Exception{
         nombre = nombre.trim();
         if(nombre == null || "".equals(nombre)){
@@ -48,9 +52,11 @@ public class Persona {
         }
         this.nombre = nombre;
     }
+    
     public String getApellido(){
         return apellido;
     }
+    
     public void setApellido(String apellido) throws Exception{
         apellido = apellido.trim();
         if(apellido == null || "".equals(apellido)){
@@ -61,11 +67,13 @@ public class Persona {
         }
         this.apellido = apellido;
     }
+    
     public long getTelefono(){
         return telefono;
     }
+    
     public void setTelefono(long telefono) throws Exception{
-        if(!(telefono>=1000000000L && telefono<=9999999999L)){
+        if(!(telefono >= 1000000000L && telefono <= 9999999999L)){
             throw new Exception("El número telefónico debe ser de 10 números, si es número fijo incluya el indicativo");
         }
         this.telefono = telefono;
