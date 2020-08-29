@@ -1,11 +1,10 @@
 package modelo;
-/*  Author:  Alexander Viafara 
+/*  Author: Alexander Viafara 
     <viafarapersonal@gmail.com>
     Author: Didier Stevenson Calvache Grajales
     <didiermaxilo3@gmail.com>
-    Date: July 2020
+    Date: August 2020
  */
-
 import java.util.LinkedList;
 
 public class Taller{
@@ -86,7 +85,7 @@ public class Taller{
     public void agregarPersona (Persona newpersona) throws Exception{
         for (Persona personaL : personas) {
             if (personaL.equals(newpersona)){
-                throw new Exception("El(la) Mecánico(a) que intenta añadir ya se encuentra registrado(a)");
+                throw new Exception(" que intenta añadir ya se encuentra registrado(a)");
             }
         }
         personas.add(newpersona);

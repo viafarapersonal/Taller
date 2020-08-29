@@ -1,9 +1,9 @@
 package modelo;
-/*  Author:  Alexander Viafara 
+/*  Author: Alexander Viafara 
     <viafarapersonal@gmail.com>
     Author: Didier Stevenson Calvache Grajales
     <didiermaxilo3@gmail.com>
-    Date: July 2020
+    Date: August 2020
  */
 import java.util.regex.Pattern;
 

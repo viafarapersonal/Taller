@@ -1,9 +1,13 @@
 package modelo;
-/*  Author:  Alexander Viafara 
+
+import java.time.LocalDate;
+import java.time.Year;
+
+/*  Author: Alexander Viafara 
     <viafarapersonal@gmail.com>
     Author: Didier Stevenson Calvache Grajales
     <didiermaxilo3@gmail.com>
-    Date: July 2020
+    Date: August 2020
  */
 
 public class Vehiculo{
@@ -36,11 +40,12 @@ public class Vehiculo{
     
     public void setPlaca(String placa) throws Exception{
         placa = placa.trim();
+        placa = placa.toUpperCase();
         if (placa == null || "".equals(placa)){
             throw new Exception("Debe ingresar una PLACA");
         }
         if (!(placa.length() == 6)){
-            throw new Exception("La PLACA ingresada NO es válida");
+            throw new Exception("La PLACA ingresada NO es válida (máximo 6 caracteres");
         }
         this.placa = placa;
     }
@@ -74,8 +79,9 @@ public class Vehiculo{
     }
     
     public void setAño(short año) throws Exception{
-        if (año < 1900 || año > 2021){// año > Date.getYear()+1
-            throw new Exception("El AÑO ingresado NO es válido");
+        if (año < 1900 || año > (Year.now().getValue()+1)){
+            throw new Exception("El AÑO ingresado NO es válido "
+                    + "(sólo se aceptan de 1900 en adelante");
         }
         this.año = año;
     }
