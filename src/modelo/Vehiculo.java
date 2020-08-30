@@ -14,7 +14,7 @@ import java.util.Objects;
 public class Vehiculo{
     // Definición de atributos
     private String placa;
-    private String marca;
+    private MarcaVehiculo marca;
     private String linea;
     private int modelo;
     private TipoVehiculo tipoVehiculo;
@@ -24,7 +24,7 @@ public class Vehiculo{
     public Vehiculo(){
     }
     
-    public Vehiculo(String placa, String marca, String linea, int modelo, TipoVehiculo tipoVehiculo, Persona persona) throws Exception{
+    public Vehiculo(String placa, MarcaVehiculo marca, String linea, int modelo, TipoVehiculo tipoVehiculo, Persona persona) throws Exception{
         setPlaca(placa);
         setMarca(marca);
         setLinea(linea);
@@ -51,13 +51,12 @@ public class Vehiculo{
         this.placa = placa;
     }
     
-    public String getMarca(){
+    public MarcaVehiculo getMarca(){
         return marca;
     }
     
-    public void setMarca(String marca) throws Exception{
-        marca = marca.trim();
-        if (marca == null || "".equals(marca)){
+    public void setMarca(MarcaVehiculo marca) throws Exception{
+        if (marca == null){
             throw new Exception("Debe ingresar una MARCA del Vehículo");
         }
         this.marca = marca;
@@ -127,7 +126,7 @@ public class Vehiculo{
             return false;
         }
         final Vehiculo other = (Vehiculo) obj;
-        if (!Objects.equals(this.placa.toUpperCase(), other.placa.toUpperCase())) {
+        if (!Objects.equals(this.placa, other.placa)){
             return false;
         }
         return true;

@@ -20,6 +20,12 @@ public class Taller{
 
     // Constructores
     public Taller(){
+        this.mecanicos = new LinkedList<>();
+        this.productos = new LinkedList<>();
+        this.servicios = new LinkedList<>();
+        this.manteRealizados = new LinkedList<>();
+        this.mantePendientes = new LinkedList<>();
+        this.vehiculos = new LinkedList<>();
     }
     
     public Taller(long nit, String nombre) throws Exception{
@@ -98,15 +104,6 @@ public class Taller{
         }
         throw new ClassNotFoundException("No se ha encontrado el MANTENIMIENTO "
                 + "PENDIENTE con la PLACA: "+placa);
-    }
-    
-    public Vehiculo buscarVehiculoPlaca(String placa) throws Exception{
-        for (Vehiculo vehiculoL : vehiculos){
-            if(vehiculoL.getPlaca() == placa){
-                return vehiculoL;
-            }
-        }
-        return null;
     }
     
     public LinkedList<Mantenimiento> getPendientesNoMecanico(){
@@ -191,13 +188,23 @@ public class Taller{
     public void agregarVehiculo (Vehiculo newvehiculo) throws Exception{
         for (Vehiculo vehiculoL : vehiculos){
             if (vehiculoL.equals(newvehiculo)){
-                throw new Exception("El VEHÍCULO que intenta añadir ya se encuentra registrado");
+                throw new Exception("El VEHÍCULO con placa: "
+                    +newvehiculo.getPlaca()+"ya se encuentra registrado");
             }
         }
-        vehiculos.add(newvehiculo);
+        this.vehiculos.add(newvehiculo);
     }
     
     public void eliminarVehiculo (Vehiculo vehiculo){
         vehiculos.remove(vehiculo);
+    }
+    
+    public Vehiculo buscarVehiculoPlaca(String placa) throws Exception{
+        for (Vehiculo vehiculoL : vehiculos){
+            if(vehiculoL.getPlaca() == placa){
+                return vehiculoL;
+            }
+        }
+        return null;
     }
 }

@@ -57,4 +57,9 @@ public class Servicio{
         }
         this.costo = costo;
     }
+
+    @Override
+    public String toString(){
+        return "Servicio: " + "nombre=" + nombre + ", costo(" + costo + ')';
+    }
 }

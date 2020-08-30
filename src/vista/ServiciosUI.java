@@ -19,7 +19,7 @@ public class ServiciosUI extends javax.swing.JInternalFrame{
         initComponents();
         setClosable(true);
         
-//        this.jlPendientes.setModel(new ListModel<Mantenimiento>(){
+//        jlPendientes.setModel(new ListModel<Mantenimiento>(){
 //            @Override
 //            public int getSize(){
 //                return taller.getMantePendientes().size();

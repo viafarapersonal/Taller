@@ -1,17 +1,17 @@
 package vista;
+import java.awt.Container;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JList;
+import java.util.LinkedList;
+import javax.swing.ComboBoxModel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
+import javax.swing.ListModel;
+import javax.swing.event.ListDataListener;
 import modelo.Taller;
 import modelo.MarcaVehiculo;
 import modelo.Persona;
+import modelo.Servicio;
 import modelo.TipoVehiculo;
 import modelo.Vehiculo;
 /*  Author:  Alexander Viafara 
@@ -23,16 +23,59 @@ import modelo.Vehiculo;
 public class IngresoUI extends javax.swing.JInternalFrame {
     //Atributos
     private Taller taller;
+    private LinkedList<Servicio> serviciosVehiculo;
     //Constructor de la ventana Ingreso
     public IngresoUI(Taller tall){
         this.taller = tall;
+        this.serviciosVehiculo = new LinkedList<>();
         initComponents();
         setTitle("Ingreso de Vehículo");
         txfPlaca.addActionListener(new BuscarVehiculoListener());
         btnRegisVehiculo.addActionListener(new RegisVehiculoListener());
-        btnAgregServicio.addActionListener(new AgregVehiculoListener());
+        btnAgregServicio.addActionListener(new AgregServicioListener());
         btnIngreVehiculo.addActionListener(new IngreVehiculoListener());
         btnCancelar.addActionListener(new CancelarListener());
+        
+        this.cboxServicios.setModel(new ComboBoxModel<Servicio>(){
+            private Servicio servicioSeleccionado;
+            @Override
+            public void setSelectedItem(Object anItem){
+                this.servicioSeleccionado = (Servicio)anItem;
+                cboxServicios.updateUI();
+            }
+            @Override
+            public Object getSelectedItem(){
+                return this.servicioSeleccionado;
+            }
+            @Override
+            public int getSize(){
+                return taller.getServicios().size();
+            }
+            @Override
+            public Servicio getElementAt(int index){
+                return taller.getServicios().get(index);
+            }
+            @Override
+            public void addListDataListener(ListDataListener l){}
+            @Override
+            public void removeListDataListener(ListDataListener l){}
+            });
+        this.jlServicios.setModel(new ListModel<Servicio>(){
+            @Override
+            public int getSize() {
+                return serviciosVehiculo.size();
+            }
+
+            @Override
+            public Servicio getElementAt(int index){
+                return serviciosVehiculo.get(index);
+            }
+
+            @Override
+            public void addListDataListener(ListDataListener l){}
+            @Override
+            public void removeListDataListener(ListDataListener l){}
+        });
     }
 
     @SuppressWarnings("unchecked")
@@ -238,16 +281,12 @@ public class IngresoUI extends javax.swing.JInternalFrame {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Servicio(s) Solicitado(s)", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
 
-        cboxServicios.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboxServicios.setModel(new javax.swing.DefaultComboBoxModel<Servicio>());
 
         btnAgregServicio.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnAgregServicio.setText("Agregar");
 
-        jlServicios.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
+        jlServicios.setModel(new javax.swing.DefaultListModel<Servicio>());
         jScrollPane1.setViewportView(jlServicios);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -275,6 +314,8 @@ public class IngresoUI extends javax.swing.JInternalFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        cboxServicios.getAccessibleContext().setAccessibleParent(this);
 
         btnIngreVehiculo.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnIngreVehiculo.setText("Ingresar Vehiculo");
@@ -329,15 +370,13 @@ public class IngresoUI extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregServicio;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnIngreVehiculo;
     private javax.swing.JButton btnRegisVehiculo;
     private javax.swing.JComboBox<MarcaVehiculo> cboxMarca;
-    private javax.swing.JComboBox<String> cboxServicios;
+    private javax.swing.JComboBox<Servicio> cboxServicios;
     private javax.swing.JComboBox<TipoVehiculo> cboxTipo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -354,7 +393,7 @@ public class IngresoUI extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JList<String> jlServicios;
+    private javax.swing.JList<Servicio> jlServicios;
     private javax.swing.JTextField txfApellido;
     private javax.swing.JTextField txfLinea;
     private javax.swing.JTextField txfModelo;
@@ -369,7 +408,6 @@ public class IngresoUI extends javax.swing.JInternalFrame {
         public void actionPerformed(ActionEvent e){
             try{
                 Vehiculo vehi = taller.buscarVehiculoPlaca(txfPlaca.getText());
-                JOptionPane.showMessageDialog(IngresoUI.this, "ENTERRRRR");
                 cboxMarca.setSelectedItem(vehi.getMarca());
                 cboxTipo.setSelectedItem(vehi.getTipoVehiculo());
                 txfLinea.setText(vehi.getLinea());
@@ -384,15 +422,7 @@ public class IngresoUI extends javax.swing.JInternalFrame {
                     "Vehiculo no Econtrado", JOptionPane.YES_NO_OPTION,
                     JOptionPane.QUESTION_MESSAGE);
                 if (op==JOptionPane.YES_OPTION){
-                    cboxMarca.setEditable(true);
-                    cboxTipo.setEditable(true);
-                    txfLinea.setEditable(true);
-                    txfModelo.setEditable(true);
-                    txfNuip.setEditable(true);
-                    txfNombre.setEditable(true);
-                    txfApellido.setEditable(true);
-                    txfTelefono.setEditable(true);
-                    btnRegisVehiculo.setEnabled(true);
+                    habilitarCamposBtn(true);
                 }
             }catch(Exception exe){
                 JOptionPane.showMessageDialog(IngresoUI.this, 
@@ -402,100 +432,98 @@ public class IngresoUI extends javax.swing.JInternalFrame {
         }
     }
     
-    public class RegisVehiculoListener implements ActionListener {
+    public class RegisVehiculoListener implements ActionListener{
         @Override
-        public void actionPerformed(ActionEvent e) {
+        public void actionPerformed(ActionEvent e){
             try{
-                taller.agregarVehiculo(new Vehiculo(txfPlaca.getText(), 
-                    cboxMarca.getSelectedItem().toString(), txfLinea.getText(), 
-                    Short.parseShort(txfModelo.getText()), 
-                    (TipoVehiculo)cboxTipo.getSelectedItem(), 
-                    new Persona(Long.parseLong(txfNuip.getText()), 
+                Vehiculo v = new Vehiculo(txfPlaca.getText(), 
+                    (MarcaVehiculo)cboxMarca.getSelectedItem(), 
+                    txfLinea.getText(), Short.parseShort(txfModelo.getText()), 
+                    (TipoVehiculo)cboxTipo.getSelectedItem(),
+                        new Persona(Long.parseLong(txfNuip.getText()), 
                         txfNombre.getText(), txfApellido.getText(), 
-                        Long.parseLong(txfTelefono.getText()))));
+                        Long.parseLong(txfTelefono.getText()))
+                    );
+                JOptionPane.showMessageDialog(IngresoUI.this, 
+                        "2");
+                taller.agregarVehiculo(v);
                 JOptionPane.showMessageDialog(IngresoUI.this, 
                         "REGISTRO EXITOSO");
+                limpiarCampos();
+                habilitarCamposBtn(false);
 //                Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, exe);
             }catch(NumberFormatException exe){
                 JOptionPane.showMessageDialog(IngresoUI.this, 
                         "Formato incorrecto en algún campo que requiere números");
+            }catch(NullPointerException exe){
+                JOptionPane.showMessageDialog(IngresoUI.this, "null");
+            }catch(Exception exe){
+                JOptionPane.showMessageDialog(IngresoUI.this, "raro");
+            }
+        }
+    }
+
+    public class AgregServicioListener implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e){
+            try{
+                JOptionPane.showMessageDialog(IngresoUI.this, "A verrrrr");
+                serviciosVehiculo.add((Servicio)cboxServicios.getSelectedItem());
             }catch(Exception exe){
                 JOptionPane.showMessageDialog(IngresoUI.this, exe.getMessage());
             }
         }
     }
 
-    public class AgregVehiculoListener implements ActionListener {
-
+    public class IngreVehiculoListener implements ActionListener{
         @Override
-        public void actionPerformed(ActionEvent e) {
-        
-        }
-    }
-
-    public class IngreVehiculoListener implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
+        public void actionPerformed(ActionEvent e){
         
         }
     }
 
     public class CancelarListener implements ActionListener {
-
         @Override
-        public void actionPerformed(ActionEvent e) {
-        
+        public void actionPerformed(ActionEvent e){
+            limpiarCampos();
+            IngresoUI.this.hide();
         }
     }
-
-    public IngresoUI(Taller taller, JButton btnAgregServicio, JButton btnCancelar, JButton btnIngreVehiculo, JButton btnRegisVehiculo, JComboBox<MarcaVehiculo> cboxMarca, JComboBox<String> cboxServicios, JComboBox<TipoVehiculo> cboxTipo, JLabel jLabel1, JLabel jLabel10, JLabel jLabel11, JLabel jLabel2, JLabel jLabel3, JLabel jLabel4, JLabel jLabel5, JLabel jLabel6, JLabel jLabel7, JLabel jLabel8, JLabel jLabel9, JPanel jPanel1, JPanel jPanel2, JPanel jPanel3, JScrollPane jScrollPane1, JList<String> jlServicios, JTextField txfApellido, JTextField txfLinea, JTextField txfModelo, JTextField txfNombre, JTextField txfNuip, JTextField txfPlaca, JTextField txfTelefono) {
-        this.taller = taller;
-        this.btnAgregServicio = btnAgregServicio;
-        this.btnCancelar = btnCancelar;
-        this.btnIngreVehiculo = btnIngreVehiculo;
-        this.btnRegisVehiculo = btnRegisVehiculo;
-        this.cboxMarca = cboxMarca;
-        this.cboxServicios = cboxServicios;
-        this.cboxTipo = cboxTipo;
-        this.jLabel1 = jLabel1;
-        this.jLabel10 = jLabel10;
-        this.jLabel11 = jLabel11;
-        this.jLabel2 = jLabel2;
-        this.jLabel3 = jLabel3;
-        this.jLabel4 = jLabel4;
-        this.jLabel5 = jLabel5;
-        this.jLabel6 = jLabel6;
-        this.jLabel7 = jLabel7;
-        this.jLabel8 = jLabel8;
-        this.jLabel9 = jLabel9;
-        this.jPanel1 = jPanel1;
-        this.jPanel2 = jPanel2;
-        this.jPanel3 = jPanel3;
-        this.jScrollPane1 = jScrollPane1;
-        this.jlServicios = jlServicios;
-        this.txfApellido = txfApellido;
-        this.txfLinea = txfLinea;
-        this.txfModelo = txfModelo;
-        this.txfNombre = txfNombre;
-        this.txfNuip = txfNuip;
-        this.txfPlaca = txfPlaca;
-        this.txfTelefono = txfTelefono;
+    public void limpiarCampos(){
+        txfPlaca.setText("");
+        txfLinea.setText("");
+        txfModelo.setText("");
+        txfNuip.setText("");
+        txfNombre.setText("");
+        txfApellido.setText("");
+        txfTelefono.setText("");
+    }
+    public void habilitarCamposBtn(boolean aFlag){
+        txfLinea.setEditable(aFlag);
+        txfModelo.setEditable(aFlag);
+        txfNuip.setEditable(aFlag);
+        txfNombre.setEditable(aFlag);
+        txfApellido.setEditable(aFlag);
+        txfTelefono.setEditable(aFlag);
+        btnRegisVehiculo.setEnabled(aFlag);
     }
 
     @Override
-    public void hide(){
-        cboxMarca.setEditable(false);
-        cboxTipo.setEditable(false);
-        txfLinea.setEditable(false);
-        txfModelo.setEditable(false);
-        txfNuip.setEditable(false);
-        txfNombre.setEditable(false);
-        txfApellido.setEditable(false);
-        txfTelefono.setEditable(false);
-        btnRegisVehiculo.setEnabled(false);
-        if (isIcon()) {
-            getDesktopIcon().setVisible(false);
+    public void setVisible(boolean aFlag){
+        if (aFlag != isVisible()){
+            super.setVisible(aFlag);
+            if (aFlag){
+                Container parent = getParent();
+                if (parent != null){
+                    Rectangle r = getBounds();
+                    parent.repaint(r.x, r.y, r.width, r.height);
+                }
+                revalidate();
+            }
+        }
+        if(aFlag){
+            habilitarCamposBtn(false);
+            limpiarCampos();
         }
     }
 }

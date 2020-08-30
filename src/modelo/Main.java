@@ -7,8 +7,10 @@ import vista.PrincipalUI;
     Date: August 2020
  */
 public class Main {
-    public static void main(String[] args) {
-        Taller tall = new Taller();
+    public static void main(String[] args) throws Exception {
+        Taller tall = new Taller(111, "F&F Car WorkShop");
+        
+        tall.agregarServico(new Servicio(1, "Cambio_Aceite", 10000));
         
         PrincipalUI ventPrincipal = new PrincipalUI(tall);
         ventPrincipal.setVisible(true);
