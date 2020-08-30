@@ -2,6 +2,7 @@ package vista;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
+import modelo.Mantenimiento;
 import modelo.Taller;
 /*  Author:  Alexander Viafara 
     <viafarapersonal@gmail.com>
@@ -12,9 +13,11 @@ import modelo.Taller;
 public class PrincipalUI extends javax.swing.JFrame{
     //Atributos
     private Taller taller;
+    private Mantenimiento mantenimiento;
     //Constructor de la ventana PrincipalUI
-    public PrincipalUI(Taller taller){
+    public PrincipalUI(Taller taller, Mantenimiento mantenimiento){
         this.taller = taller;
+        this.mantenimiento = mantenimiento;
         initComponents();
         this.setTitle("Auto Workshop");
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -149,7 +152,7 @@ public class PrincipalUI extends javax.swing.JFrame{
         @Override
         public void actionPerformed(ActionEvent e){
             if (this.regist == null){
-                this.regist = new RegistroUI();
+                this.regist = new RegistroUI(taller, mantenimiento);
                 jDesktopPane1.add(regist);
             }
             regist.setVisible(true);
