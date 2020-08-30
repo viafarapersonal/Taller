@@ -60,6 +60,31 @@ public class Servicio{
 
     @Override
     public String toString(){
-        return "Servicio: " + "nombre=" + nombre + ", costo(" + costo + ')';
+        return "Servicio: " + nombre + ", costo(" + costo + ')';
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Servicio other = (Servicio) obj;
+        if (this.codigo != other.codigo) {
+            return false;
+        }
+        return true;
+    }
+    
 }

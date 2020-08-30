@@ -1,12 +1,11 @@
 package modelo;
+import java.util.LinkedList;
 /*  Author: Alexander Viafara 
     <viafarapersonal@gmail.com>
     Author: Didier Stevenson Calvache Grajales
     <didiermaxilo3@gmail.com>
     Date: August 2020
  */
-import java.util.LinkedList;
-
 public class Taller{
     // Definición de atributos
     private long nit;
@@ -47,7 +46,7 @@ public class Taller{
     
     public void setNit(long nit) throws Exception{
         if (nit <= 0){
-            throw new Exception("El NIT DEBE ser un ENTERO POSITIVO");
+            throw new ClassNotFoundException("El NIT DEBE ser un ENTERO POSITIVO");
         }
         this.nit = nit;
     }
@@ -59,7 +58,7 @@ public class Taller{
     public void setNombre(String nombre) throws Exception{
         nombre = nombre.trim();
         if(nombre == null || "".equals(nombre)){
-            throw new Exception("El Nombre del TALLER NO debe ser valor null o cadena vacía");
+            throw new ClassNotFoundException("El Nombre del TALLER NO debe ser valor null o cadena vacía");
         }
         this.nombre = nombre;
     }
@@ -123,7 +122,7 @@ public class Taller{
     public void agregarPersona (Persona newpersona) throws Exception{
         for (Persona personaL : mecanicos) {
             if (personaL.equals(newpersona)){
-                throw new Exception(" que intenta añadir ya se encuentra registrado(a)");
+                throw new ClassNotFoundException(" que intenta añadir ya se encuentra registrado(a)");
             }
         }
         mecanicos.add(newpersona);
@@ -136,7 +135,7 @@ public class Taller{
     public void agregarProducto (Producto newproducto) throws Exception{
         for (Producto productoL : productos) {
             if (productoL.equals(newproducto)){
-                throw new Exception("El PRODUCTO que intenta añadir ya se encuentra registrado");
+                throw new ClassNotFoundException("El PRODUCTO que intenta añadir ya se encuentra registrado");
             }
         }
         productos.add(newproducto);
@@ -149,7 +148,8 @@ public class Taller{
     public void agregarServico (Servicio newservicio) throws Exception{
         for (Servicio servicioL : servicios) {
             if (servicioL.equals(newservicio)){
-                throw new Exception("El SERVICIO que intenta añadir ya se encuentra registrado");
+                throw new ClassNotFoundException("El SERVICIO que intenta añadir"
+                        + " al TALLER ya se encuentra registrado");
             }
         }
         servicios.add(newservicio);
@@ -162,7 +162,7 @@ public class Taller{
     public void agregarRealizado (Mantenimiento newrealizado) throws Exception{
         for (Mantenimiento realizadoL : manteRealizados) {
             if (realizadoL.equals(newrealizado)){
-                throw new Exception("El MANTENIMIENTO REALIZADO que intenta añadir ya se encuentra registrado");
+                throw new ClassNotFoundException("El MANTENIMIENTO REALIZADO que intenta añadir ya se encuentra registrado");
             }
         }
         manteRealizados.add(newrealizado);
@@ -175,7 +175,7 @@ public class Taller{
     public void agregarPendiente (Mantenimiento newpendiente) throws Exception{
         for (Mantenimiento pendienteL : mantePendientes) {
             if (pendienteL.equals(newpendiente)){
-                throw new Exception("El MANTENIMIENTO PENDIENTE que intenta añadir ya se encuentra registrado");
+                throw new ClassNotFoundException("El MANTENIMIENTO PENDIENTE que intenta añadir ya se encuentra registrado");
             }
         }
         mantePendientes.add(newpendiente);
@@ -188,8 +188,8 @@ public class Taller{
     public void agregarVehiculo (Vehiculo newvehiculo) throws Exception{
         for (Vehiculo vehiculoL : vehiculos){
             if (vehiculoL.equals(newvehiculo)){
-                throw new Exception("El VEHÍCULO con placa: "
-                    +newvehiculo.getPlaca()+"ya se encuentra registrado");
+                throw new ClassNotFoundException("El VEHÍCULO con placa: ["
+                    +newvehiculo.getPlaca()+"] ya se encuentra registrado");
             }
         }
         this.vehiculos.add(newvehiculo);
@@ -200,11 +200,13 @@ public class Taller{
     }
     
     public Vehiculo buscarVehiculoPlaca(String placa) throws Exception{
+        placa.trim();
         for (Vehiculo vehiculoL : vehiculos){
             if(vehiculoL.getPlaca() == placa){
                 return vehiculoL;
             }
         }
-        return null;
+        throw new ClassNotFoundException("El VEHÍCULO con placa: "
+                    +placa+" NO SE ENCONTRÓ");
     }
 }

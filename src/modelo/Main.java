@@ -10,7 +10,10 @@ public class Main {
     public static void main(String[] args) throws Exception {
         Taller tall = new Taller(111, "F&F Car WorkShop");
         
-        tall.agregarServico(new Servicio(1, "Cambio_Aceite", 10000));
+        tall.agregarServico(new Servicio(1, "Cambio de Aceite", 10000));
+        
+        tall.agregarVehiculo(new Vehiculo("123123", MarcaVehiculo.BMW, "Mainkra",
+            2021, TipoVehiculo.DEPORTIVO, new Persona()));
         
         PrincipalUI ventPrincipal = new PrincipalUI(tall);
         ventPrincipal.setVisible(true);

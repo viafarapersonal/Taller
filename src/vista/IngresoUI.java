@@ -31,9 +31,9 @@ public class IngresoUI extends javax.swing.JInternalFrame {
         initComponents();
         setTitle("Ingreso de Vehículo");
         txfPlaca.addActionListener(new BuscarVehiculoListener());
-        btnRegisVehiculo.addActionListener(new RegisVehiculoListener());
-        btnAgregServicio.addActionListener(new AgregServicioListener());
-        btnIngreVehiculo.addActionListener(new IngreVehiculoListener());
+        btnRegisVehiculo.addActionListener(new RegistrarVehiculoListener());
+        btnAgregServicio.addActionListener(new AgregarServicioListener());
+        btnIngreVehiculo.addActionListener(new IngresarVehiculoListener());
         btnCancelar.addActionListener(new CancelarListener());
         
         this.cboxServicios.setModel(new ComboBoxModel<Servicio>(){
@@ -416,9 +416,10 @@ public class IngresoUI extends javax.swing.JInternalFrame {
                 txfNombre.setText(vehi.getPersonaPropietaria().getNombre());
                 txfApellido.setText(vehi.getPersonaPropietaria().getApellido());
                 txfTelefono.setText(vehi.getPersonaPropietaria().getTelefono().toString());
-            }catch(NullPointerException exe){
+                JOptionPane.showMessageDialog(IngresoUI.this, vehi.getPlaca());
+            }catch(ClassNotFoundException exe){
                 int op = JOptionPane.showConfirmDialog(IngresoUI.this, 
-                    "Vehiculo NO ENCONTRADO"+", ¿Desea Registrar el Vehículo?",
+                    exe.getMessage()+", ¿Desea Registrar el Vehículo?",
                     "Vehiculo no Econtrado", JOptionPane.YES_NO_OPTION,
                     JOptionPane.QUESTION_MESSAGE);
                 if (op==JOptionPane.YES_OPTION){
@@ -432,7 +433,7 @@ public class IngresoUI extends javax.swing.JInternalFrame {
         }
     }
     
-    public class RegisVehiculoListener implements ActionListener{
+    public class RegistrarVehiculoListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e){
             try{
@@ -451,34 +452,46 @@ public class IngresoUI extends javax.swing.JInternalFrame {
                         "REGISTRO EXITOSO");
                 limpiarCampos();
                 habilitarCamposBtn(false);
-//                Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, exe);
             }catch(NumberFormatException exe){
                 JOptionPane.showMessageDialog(IngresoUI.this, 
                         "Formato incorrecto en algún campo que requiere números");
-            }catch(NullPointerException exe){
-                JOptionPane.showMessageDialog(IngresoUI.this, "null");
+            }catch(ClassNotFoundException exe){
+                JOptionPane.showMessageDialog(IngresoUI.this, exe.getMessage());
             }catch(Exception exe){
-                JOptionPane.showMessageDialog(IngresoUI.this, "raro");
+                JOptionPane.showMessageDialog(IngresoUI.this, 
+                    "Error inesperado (PONERSE EN CONTACTO CON PROVEEDORES)\n"
+                    +exe.getMessage());
+//                Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, exe);
             }
         }
     }
 
-    public class AgregServicioListener implements ActionListener{
+    public class AgregarServicioListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e){
             try{
-                JOptionPane.showMessageDialog(IngresoUI.this, "A verrrrr");
+                for(Servicio servicioL : serviciosVehiculo){
+                    if(servicioL.equals((Servicio)cboxServicios.getSelectedItem())){
+                        throw new ClassNotFoundException("El servicio al vehículo"
+                                + "YA SE ENCUENTRA AGREGADO");
+                    }
+                }
                 serviciosVehiculo.add((Servicio)cboxServicios.getSelectedItem());
-            }catch(Exception exe){
+                jlServicios.updateUI();
+            }catch(ClassNotFoundException exe){
                 JOptionPane.showMessageDialog(IngresoUI.this, exe.getMessage());
+            }catch(Exception exe){
+                JOptionPane.showMessageDialog(IngresoUI.this, 
+                    "Error inesperado (PONERSE EN CONTACTO CON PROVEEDORES)\n"
+                    +exe.getMessage());
             }
         }
     }
 
-    public class IngreVehiculoListener implements ActionListener{
+    public class IngresarVehiculoListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e){
-        
+            
         }
     }
 
