@@ -1,7 +1,14 @@
 package vista;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 import modelo.Taller;
 import modelo.MarcaVehiculo;
 import modelo.Persona;
@@ -17,11 +24,11 @@ public class IngresoUI extends javax.swing.JInternalFrame {
     //Atributos
     private Taller taller;
     //Constructor de la ventana Ingreso
-    public IngresoUI(){
-        this.taller = taller;
+    public IngresoUI(Taller tall){
+        this.taller = tall;
         initComponents();
         setTitle("Ingreso de Vehículo");
-        setClosable(true);
+        txfPlaca.addActionListener(new BuscarVehiculoListener());
         btnRegisVehiculo.addActionListener(new RegisVehiculoListener());
         btnAgregServicio.addActionListener(new AgregVehiculoListener());
         btnIngreVehiculo.addActionListener(new IngreVehiculoListener());
@@ -65,6 +72,7 @@ public class IngresoUI extends javax.swing.JInternalFrame {
 
         jLabel2.setText("jLabel2");
 
+        setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -84,9 +92,11 @@ public class IngresoUI extends javax.swing.JInternalFrame {
 
         cboxTipo.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
 
+        txfLinea.setEditable(false);
         txfLinea.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         txfLinea.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
+        txfModelo.setEditable(false);
         txfModelo.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         txfModelo.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
@@ -156,15 +166,19 @@ public class IngresoUI extends javax.swing.JInternalFrame {
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel8.setText("Nuip:");
 
+        txfNuip.setEditable(false);
         txfNuip.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         txfNuip.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
+        txfNombre.setEditable(false);
         txfNombre.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         txfNombre.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
+        txfApellido.setEditable(false);
         txfApellido.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         txfApellido.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
+        txfTelefono.setEditable(false);
         txfTelefono.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         txfTelefono.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
@@ -220,6 +234,7 @@ public class IngresoUI extends javax.swing.JInternalFrame {
 
         btnRegisVehiculo.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnRegisVehiculo.setText("Registrar Vehiculo");
+        btnRegisVehiculo.setEnabled(false);
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Servicio(s) Solicitado(s)", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
 
@@ -349,6 +364,44 @@ public class IngresoUI extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txfTelefono;
     // End of variables declaration//GEN-END:variables
 
+    public class BuscarVehiculoListener implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e){
+            try{
+                Vehiculo vehi = taller.buscarVehiculoPlaca(txfPlaca.getText());
+                JOptionPane.showMessageDialog(IngresoUI.this, "ENTERRRRR");
+                cboxMarca.setSelectedItem(vehi.getMarca());
+                cboxTipo.setSelectedItem(vehi.getTipoVehiculo());
+                txfLinea.setText(vehi.getLinea());
+                txfModelo.setText(String.valueOf(vehi.getModelo()));
+                txfNuip.setText(vehi.getPersonaPropietaria().getNuip().toString());
+                txfNombre.setText(vehi.getPersonaPropietaria().getNombre());
+                txfApellido.setText(vehi.getPersonaPropietaria().getApellido());
+                txfTelefono.setText(vehi.getPersonaPropietaria().getTelefono().toString());
+            }catch(NullPointerException exe){
+                int op = JOptionPane.showConfirmDialog(IngresoUI.this, 
+                    "Vehiculo NO ENCONTRADO"+", ¿Desea Registrar el Vehículo?",
+                    "Vehiculo no Econtrado", JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE);
+                if (op==JOptionPane.YES_OPTION){
+                    cboxMarca.setEditable(true);
+                    cboxTipo.setEditable(true);
+                    txfLinea.setEditable(true);
+                    txfModelo.setEditable(true);
+                    txfNuip.setEditable(true);
+                    txfNombre.setEditable(true);
+                    txfApellido.setEditable(true);
+                    txfTelefono.setEditable(true);
+                    btnRegisVehiculo.setEnabled(true);
+                }
+            }catch(Exception exe){
+                JOptionPane.showMessageDialog(IngresoUI.this, 
+                    "Error inesperado (PONERSE EN CONTACTO CON PROVEEDORES)\n"
+                    +exe.getMessage());
+            }
+        }
+    }
+    
     public class RegisVehiculoListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -361,7 +414,8 @@ public class IngresoUI extends javax.swing.JInternalFrame {
                         txfNombre.getText(), txfApellido.getText(), 
                         Long.parseLong(txfTelefono.getText()))));
                 JOptionPane.showMessageDialog(IngresoUI.this, 
-                        "Se ha ingresado EXITOSAMENTE");
+                        "REGISTRO EXITOSO");
+//                Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, exe);
             }catch(NumberFormatException exe){
                 JOptionPane.showMessageDialog(IngresoUI.this, 
                         "Formato incorrecto en algún campo que requiere números");
@@ -392,6 +446,56 @@ public class IngresoUI extends javax.swing.JInternalFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
         
+        }
+    }
+
+    public IngresoUI(Taller taller, JButton btnAgregServicio, JButton btnCancelar, JButton btnIngreVehiculo, JButton btnRegisVehiculo, JComboBox<MarcaVehiculo> cboxMarca, JComboBox<String> cboxServicios, JComboBox<TipoVehiculo> cboxTipo, JLabel jLabel1, JLabel jLabel10, JLabel jLabel11, JLabel jLabel2, JLabel jLabel3, JLabel jLabel4, JLabel jLabel5, JLabel jLabel6, JLabel jLabel7, JLabel jLabel8, JLabel jLabel9, JPanel jPanel1, JPanel jPanel2, JPanel jPanel3, JScrollPane jScrollPane1, JList<String> jlServicios, JTextField txfApellido, JTextField txfLinea, JTextField txfModelo, JTextField txfNombre, JTextField txfNuip, JTextField txfPlaca, JTextField txfTelefono) {
+        this.taller = taller;
+        this.btnAgregServicio = btnAgregServicio;
+        this.btnCancelar = btnCancelar;
+        this.btnIngreVehiculo = btnIngreVehiculo;
+        this.btnRegisVehiculo = btnRegisVehiculo;
+        this.cboxMarca = cboxMarca;
+        this.cboxServicios = cboxServicios;
+        this.cboxTipo = cboxTipo;
+        this.jLabel1 = jLabel1;
+        this.jLabel10 = jLabel10;
+        this.jLabel11 = jLabel11;
+        this.jLabel2 = jLabel2;
+        this.jLabel3 = jLabel3;
+        this.jLabel4 = jLabel4;
+        this.jLabel5 = jLabel5;
+        this.jLabel6 = jLabel6;
+        this.jLabel7 = jLabel7;
+        this.jLabel8 = jLabel8;
+        this.jLabel9 = jLabel9;
+        this.jPanel1 = jPanel1;
+        this.jPanel2 = jPanel2;
+        this.jPanel3 = jPanel3;
+        this.jScrollPane1 = jScrollPane1;
+        this.jlServicios = jlServicios;
+        this.txfApellido = txfApellido;
+        this.txfLinea = txfLinea;
+        this.txfModelo = txfModelo;
+        this.txfNombre = txfNombre;
+        this.txfNuip = txfNuip;
+        this.txfPlaca = txfPlaca;
+        this.txfTelefono = txfTelefono;
+    }
+
+    @Override
+    public void hide(){
+        cboxMarca.setEditable(false);
+        cboxTipo.setEditable(false);
+        txfLinea.setEditable(false);
+        txfModelo.setEditable(false);
+        txfNuip.setEditable(false);
+        txfNombre.setEditable(false);
+        txfApellido.setEditable(false);
+        txfTelefono.setEditable(false);
+        btnRegisVehiculo.setEnabled(false);
+        if (isIcon()) {
+            getDesktopIcon().setVisible(false);
         }
     }
 }

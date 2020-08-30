@@ -9,16 +9,16 @@ import java.util.regex.Pattern;
 
 public class Persona {
     // Definición de atributos
-    private long nuip;
+    private Long nuip;
     private String nombre;
     private String apellido;
-    private long telefono;
+    private Long telefono;
     
     // Constructores
     public Persona(){
     }
     
-    public Persona(long nuip, String nombre, String apellido, Long telefono) throws Exception{
+    public Persona(Long nuip, String nombre, String apellido, Long telefono) throws Exception{
         setNuip(nuip);
         setNombre(nombre);
         setApellido(apellido);
@@ -27,7 +27,7 @@ public class Persona {
 
     // Definición de los métodos
     // Implementación de validación de valores en los metodos Set
-    public long getNuip(){
+    public Long getNuip(){
         return nuip;
     }
     
@@ -68,7 +68,7 @@ public class Persona {
         this.apellido = apellido;
     }
     
-    public long getTelefono(){
+    public Long getTelefono(){
         return telefono;
     }
     

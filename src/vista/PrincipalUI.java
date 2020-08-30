@@ -22,7 +22,7 @@ public class PrincipalUI extends javax.swing.JFrame{
         miAsigMecanic.addActionListener(new AisignaMecanicoListener());
         miRegisProducto.addActionListener(new RegisProductoListener());
         miFacturacion.addActionListener(new FacturaciónListener());
-        mAyuda.addActionListener(new AyudaListener());
+        miServicios.addActionListener(new ServiciosListener());
     }
 
         @SuppressWarnings("unchecked")
@@ -39,6 +39,7 @@ public class PrincipalUI extends javax.swing.JFrame{
         miRegisProducto = new javax.swing.JMenuItem();
         miFacturacion = new javax.swing.JMenuItem();
         mAyuda = new javax.swing.JMenu();
+        miServicios = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -55,6 +56,7 @@ public class PrincipalUI extends javax.swing.JFrame{
 
         mSolicitudes.setText("Solicitudes");
 
+        miIngresoVehiculo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         miIngresoVehiculo.setText("Ingreso de Vehículo");
         mSolicitudes.add(miIngresoVehiculo);
 
@@ -62,6 +64,7 @@ public class PrincipalUI extends javax.swing.JFrame{
 
         mMantenimiento.setText("Mantenimiento");
 
+        miAsigMecanic.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         miAsigMecanic.setText("Asignación de Mecánico");
         mMantenimiento.add(miAsigMecanic);
 
@@ -69,15 +72,22 @@ public class PrincipalUI extends javax.swing.JFrame{
 
         mFacturación.setText("Facturacion");
 
+        miRegisProducto.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         miRegisProducto.setText("Registro Productos");
         mFacturación.add(miRegisProducto);
 
+        miFacturacion.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         miFacturacion.setText("Facturación");
         mFacturación.add(miFacturacion);
 
         jMenuBar1.add(mFacturación);
 
         mAyuda.setText("Ayuda");
+
+        miServicios.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        miServicios.setText("Ver servicios solicitados y facturados");
+        mAyuda.add(miServicios);
+
         jMenuBar1.add(mAyuda);
 
         setJMenuBar(jMenuBar1);
@@ -107,6 +117,7 @@ public class PrincipalUI extends javax.swing.JFrame{
     private javax.swing.JMenuItem miFacturacion;
     private javax.swing.JMenuItem miIngresoVehiculo;
     private javax.swing.JMenuItem miRegisProducto;
+    private javax.swing.JMenuItem miServicios;
     // End of variables declaration//GEN-END:variables
 
     public class IngresoVehiculoListener implements ActionListener {
@@ -114,14 +125,14 @@ public class PrincipalUI extends javax.swing.JFrame{
         @Override
         public void actionPerformed(ActionEvent e){
             if (this.ingreso == null){
-                this.ingreso = new IngresoUI();
+                this.ingreso = new IngresoUI(taller);
                 jDesktopPane1.add(ingreso);
             }
             ingreso.setVisible(true);
         }
     }
 
-    public class AisignaMecanicoListener implements ActionListener {
+    public class AisignaMecanicoListener implements ActionListener{
         private AsignacionUI asign = null;
         @Override
         public void actionPerformed(ActionEvent e){
@@ -133,7 +144,7 @@ public class PrincipalUI extends javax.swing.JFrame{
         }
     }
 
-    public class RegisProductoListener implements ActionListener {
+    public class RegisProductoListener implements ActionListener{
         private RegistroUI regist = null;
         @Override
         public void actionPerformed(ActionEvent e){
@@ -145,7 +156,7 @@ public class PrincipalUI extends javax.swing.JFrame{
         }
     }
     
-    public class FacturaciónListener implements ActionListener {
+    public class FacturaciónListener implements ActionListener{
         private FacturacionUI factu = null;
         @Override
         public void actionPerformed(ActionEvent e){
@@ -157,10 +168,15 @@ public class PrincipalUI extends javax.swing.JFrame{
         }
     }
 
-    public class AyudaListener implements ActionListener {
+    public class ServiciosListener implements ActionListener{
+        private ServiciosUI servicios = null;
         @Override
-        public void actionPerformed(ActionEvent e) {
-        
+        public void actionPerformed(ActionEvent e){
+            if (this.servicios == null){
+                this.servicios = new ServiciosUI(taller);
+                jDesktopPane1.add(servicios);
+            }
+            servicios.setVisible(true);
         }
     }
 }

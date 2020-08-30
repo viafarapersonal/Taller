@@ -11,11 +11,11 @@ public class Taller{
     // Definición de atributos
     private long nit;
     private String nombre;
-    private LinkedList<Persona> personas;
+    private LinkedList<Persona> mecanicos;
     private LinkedList<Producto> productos;
     private LinkedList<Servicio> servicios;
-    private LinkedList<Mantenimiento> realizados;
-    private LinkedList<Mantenimiento> pendientes;
+    private LinkedList<Mantenimiento> manteRealizados;
+    private LinkedList<Mantenimiento> mantePendientes;
     private LinkedList<Vehiculo> vehiculos;
 
     // Constructores
@@ -25,11 +25,11 @@ public class Taller{
     public Taller(long nit, String nombre) throws Exception{
         setNit(nit);
         setNombre(nombre);
-        this.personas = new LinkedList<>();
+        this.mecanicos = new LinkedList<>();
         this.productos = new LinkedList<>();
         this.servicios = new LinkedList<>();
-        this.realizados = new LinkedList<>();
-        this.pendientes = new LinkedList<>();
+        this.manteRealizados = new LinkedList<>();
+        this.mantePendientes = new LinkedList<>();
         this.vehiculos = new LinkedList<>();
     }
     
@@ -58,8 +58,20 @@ public class Taller{
         this.nombre = nombre;
     }
     
-    public LinkedList<Persona> getPersonas(){
-        return personas;
+    public LinkedList<Persona> getMecanicos(){
+        return mecanicos;
+    }
+    
+    public LinkedList<Persona> getMecanicosLibres(){
+        LinkedList<Persona> mecanicosLibres = new LinkedList<>();
+        for (Persona mecanico : mecanicos){
+            for (Mantenimiento mantnimiento : mantePendientes){
+                if(mecanico.getNuip() != mantnimiento.getMecanico().getNuip()){
+                mecanicosLibres.add(mecanico);
+                }
+            }
+        }
+        return mecanicosLibres;
     }
     
     public LinkedList<Producto> getProductos(){
@@ -70,12 +82,41 @@ public class Taller{
         return servicios;
     }
     
-    public LinkedList<Mantenimiento> getRealizados(){
-        return realizados;
+    public LinkedList<Mantenimiento> getManteRealizados(){
+        return manteRealizados;
     }
     
-    public LinkedList<Mantenimiento> getPendientes(){
-        return pendientes;
+    public LinkedList<Mantenimiento> getMantePendientes(){
+        return mantePendientes;
+    }
+    
+    public Mantenimiento getMantenimientoPlaca(String placa) throws Exception{
+        for (Mantenimiento mantenimientoL : mantePendientes) {
+            if(mantenimientoL.getVehiculo().getPlaca() == placa){
+                return mantenimientoL;
+            }
+        }
+        throw new ClassNotFoundException("No se ha encontrado el MANTENIMIENTO "
+                + "PENDIENTE con la PLACA: "+placa);
+    }
+    
+    public Vehiculo buscarVehiculoPlaca(String placa) throws Exception{
+        for (Vehiculo vehiculoL : vehiculos){
+            if(vehiculoL.getPlaca() == placa){
+                return vehiculoL;
+            }
+        }
+        return null;
+    }
+    
+    public LinkedList<Mantenimiento> getPendientesNoMecanico(){
+        LinkedList<Mantenimiento> noMecanicos = new LinkedList<>();
+        for (Mantenimiento mantemimiento : mantePendientes){
+            if(mantemimiento.getMecanico() != null){
+                noMecanicos.add(mantemimiento);
+            }
+        }
+        return noMecanicos;
     }
     
     public LinkedList<Vehiculo> getVehiculos(){
@@ -83,16 +124,16 @@ public class Taller{
     }
     
     public void agregarPersona (Persona newpersona) throws Exception{
-        for (Persona personaL : personas) {
+        for (Persona personaL : mecanicos) {
             if (personaL.equals(newpersona)){
                 throw new Exception(" que intenta añadir ya se encuentra registrado(a)");
             }
         }
-        personas.add(newpersona);
+        mecanicos.add(newpersona);
     }
     
     public void eliminarPersona (Persona persona){
-        personas.remove(persona);
+        mecanicos.remove(persona);
     }
     
     public void agregarProducto (Producto newproducto) throws Exception{
@@ -122,33 +163,33 @@ public class Taller{
     }
     
     public void agregarRealizado (Mantenimiento newrealizado) throws Exception{
-        for (Mantenimiento realizadoL : realizados) {
+        for (Mantenimiento realizadoL : manteRealizados) {
             if (realizadoL.equals(newrealizado)){
                 throw new Exception("El MANTENIMIENTO REALIZADO que intenta añadir ya se encuentra registrado");
             }
         }
-        realizados.add(newrealizado);
+        manteRealizados.add(newrealizado);
     }
     
     public void eliminarRealizado (Mantenimiento realizado){
-        realizados.remove(realizado);
+        manteRealizados.remove(realizado);
     }
     
     public void agregarPendiente (Mantenimiento newpendiente) throws Exception{
-        for (Mantenimiento pendienteL : pendientes) {
+        for (Mantenimiento pendienteL : mantePendientes) {
             if (pendienteL.equals(newpendiente)){
                 throw new Exception("El MANTENIMIENTO PENDIENTE que intenta añadir ya se encuentra registrado");
             }
         }
-        pendientes.add(newpendiente);
+        mantePendientes.add(newpendiente);
     }
     
     public void eliminarPendiente (Mantenimiento pendiente){
-        pendientes.remove(pendiente);
+        mantePendientes.remove(pendiente);
     }
     
     public void agregarVehiculo (Vehiculo newvehiculo) throws Exception{
-        for (Vehiculo vehiculoL : vehiculos) {
+        for (Vehiculo vehiculoL : vehiculos){
             if (vehiculoL.equals(newvehiculo)){
                 throw new Exception("El VEHÍCULO que intenta añadir ya se encuentra registrado");
             }

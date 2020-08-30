@@ -11,7 +11,7 @@ import java.util.LinkedList;
 public class Mantenimiento{
     // Definición de atributos
     private LocalDate date;
-    private Persona persona;
+    private Persona mecanico;
     private Vehiculo vehiculo;
     private LinkedList<Servicio> servicios;
     private LinkedList<Consumo> consumos;
@@ -24,7 +24,7 @@ public class Mantenimiento{
     
     public Mantenimiento(LocalDate date, Persona persona, Vehiculo vehiculo) throws Exception{
         this.date = date;
-        setPersona(persona);
+        setMecanico(persona);
         setVehiculo(vehiculo);
         this.servicios = new LinkedList<>();
         this.consumos = new LinkedList<>();
@@ -40,15 +40,15 @@ public class Mantenimiento{
         this.date = date;
     }
     
-    public Persona getPersona(){
-        return persona;
+    public Persona getMecanico(){
+        return mecanico;
     }
     
-    public void setPersona(Persona persona) throws Exception{
-        if (persona == null){
+    public void setMecanico(Persona mecanico) throws Exception{
+        if (mecanico == null){
             throw new Exception("Debe ingresar un Mecánico");
         }
-        this.persona = persona;
+        this.mecanico = mecanico;
     }
     
     public Vehiculo getVehiculo(){
@@ -68,5 +68,20 @@ public class Mantenimiento{
     
     public LinkedList<Consumo> getConsumos(){
         return consumos;
+    }
+    
+    public Float valorConsumos(){
+        float valorConsumo=0;
+        for (Consumo consumoL : consumos) {
+            valorConsumo+=consumoL.getProducto().getCosto();
+            valorConsumo+=consumoL.getServicio().getCosto();
+        }
+        return valorConsumo;
+    }
+
+    @Override
+    public String toString(){
+        return "mecanico: "+mecanico+", vehiculo="+vehiculo + "Valor: "
+                +valorConsumos();
     }
 }

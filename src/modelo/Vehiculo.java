@@ -2,6 +2,7 @@ package modelo;
 
 import java.time.LocalDate;
 import java.time.Year;
+import java.util.Objects;
 
 /*  Author: Alexander Viafara 
     <viafarapersonal@gmail.com>
@@ -15,21 +16,21 @@ public class Vehiculo{
     private String placa;
     private String marca;
     private String linea;
-    private short año;
+    private int modelo;
     private TipoVehiculo tipoVehiculo;
-    private Persona persona;
+    private Persona personaPropietaria;
 
     // Constructores
     public Vehiculo(){
     }
     
-    public Vehiculo(String placa, String marca, String linea, short año, TipoVehiculo tipoVehiculo, Persona persona) throws Exception{
+    public Vehiculo(String placa, String marca, String linea, int modelo, TipoVehiculo tipoVehiculo, Persona persona) throws Exception{
         setPlaca(placa);
         setMarca(marca);
         setLinea(linea);
-        setAño(año);
+        setModelo(modelo);
         setTipoVehiculo(tipoVehiculo);
-        setPersona(persona);
+        setPersonaPropietaria(persona);
     }
     
     // Definición de los métodos
@@ -45,7 +46,7 @@ public class Vehiculo{
             throw new Exception("Debe ingresar una PLACA");
         }
         if (!(placa.length() == 6)){
-            throw new Exception("La PLACA ingresada NO es válida (máximo 6 caracteres");
+            throw new Exception("La PLACA ingresada NO es válida (6 caracteres");
         }
         this.placa = placa;
     }
@@ -74,16 +75,16 @@ public class Vehiculo{
         this.linea = linea;
     }
     
-    public short getAño(){
-        return año;
+    public int getModelo(){
+        return modelo;
     }
     
-    public void setAño(short año) throws Exception{
-        if (año < 1900 || año > (Year.now().getValue()+1)){
+    public void setModelo(int modelo) throws Exception{
+        if (modelo < 1900 || modelo > (Year.now().getValue()+1)){
             throw new Exception("El AÑO ingresado NO es válido "
                     + "(sólo se aceptan de 1900 en adelante");
         }
-        this.año = año;
+        this.modelo = modelo;
     }
     
     public TipoVehiculo getTipoVehiculo(){
@@ -97,14 +98,39 @@ public class Vehiculo{
         this.tipoVehiculo = tipoVehiculo;
     }
     
-    public Persona getPersona(){
-        return persona;
+    public Persona getPersonaPropietaria(){
+        return personaPropietaria;
     }
     
-    public void setPersona(Persona persona) throws Exception{
-        if (persona == null){
+    public void setPersonaPropietaria(Persona personaPropietaria) throws Exception{
+        if (personaPropietaria == null){
             throw new Exception("Debe ingresar un CLIENTE/DUEÑO del vehículo");
         }
-        this.persona = persona;
+        this.personaPropietaria = personaPropietaria;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Vehiculo other = (Vehiculo) obj;
+        if (!Objects.equals(this.placa.toUpperCase(), other.placa.toUpperCase())) {
+            return false;
+        }
+        return true;
+    }
+    
 }
