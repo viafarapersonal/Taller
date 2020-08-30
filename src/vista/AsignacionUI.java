@@ -30,7 +30,7 @@ public class AsignacionUI extends javax.swing.JInternalFrame {
         setTitle("Asignación de Mecánico");
         setClosable(true);
         
-        mantenimientos = taller.getPendientesNoMecanico();
+        mantenimientos = taller.getMantePendientes();
         mecanicos = taller.getMecanicosLibres();
         
         this.tbSolicitudes.setModel(new AbstractTableModel() {
