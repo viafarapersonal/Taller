@@ -40,6 +40,7 @@ public class Vehiculo{
     
     public void setPlaca(String placa) throws Exception{
         placa = placa.trim();
+        placa = placa.toUpperCase();
         if (placa == null || "".equals(placa)){
             throw new ClassNotFoundException("Debe ingresar una PLACA");
         }

@@ -119,19 +119,19 @@ public class Taller{
         return vehiculos;
     }
     
-    public void agregarPersona (Persona newpersona) throws Exception{
+    public void agregarMecanico (Persona newMecanico) throws Exception{
         for (Persona personaL : mecanicos) {
-            if (personaL.equals(newpersona)){
-                throw new ClassNotFoundException(" que intenta añadir ya se encuentra registrado(a)");
+            if (personaL.equals(newMecanico)){
+                throw new ClassNotFoundException("El(la) MECANICO(A) que intenta añadir ya se encuentra registrado(a)");
             }
         }
-        mecanicos.add(newpersona);
+        mecanicos.add(newMecanico);
     }
-    
-    public void eliminarPersona (Persona persona){
-        mecanicos.remove(persona);
+
+    public void eliminarMecanico (Persona mecanico){
+        mecanicos.remove(mecanico);
     }
-    
+
     public void agregarProducto (Producto newproducto) throws Exception{
         for (Producto productoL : productos) {
             if (productoL.equals(newproducto)){
@@ -140,11 +140,11 @@ public class Taller{
         }
         productos.add(newproducto);
     }
-    
+
     public void eliminarProducto (Producto producto){
         productos.remove(producto);
     }
-    
+
     public void agregarServico (Servicio newservicio) throws Exception{
         for (Servicio servicioL : servicios) {
             if (servicioL.equals(newservicio)){
@@ -154,7 +154,7 @@ public class Taller{
         }
         servicios.add(newservicio);
     }
-    
+
     public void eliminarServico (Servicio servicio){
         servicios.remove(servicio);
     }
@@ -201,6 +201,7 @@ public class Taller{
     
     public Vehiculo buscarVehiculoPlaca(String placa) throws Exception{
         placa = placa.trim();
+        placa = placa.toUpperCase();
         if (!(placa.length() == 6)){
             throw new ClassNotFoundException("La PLACA ingresada NO es válida (6 caracteres)");
         }

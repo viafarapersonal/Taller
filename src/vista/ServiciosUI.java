@@ -19,7 +19,6 @@ public class ServiciosUI extends javax.swing.JInternalFrame{
         this.taller = taller;
         setTitle("TOTALIDAD DE SERVICIOS");
         initComponents();
-        setClosable(true);
         btnPendientes.addActionListener(new ActualizarPendientesListener());
         btnRealizados.addActionListener(new ActualizarRealizadosListener());
         
@@ -65,6 +64,9 @@ public class ServiciosUI extends javax.swing.JInternalFrame{
         jlRealizados = new javax.swing.JList<>();
         jScrollPane2 = new javax.swing.JScrollPane();
         jlPendientes = new javax.swing.JList<>();
+
+        setClosable(true);
+        setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -115,7 +117,7 @@ public class ServiciosUI extends javax.swing.JInternalFrame{
                     .addComponent(btnRealizados))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 356, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 332, Short.MAX_VALUE)
                     .addComponent(jScrollPane1))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );

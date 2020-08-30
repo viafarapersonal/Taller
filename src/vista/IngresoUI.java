@@ -8,10 +8,12 @@ import javax.swing.ComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.ListModel;
 import javax.swing.event.ListDataListener;
+import modelo.Consumo;
 import modelo.Mantenimiento;
 import modelo.Taller;
 import modelo.MarcaVehiculo;
 import modelo.Persona;
+import modelo.Producto;
 import modelo.Servicio;
 import modelo.TipoVehiculo;
 import modelo.Vehiculo;
@@ -485,6 +487,8 @@ public class IngresoUI extends javax.swing.JInternalFrame {
                 }
                 mantenimientoVehiculo.getServicios().add(
                     (Servicio)cboxServicios.getSelectedItem());
+                mantenimientoVehiculo.getConsumos().addLast(
+                    new Consumo(1, new Producto(), (Servicio)cboxServicios.getSelectedItem()));
                 jlServicios.updateUI();
             }catch(ClassNotFoundException exe){
                 JOptionPane.showMessageDialog(IngresoUI.this, exe.getMessage());

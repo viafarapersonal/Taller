@@ -71,17 +71,17 @@ public class Mantenimiento{
     }
     
     public Float valorConsumos(){
-        float valorConsumo=0;
-        for (Consumo consumoL : consumos) {
-            valorConsumo+=consumoL.getProducto().getCosto();
-            valorConsumo+=consumoL.getServicio().getCosto();
+        float valorConsumo=0.0F;
+        for(Consumo consumoL : this.consumos){
+            valorConsumo += consumoL.getProducto().getCosto();
+            valorConsumo += consumoL.getServicio().getCosto();
         }
         return valorConsumo;
     }
 
     @Override
     public String toString(){
-        return "mecanico: "+mecanico+", vehiculo="+vehiculo + "Valor: "
-                +valorConsumos();
+        return "mecanico: "+mecanico+", vehiculo="+ vehiculo.getPlaca() + 
+                ", Valor: " +valorConsumos();
     }
 }
