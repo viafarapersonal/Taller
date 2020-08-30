@@ -13,11 +13,9 @@ import modelo.Taller;
 public class PrincipalUI extends javax.swing.JFrame{
     //Atributos
     private Taller taller;
-    private Mantenimiento mantenimiento;
     //Constructor de la ventana PrincipalUI
-    public PrincipalUI(Taller taller, Mantenimiento mantenimiento){
+    public PrincipalUI(Taller taller){
         this.taller = taller;
-        this.mantenimiento = mantenimiento;
         initComponents();
         this.setTitle("Auto Workshop");
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -152,7 +150,7 @@ public class PrincipalUI extends javax.swing.JFrame{
         @Override
         public void actionPerformed(ActionEvent e){
             if (this.regist == null){
-                this.regist = new RegistroUI(taller, mantenimiento);
+                this.regist = new RegistroUI(taller);
                 jDesktopPane1.add(regist);
             }
             regist.setVisible(true);
