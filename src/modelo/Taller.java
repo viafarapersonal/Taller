@@ -200,9 +200,9 @@ public class Taller{
     }
     
     public Vehiculo buscarVehiculoPlaca(String placa) throws Exception{
-        placa.trim();
+        placa = placa.trim();
         for (Vehiculo vehiculoL : vehiculos){
-            if(vehiculoL.getPlaca() == placa){
+            if(vehiculoL.getPlaca().equals(placa)){
                 return vehiculoL;
             }
         }

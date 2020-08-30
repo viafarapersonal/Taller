@@ -13,7 +13,8 @@ public class Main {
         tall.agregarServico(new Servicio(1, "Cambio de Aceite", 10000));
         
         tall.agregarVehiculo(new Vehiculo("123123", MarcaVehiculo.BMW, "Mainkra",
-            2021, TipoVehiculo.DEPORTIVO, new Persona()));
+            2021, TipoVehiculo.DEPORTIVO, 
+            new Persona(1231231L, "Sr a", "Prueba", 1231231231L)));
         
         PrincipalUI ventPrincipal = new PrincipalUI(tall);
         ventPrincipal.setVisible(true);

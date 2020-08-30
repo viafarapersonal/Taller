@@ -1,6 +1,5 @@
 package modelo;
 
-import java.time.LocalDate;
 import java.time.Year;
 import java.util.Objects;
 
@@ -41,12 +40,11 @@ public class Vehiculo{
     
     public void setPlaca(String placa) throws Exception{
         placa = placa.trim();
-        placa = placa.toUpperCase();
         if (placa == null || "".equals(placa)){
-            throw new NullPointerException("Debe ingresar una PLACA");
+            throw new ClassNotFoundException("Debe ingresar una PLACA");
         }
         if (!(placa.length() == 6)){
-            throw new NullPointerException("La PLACA ingresada NO es válida (6 caracteres");
+            throw new ClassNotFoundException("La PLACA ingresada NO es válida (6 caracteres");
         }
         this.placa = placa;
     }
@@ -57,7 +55,7 @@ public class Vehiculo{
     
     public void setMarca(MarcaVehiculo marca) throws Exception{
         if (marca == null){
-            throw new NullPointerException("Debe ingresar una MARCA del Vehículo");
+            throw new ClassNotFoundException("Debe ingresar una MARCA del Vehículo");
         }
         this.marca = marca;
     }
@@ -69,7 +67,7 @@ public class Vehiculo{
     public void setLinea(String linea) throws Exception{
         linea = linea.trim();
         if (linea == null || "".equals(linea)){
-            throw new NullPointerException("Debe ingresar una LINEA del Vehículo");
+            throw new ClassNotFoundException("Debe ingresar una LINEA del Vehículo");
         }
         this.linea = linea;
     }
@@ -80,7 +78,7 @@ public class Vehiculo{
     
     public void setModelo(int modelo) throws Exception{
         if (modelo < 1900 || modelo > (Year.now().getValue()+1)){
-            throw new NullPointerException("El AÑO ingresado NO es válido "
+            throw new ClassNotFoundException("El AÑO ingresado NO es válido "
                     + "(sólo se aceptan de 1900 en adelante");
         }
         this.modelo = modelo;
@@ -92,7 +90,7 @@ public class Vehiculo{
     
     public void setTipoVehiculo(TipoVehiculo tipoVehiculo)throws Exception{
         if (tipoVehiculo == null){
-            throw new NullPointerException("Debe ingresar un TIPO de Vehículo");
+            throw new ClassNotFoundException("Debe ingresar un TIPO de Vehículo");
         }
         this.tipoVehiculo = tipoVehiculo;
     }
@@ -103,7 +101,7 @@ public class Vehiculo{
     
     public void setPersonaPropietaria(Persona personaPropietaria) throws Exception{
         if (personaPropietaria == null){
-            throw new NullPointerException("Debe ingresar un CLIENTE/DUEÑO del vehículo");
+            throw new ClassNotFoundException("Debe ingresar un CLIENTE/DUEÑO del vehículo");
         }
         this.personaPropietaria = personaPropietaria;
     }

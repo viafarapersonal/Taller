@@ -8,6 +8,7 @@ import javax.swing.ComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.ListModel;
 import javax.swing.event.ListDataListener;
+import modelo.Mantenimiento;
 import modelo.Taller;
 import modelo.MarcaVehiculo;
 import modelo.Persona;
@@ -23,11 +24,11 @@ import modelo.Vehiculo;
 public class IngresoUI extends javax.swing.JInternalFrame {
     //Atributos
     private Taller taller;
-    private LinkedList<Servicio> serviciosVehiculo;
+    private Mantenimiento mantenimientoVehiculo;
     //Constructor de la ventana Ingreso
     public IngresoUI(Taller tall){
         this.taller = tall;
-        this.serviciosVehiculo = new LinkedList<>();
+        this.mantenimientoVehiculo = new Mantenimiento();
         initComponents();
         setTitle("Ingreso de Vehículo");
         txfPlaca.addActionListener(new BuscarVehiculoListener());
@@ -62,13 +63,13 @@ public class IngresoUI extends javax.swing.JInternalFrame {
             });
         this.jlServicios.setModel(new ListModel<Servicio>(){
             @Override
-            public int getSize() {
-                return serviciosVehiculo.size();
+            public int getSize(){
+                return mantenimientoVehiculo.getServicios().size();
             }
 
             @Override
             public Servicio getElementAt(int index){
-                return serviciosVehiculo.get(index);
+                return mantenimientoVehiculo.getServicios().get(index);
             }
 
             @Override
@@ -408,6 +409,7 @@ public class IngresoUI extends javax.swing.JInternalFrame {
         public void actionPerformed(ActionEvent e){
             try{
                 Vehiculo vehi = taller.buscarVehiculoPlaca(txfPlaca.getText());
+                mantenimientoVehiculo.setVehiculo(vehi);
                 cboxMarca.setSelectedItem(vehi.getMarca());
                 cboxTipo.setSelectedItem(vehi.getTipoVehiculo());
                 txfLinea.setText(vehi.getLinea());
@@ -416,7 +418,6 @@ public class IngresoUI extends javax.swing.JInternalFrame {
                 txfNombre.setText(vehi.getPersonaPropietaria().getNombre());
                 txfApellido.setText(vehi.getPersonaPropietaria().getApellido());
                 txfTelefono.setText(vehi.getPersonaPropietaria().getTelefono().toString());
-                JOptionPane.showMessageDialog(IngresoUI.this, vehi.getPlaca());
             }catch(ClassNotFoundException exe){
                 int op = JOptionPane.showConfirmDialog(IngresoUI.this, 
                     exe.getMessage()+", ¿Desea Registrar el Vehículo?",
@@ -425,6 +426,10 @@ public class IngresoUI extends javax.swing.JInternalFrame {
                 if (op==JOptionPane.YES_OPTION){
                     habilitarCamposBtn(true);
                 }
+            }catch(NullPointerException exe){
+                JOptionPane.showMessageDialog(IngresoUI.this, 
+                    "NULL \n"
+                    +exe.getMessage());
             }catch(Exception exe){
                 JOptionPane.showMessageDialog(IngresoUI.this, 
                     "Error inesperado (PONERSE EN CONTACTO CON PROVEEDORES)\n"
@@ -445,8 +450,6 @@ public class IngresoUI extends javax.swing.JInternalFrame {
                         txfNombre.getText(), txfApellido.getText(), 
                         Long.parseLong(txfTelefono.getText()))
                     );
-                JOptionPane.showMessageDialog(IngresoUI.this, 
-                        "2");
                 taller.agregarVehiculo(v);
                 JOptionPane.showMessageDialog(IngresoUI.this, 
                         "REGISTRO EXITOSO");
@@ -470,13 +473,18 @@ public class IngresoUI extends javax.swing.JInternalFrame {
         @Override
         public void actionPerformed(ActionEvent e){
             try{
-                for(Servicio servicioL : serviciosVehiculo){
+                for(Servicio servicioL : mantenimientoVehiculo.getServicios()){
                     if(servicioL.equals((Servicio)cboxServicios.getSelectedItem())){
                         throw new ClassNotFoundException("El servicio al vehículo"
                                 + "YA SE ENCUENTRA AGREGADO");
                     }
                 }
-                serviciosVehiculo.add((Servicio)cboxServicios.getSelectedItem());
+                if (cboxServicios.getSelectedItem() == null) {
+                    throw new ClassNotFoundException("NO ha seleccionado"
+                            + " un SERVICIO");
+                }
+                mantenimientoVehiculo.getServicios().add(
+                    (Servicio)cboxServicios.getSelectedItem());
                 jlServicios.updateUI();
             }catch(ClassNotFoundException exe){
                 JOptionPane.showMessageDialog(IngresoUI.this, exe.getMessage());
@@ -491,7 +499,26 @@ public class IngresoUI extends javax.swing.JInternalFrame {
     public class IngresarVehiculoListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e){
-            
+            try{
+                if(mantenimientoVehiculo.getServicios().isEmpty()){
+                    throw new ClassNotFoundException("No ha ingresado Servicios "
+                        + "para el vehiculo");
+                }else if(mantenimientoVehiculo.getVehiculo() == null){
+                    throw new ClassNotFoundException("No ha ingresado un Vehiculo");
+                }
+                taller.getMantePendientes().add(mantenimientoVehiculo);
+                limpiarCampos();
+                mantenimientoVehiculo = new Mantenimiento();
+                jlServicios.updateUI();
+                JOptionPane.showMessageDialog(IngresoUI.this, 
+                        "Vehiculo INGRESADO SATISFACTORIAMENTE");
+            }catch(ClassNotFoundException exe){
+                JOptionPane.showMessageDialog(IngresoUI.this, exe.getMessage());
+            }catch(Exception exe){
+                JOptionPane.showMessageDialog(IngresoUI.this, 
+                    "Error inesperado (PONERSE EN CONTACTO CON PROVEEDORES)\n"
+                    +exe.getMessage());
+            }
         }
     }
 

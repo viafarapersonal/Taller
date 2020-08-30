@@ -33,7 +33,7 @@ public class Persona {
     
     public void setNuip(long nuip) throws Exception{
         if(!((nuip >= 1000000L && nuip <= 99999999L) || nuip >= 1000000000L && nuip <= 9999999999L)){
-            throw new NullPointerException("La identificación debe ser entre 7, 8 o 10 números");
+            throw new ClassNotFoundException("La identificación debe ser entre 7, 8 o 10 números");
         }
         this.nuip = nuip;
     }
@@ -45,10 +45,10 @@ public class Persona {
     public void setNombre(String nombre) throws Exception{
         nombre = nombre.trim();
         if(nombre == null || "".equals(nombre)){
-            throw new NullPointerException("El Nombre de la PERSONA NO debe ser valor null o cadena vacía");
+            throw new ClassNotFoundException("El Nombre de la PERSONA NO debe ser valor null o cadena vacía");
         }
         if(!Pattern.matches("[a-zA-Z ]*", nombre)){
-            throw new NullPointerException("El Nombre de la PERSONA NO debe contener números ni caracteres especiales");
+            throw new ClassNotFoundException("El Nombre de la PERSONA NO debe contener números ni caracteres especiales");
         }
         this.nombre = nombre;
     }
@@ -60,10 +60,10 @@ public class Persona {
     public void setApellido(String apellido) throws Exception{
         apellido = apellido.trim();
         if(apellido == null || "".equals(apellido)){
-            throw new NullPointerException("El Apellido NO debe ser valor null o cadena vacía");
+            throw new ClassNotFoundException("El Apellido NO debe ser valor null o cadena vacía");
         }
         if(!Pattern.matches("[a-zA-Z ]*", apellido)){
-            throw new NullPointerException("El Apellido NO debe contener números ni caracteres especiales");
+            throw new ClassNotFoundException("El Apellido NO debe contener números ni caracteres especiales");
         }
         this.apellido = apellido;
     }
@@ -74,7 +74,7 @@ public class Persona {
     
     public void setTelefono(long telefono) throws Exception{
         if(!(telefono >= 1000000000L && telefono <= 9999999999L)){
-            throw new NullPointerException("El número telefónico debe ser de 10 números, si es número fijo incluya el indicativo");
+            throw new ClassNotFoundException("El número telefónico debe ser de 10 números, si es número fijo incluya el indicativo");
         }
         this.telefono = telefono;
     }

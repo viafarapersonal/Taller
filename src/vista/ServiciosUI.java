@@ -1,4 +1,6 @@
 package vista;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.ListModel;
 import javax.swing.event.ListDataListener;
 import modelo.Mantenimiento;
@@ -18,25 +20,39 @@ public class ServiciosUI extends javax.swing.JInternalFrame{
         setTitle("TOTALIDAD DE SERVICIOS");
         initComponents();
         setClosable(true);
+        btnPendientes.addActionListener(new ActualizarPendientesListener());
+        btnRealizados.addActionListener(new ActualizarRealizadosListener());
         
-//        jlPendientes.setModel(new ListModel<Mantenimiento>(){
-//            @Override
-//            public int getSize(){
-//                return taller.getMantePendientes().size();
-//            }
-//
-//            @Override
-//            public Mantenimiento getElementAt(int index){
-//                return taller.getMantePendientes().get(index);
-//            }
-//
-//            @Override
-//            public void addListDataListener(ListDataListener l){
-//            }
-//            @Override
-//            public void removeListDataListener(ListDataListener l) {
-//            }
-//        });
+        jlPendientes.setModel(new ListModel<Mantenimiento>(){
+            @Override
+            public int getSize(){
+                return taller.getMantePendientes().size();
+            }
+
+            @Override
+            public Mantenimiento getElementAt(int index){
+                return taller.getMantePendientes().get(index);
+            }
+            @Override
+            public void addListDataListener(ListDataListener l){}
+            @Override
+            public void removeListDataListener(ListDataListener l){}
+        });
+        jlRealizados.setModel(new ListModel<Mantenimiento>(){
+            @Override
+            public int getSize(){
+                return taller.getManteRealizados().size();
+            }
+
+            @Override
+            public Mantenimiento getElementAt(int index){
+                return taller.getManteRealizados().get(index);
+            }
+            @Override
+            public void addListDataListener(ListDataListener l){}
+            @Override
+            public void removeListDataListener(ListDataListener l){}
+        });
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -72,23 +88,21 @@ public class ServiciosUI extends javax.swing.JInternalFrame{
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(62, 62, 62)
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 411, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(112, 112, 112)
                 .addComponent(btnPendientes)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnRealizados)
-                .addGap(59, 59, 59))
+                .addGap(134, 134, 134))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(350, 350, 350))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -117,5 +131,18 @@ public class ServiciosUI extends javax.swing.JInternalFrame{
     private javax.swing.JList<Mantenimiento> jlPendientes;
     private javax.swing.JList<Mantenimiento> jlRealizados;
     // End of variables declaration//GEN-END:variables
-    
+
+    public class ActualizarPendientesListener implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e){
+            jlPendientes.updateUI();
+        }
+    }
+
+    public class ActualizarRealizadosListener implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e){
+            jlRealizados.updateUI();
+        }
+    }
 }
