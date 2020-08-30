@@ -1,5 +1,15 @@
 package vista;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.ComboBoxModel;
+import javax.swing.event.ListDataListener;
+import javax.swing.table.AbstractTableModel;
+import modelo.Mantenimiento;
+import modelo.Persona;
 import modelo.Taller;
 
 /*  Author:  Alexander Viafara 
@@ -11,12 +21,104 @@ import modelo.Taller;
 public class AsignacionUI extends javax.swing.JInternalFrame {
     //Atributos
     private Taller taller;
+    private LinkedList<Mantenimiento> mantenimientos = new LinkedList<>();
+    private LinkedList<Persona> mecanicos = new LinkedList<>();
     //Constructor de la ventana Ingreso
-    public AsignacionUI(){
+    public AsignacionUI(Taller taller){
         this.taller = taller;
         initComponents();
         setTitle("Asignación de Mecánico");
         setClosable(true);
+        
+        mantenimientos = taller.getPendientesNoMecanico();
+        mecanicos = taller.getMecanicosLibres();
+        
+        this.tbSolicitudes.setModel(new AbstractTableModel() {
+
+            private String[] nombres = {"Placa", "Marca", "Servicios"};
+
+            @Override
+            public String getColumnName(int column) {
+                return this.nombres[column];
+            }
+
+            @Override
+            public int getRowCount() {
+                return mantenimientos.size();
+            }
+
+            @Override
+            public int getColumnCount() {
+                return this.nombres.length;
+            }
+
+            @Override
+            public Object getValueAt(int rowIndex, int columnIndex) {
+                Mantenimiento mantenimiento = mantenimientos.get(rowIndex);
+                switch (columnIndex) {
+                    case 0:
+                        return mantenimiento.getVehiculo().getPlaca();
+                    case 1:
+                        return mantenimiento.getVehiculo().getMarca();
+                    case 2:
+                        return mantenimiento.getServicios();
+                }
+                return null;
+            }
+        });
+        
+        this.cbMecanicos.setModel(new ComboBoxModel() {
+
+            private Object selected = null;
+
+            @Override
+            public void setSelectedItem(Object anItem) {
+                this.selected = anItem;
+            }
+
+            @Override
+            public Object getSelectedItem() {
+                return this.selected;
+            }
+
+            @Override
+            public int getSize() {
+                return mecanicos.size();
+            }
+
+            @Override
+            public Object getElementAt(int index) {
+                return mecanicos.get(index);
+            }
+
+            @Override
+            public void addListDataListener(ListDataListener l) {
+            }
+
+            @Override
+            public void removeListDataListener(ListDataListener l) {
+            }
+        });
+        
+        this.cbMecanicos.setSelectedItem(null);
+        
+        this.btAsignar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    Mantenimiento mantenimientoSeleccionado = null;
+                    Persona mecanicoSeleccionado = null;
+                    mantenimientoSeleccionado.setMecanico(mecanicoSeleccionado);
+                    mantenimientos.remove(mantenimientoSeleccionado);
+                    mecanicos.remove(mecanicoSeleccionado);
+                    tbSolicitudes.updateUI();
+                    cbMecanicos.updateUI();
+                    cbMecanicos.setSelectedItem(null);
+                } catch (Exception ex) {
+                    Logger.getLogger(AsignacionUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
     }
 
     @SuppressWarnings("unchecked")
@@ -26,10 +128,10 @@ public class AsignacionUI extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tbSolicitudes = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
+        cbMecanicos = new javax.swing.JComboBox<>();
+        btAsignar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
 
@@ -40,7 +142,7 @@ public class AsignacionUI extends javax.swing.JInternalFrame {
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel2.setText("Solicitudes No Asignadas");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tbSolicitudes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -48,15 +150,15 @@ public class AsignacionUI extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tbSolicitudes);
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel3.setText("Mecanicos:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbMecanicos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton1.setText("Asignar Mecanico");
+        btAsignar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btAsignar.setText("Asignar Mecanico");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -70,11 +172,11 @@ public class AsignacionUI extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(cbMecanicos, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btAsignar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -89,9 +191,9 @@ public class AsignacionUI extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbMecanicos, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
+                .addComponent(btAsignar, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -100,12 +202,12 @@ public class AsignacionUI extends javax.swing.JInternalFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JButton btAsignar;
+    private javax.swing.JComboBox<String> cbMecanicos;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tbSolicitudes;
     // End of variables declaration//GEN-END:variables
 }

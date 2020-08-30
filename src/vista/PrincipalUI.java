@@ -137,7 +137,7 @@ public class PrincipalUI extends javax.swing.JFrame{
         @Override
         public void actionPerformed(ActionEvent e){
             if (this.asign == null){
-                this.asign = new AsignacionUI();
+                this.asign = new AsignacionUI(taller);
                 jDesktopPane1.add(asign);
             }
             asign.setVisible(true);
