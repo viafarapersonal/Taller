@@ -44,7 +44,7 @@ public class Vehiculo{
             throw new ClassNotFoundException("Debe ingresar una PLACA");
         }
         if (!(placa.length() == 6)){
-            throw new ClassNotFoundException("La PLACA ingresada NO es válida (6 caracteres");
+            throw new ClassNotFoundException("La PLACA ingresada NO es válida (6 caracteres)");
         }
         this.placa = placa;
     }

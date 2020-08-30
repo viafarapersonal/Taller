@@ -201,6 +201,9 @@ public class Taller{
     
     public Vehiculo buscarVehiculoPlaca(String placa) throws Exception{
         placa = placa.trim();
+        if (!(placa.length() == 6)){
+            throw new ClassNotFoundException("La PLACA ingresada NO es válida (6 caracteres)");
+        }
         for (Vehiculo vehiculoL : vehiculos){
             if(vehiculoL.getPlaca().equals(placa)){
                 return vehiculoL;

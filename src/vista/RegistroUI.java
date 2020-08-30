@@ -5,11 +5,11 @@ import java.awt.event.ActionListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.AbstractListModel;
+import javax.swing.event.ListDataListener;
 import javax.swing.table.AbstractTableModel;
 import modelo.Mantenimiento;
 import modelo.Servicio;
 import modelo.Taller;
-import modelo.Vehiculo;
 
 /*  Author:  Alexander Viafara 
     <viafarapersonal@gmail.com>
@@ -17,7 +17,7 @@ import modelo.Vehiculo;
     <didiermaxilo3@gmail.com>
     Date: August 2020
  */
-public class RegistroUI extends javax.swing.JInternalFrame {
+public class RegistroUI extends javax.swing.JInternalFrame{
     private Taller taller;
     private Mantenimiento mantenimiento;
     //Llamado a la ventana interna de RegistroUI
@@ -28,14 +28,14 @@ public class RegistroUI extends javax.swing.JInternalFrame {
         setTitle("Registro de Productos");
         setClosable(true);
         
-        this.tfPlaca.addActionListener(new ActionListener() {
+        this.tfPlaca.addActionListener(new ActionListener(){
             @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    Vehiculo vehiculo = taller.buscarVehiculoPlaca(tfPlaca.getText());
-                    tfMarca.setText(vehiculo.getMarca().name());
-                    tfTipo.setText(vehiculo.getTipoVehiculo().name());
-                    tfLinea.setText(vehiculo.getLinea());
+            public void actionPerformed(ActionEvent e){
+                try{
+                    mantenimiento = taller.getMantenimientoPlaca(tfPlaca.getText());
+                    tfMarca.setText(mantenimiento.getVehiculo().getMarca().name());
+                    tfTipo.setText(mantenimiento.getVehiculo().getTipoVehiculo().name());
+                    tfLinea.setText(mantenimiento.getVehiculo().getLinea());
                     //tfAsignado.setText();
                     mantenimiento = taller.getMantenimientoPlaca(tfPlaca.getText());
                 } catch (Exception ex) {
@@ -46,7 +46,7 @@ public class RegistroUI extends javax.swing.JInternalFrame {
         
         this.ltSolicitados.setModel(new AbstractListModel<Servicio>() {
             @Override
-            public int getSize() {
+            public int getSize(){
                 return mantenimiento.getServicios().size();
             }
 
@@ -54,18 +54,23 @@ public class RegistroUI extends javax.swing.JInternalFrame {
             public Servicio getElementAt(int index) {
                 return mantenimiento.getServicios().get(index);
             }
+
+            @Override
+            public void addListDataListener(ListDataListener l){}
+            @Override
+            public void removeListDataListener(ListDataListener l){}
         });
         
-        this.tbConsumos.setModel(new AbstractTableModel() {
+        this.tbConsumos.setModel(new AbstractTableModel(){
             private String[] nombre = {"Codigo", "Nombre", "Vlr.Unitario", "Cantidad", "Costo"};
             
             @Override
-            public int getRowCount() {
+            public int getRowCount(){
                 return mantenimiento.getConsumos().size();
             }
 
             @Override
-            public int getColumnCount() {
+            public int getColumnCount(){
                 return nombre.length;
             }
 
@@ -196,6 +201,10 @@ public class RegistroUI extends javax.swing.JInternalFrame {
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel7.setText("Servicios Solicitados");
 
+<<<<<<< HEAD
+=======
+        ltSolicitados.setModel(new javax.swing.DefaultListModel<Servicio>());
+>>>>>>> a774d93705c84c5e9eb8ebf4d7a5f5359d2d65f3
         jScrollPane1.setViewportView(ltSolicitados);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Producto a Registrar", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N

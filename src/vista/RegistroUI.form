@@ -212,6 +212,14 @@
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
         <Component class="javax.swing.JList" name="ltSolicitados">
+<<<<<<< HEAD
+=======
+          <Properties>
+            <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="new javax.swing.DefaultListModel&lt;Servicio&gt;()" type="code"/>
+            </Property>
+          </Properties>
+>>>>>>> a774d93705c84c5e9eb8ebf4d7a5f5359d2d65f3
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Servicio&gt;"/>
           </AuxValues>

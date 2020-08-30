@@ -453,8 +453,8 @@ public class IngresoUI extends javax.swing.JInternalFrame {
                 taller.agregarVehiculo(v);
                 JOptionPane.showMessageDialog(IngresoUI.this, 
                         "REGISTRO EXITOSO");
-                limpiarCampos();
                 habilitarCamposBtn(false);
+                mantenimientoVehiculo.setVehiculo(v);
             }catch(NumberFormatException exe){
                 JOptionPane.showMessageDialog(IngresoUI.this, 
                         "Formato incorrecto en algún campo que requiere números");
@@ -476,7 +476,7 @@ public class IngresoUI extends javax.swing.JInternalFrame {
                 for(Servicio servicioL : mantenimientoVehiculo.getServicios()){
                     if(servicioL.equals((Servicio)cboxServicios.getSelectedItem())){
                         throw new ClassNotFoundException("El servicio al vehículo"
-                                + "YA SE ENCUENTRA AGREGADO");
+                                + " YA SE ENCUENTRA AGREGADO");
                     }
                 }
                 if (cboxServicios.getSelectedItem() == null) {
@@ -506,12 +506,21 @@ public class IngresoUI extends javax.swing.JInternalFrame {
                 }else if(mantenimientoVehiculo.getVehiculo() == null){
                     throw new ClassNotFoundException("No ha ingresado un Vehiculo");
                 }
-                taller.getMantePendientes().add(mantenimientoVehiculo);
-                limpiarCampos();
-                mantenimientoVehiculo = new Mantenimiento();
-                jlServicios.updateUI();
-                JOptionPane.showMessageDialog(IngresoUI.this, 
-                        "Vehiculo INGRESADO SATISFACTORIAMENTE");
+                throw new InterruptedException("¿Seguro(a) desea ingresar"
+                    +" a mantenimiento el vehiculo con placa: "
+                    +mantenimientoVehiculo.getVehiculo().getPlaca()+"?");
+            }catch(InterruptedException exe){
+                int op = JOptionPane.showConfirmDialog(IngresoUI.this, exe.getMessage(),
+                        "Confirmación de Ingreso",JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE);
+                if(op==JOptionPane.YES_OPTION){
+                    taller.getMantePendientes().add(mantenimientoVehiculo);
+                    limpiarCampos();
+                    mantenimientoVehiculo = new Mantenimiento();
+                    jlServicios.updateUI();
+                    JOptionPane.showMessageDialog(IngresoUI.this, 
+                            "Vehiculo INGRESADO SATISFACTORIAMENTE");
+                }
             }catch(ClassNotFoundException exe){
                 JOptionPane.showMessageDialog(IngresoUI.this, exe.getMessage());
             }catch(Exception exe){
