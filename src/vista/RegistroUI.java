@@ -201,10 +201,7 @@ public class RegistroUI extends javax.swing.JInternalFrame{
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel7.setText("Servicios Solicitados");
 
-<<<<<<< HEAD
-=======
-        ltSolicitados.setModel(new javax.swing.DefaultListModel<Servicio>());
->>>>>>> a774d93705c84c5e9eb8ebf4d7a5f5359d2d65f3
+	ltSolicitados.setModel(new javax.swing.DefaultListModel<Servicio>());
         jScrollPane1.setViewportView(ltSolicitados);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Producto a Registrar", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
