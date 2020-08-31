@@ -28,7 +28,7 @@ public class RegistroProductosUI extends javax.swing.JInternalFrame{
         this.taller = taller;
         initComponents();
         setTitle("Registro de Productos");
-        
+
         this.tfPlaca.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
@@ -56,7 +56,7 @@ public class RegistroProductosUI extends javax.swing.JInternalFrame{
                 }
             }
         });
-        
+
         this.tfCodigoProducto.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -74,7 +74,7 @@ public class RegistroProductosUI extends javax.swing.JInternalFrame{
                 }
             }
         });
-        
+
         this.btnAgregarConsumo.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -115,7 +115,7 @@ public class RegistroProductosUI extends javax.swing.JInternalFrame{
             @Override
             public void removeListDataListener(ListDataListener l){}
         });
-        
+
         this.tbConsumos.setModel(new AbstractTableModel(){
             private String[] nombre = {"Codigo", "Nombre", "Vlr.Unitario", "Cantidad", "Costo"};
             
