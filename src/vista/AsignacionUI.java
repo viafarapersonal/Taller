@@ -9,7 +9,9 @@ import javax.swing.ComboBoxModel;
 import javax.swing.event.ListDataListener;
 import javax.swing.table.AbstractTableModel;
 import modelo.Mantenimiento;
+import modelo.MarcaVehiculo;
 import modelo.Persona;
+import modelo.Servicio;
 import modelo.Taller;
 
 /*  Author:  Alexander Viafara 
@@ -21,100 +23,106 @@ import modelo.Taller;
 public class AsignacionUI extends javax.swing.JInternalFrame {
     //Atributos
     private Taller taller;
-    private LinkedList<Mantenimiento> mantenimientos = new LinkedList<>();
-    private LinkedList<Persona> mecanicos = new LinkedList<>();
     //Constructor de la ventana Ingreso
     public AsignacionUI(Taller taller){
         this.taller = taller;
         initComponents();
         setTitle("Asignación de Mecánico");
-        setClosable(true);
         
-        mantenimientos = taller.getMantePendientes();
-        mecanicos = taller.getMecanicosLibres();
-        
-        this.tbSolicitudes.setModel(new AbstractTableModel() {
-
+        this.tbSolicitudes.setModel(new AbstractTableModel(){
             private String[] nombres = {"Placa", "Marca", "Servicios"};
+            private String[] serviciosTabla;
 
             @Override
-            public String getColumnName(int column) {
+            public String getColumnName(int column){
                 return this.nombres[column];
             }
 
             @Override
-            public int getRowCount() {
-                return mantenimientos.size();
+            public int getRowCount(){
+                return taller.getMantePendientes().size();
             }
 
             @Override
-            public int getColumnCount() {
-                return this.nombres.length;
+            public int getColumnCount(){
+                return 3;
             }
 
             @Override
-            public Object getValueAt(int rowIndex, int columnIndex) {
-                Mantenimiento mantenimiento = mantenimientos.get(rowIndex);
-                switch (columnIndex) {
+            public Object getValueAt(int rowIndex, int columnIndex){
+                Mantenimiento mantenimiento = taller.getMantePendientes().get(rowIndex);
+                switch (columnIndex){
                     case 0:
                         return mantenimiento.getVehiculo().getPlaca();
                     case 1:
                         return mantenimiento.getVehiculo().getMarca();
                     case 2:
-                        return mantenimiento.getServicios();
+//                        for(Servicio servicio : mantenimiento.getServicios()){
+//                            int i = 0;
+//                            serviciosTabla[i] = servicio.getNombre();
+//                            i++;
+//                        }
+//                        return this.serviciosTabla;
+                        return mantenimiento.getServicios().getFirst().toString();
+                    default: return null;
                 }
-                return null;
+            }
+            @Override
+            public Class<?> getColumnClass(int columnIndex){
+                switch(columnIndex){
+                    case 1: return MarcaVehiculo.class;
+                    default: return String.class;
+                }
+            }
+            @Override
+            public boolean isCellEditable(int rowIndex, int columnIndex){
+                return false;
             }
         });
         
-        this.cbMecanicos.setModel(new ComboBoxModel() {
-
-            private Object selected = null;
+        this.cbMecanicos.setModel(new ComboBoxModel<Persona>(){
+            private Persona personaSeleccionada;
 
             @Override
-            public void setSelectedItem(Object anItem) {
-                this.selected = anItem;
+            public void setSelectedItem(Object anItem){
+                personaSeleccionada = (Persona)anItem;
+                cbMecanicos.updateUI();
             }
 
             @Override
-            public Object getSelectedItem() {
-                return this.selected;
+            public Object getSelectedItem(){
+                return this.personaSeleccionada;
             }
 
             @Override
-            public int getSize() {
-                return mecanicos.size();
+            public int getSize(){
+                return taller.getMecanicosLibres().size();
             }
 
             @Override
-            public Object getElementAt(int index) {
-                return mecanicos.get(index);
+            public Persona getElementAt(int index){
+                return taller.getMecanicosLibres().get(index);
             }
 
             @Override
-            public void addListDataListener(ListDataListener l) {
-            }
-
+            public void addListDataListener(ListDataListener l){}
             @Override
-            public void removeListDataListener(ListDataListener l) {
-            }
+            public void removeListDataListener(ListDataListener l){}
         });
-        
-        this.cbMecanicos.setSelectedItem(null);
         
         this.btAsignar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    Mantenimiento mantenimientoSeleccionado = null;
-                    Persona mecanicoSeleccionado = null;
-                    mantenimientoSeleccionado.setMecanico(mecanicoSeleccionado);
-                    mantenimientos.remove(mantenimientoSeleccionado);
-                    mecanicos.remove(mecanicoSeleccionado);
+                try{
+//                    Mantenimiento mantenimientoSeleccionado = null;
+//                    Persona mecanicoSeleccionado = null;
+//                    mantenimientoSeleccionado.setMecanico(mecanicoSeleccionado);
+//                    taller.getMantePendientes().remove(mantenimientoSeleccionado);
+//                    taller.getMecanicosLibres().remove(mecanicoSeleccionado);
                     tbSolicitudes.updateUI();
                     cbMecanicos.updateUI();
                     cbMecanicos.setSelectedItem(null);
-                } catch (Exception ex) {
+                }catch(Exception ex){
                     Logger.getLogger(AsignacionUI.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
@@ -133,6 +141,7 @@ public class AsignacionUI extends javax.swing.JInternalFrame {
         cbMecanicos = new javax.swing.JComboBox<>();
         btAsignar = new javax.swing.JButton();
 
+        setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -155,7 +164,7 @@ public class AsignacionUI extends javax.swing.JInternalFrame {
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel3.setText("Mecanicos:");
 
-        cbMecanicos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbMecanicos.setModel(new javax.swing.DefaultComboBoxModel<Persona>());
 
         btAsignar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btAsignar.setText("Asignar Mecanico");
@@ -193,7 +202,7 @@ public class AsignacionUI extends javax.swing.JInternalFrame {
                     .addComponent(jLabel3)
                     .addComponent(cbMecanicos, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btAsignar, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
+                .addComponent(btAsignar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -203,7 +212,7 @@ public class AsignacionUI extends javax.swing.JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btAsignar;
-    private javax.swing.JComboBox<String> cbMecanicos;
+    private javax.swing.JComboBox<Persona> cbMecanicos;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

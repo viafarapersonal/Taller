@@ -5,6 +5,7 @@ package modelo;
     <didiermaxilo3@gmail.com>
     Date: August 2020
  */
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class Persona {
@@ -77,5 +78,34 @@ public class Persona {
             throw new ClassNotFoundException("El número telefónico debe ser de 10 números, si es número fijo incluya el indicativo");
         }
         this.telefono = telefono;
+    }
+
+    @Override
+    public String toString(){
+        return "Documento: "+ nuip + ", nombre: " + nombre;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Persona other = (Persona) obj;
+        if (!Objects.equals(this.nuip, other.nuip)) {
+            return false;
+        }
+        return true;
     }
 }

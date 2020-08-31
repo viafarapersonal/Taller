@@ -22,9 +22,9 @@ public class Main {
             1999, TipoVehiculo.EJECUTIVO, 
             new Persona(3211237L, "Ananai", "Jija", 1233211231L)));
         
-        Persona person1 = new Persona((long)1111111111, "Mecanico", "Uno", (long)1010101010);
-        Persona person2 = new Persona((long)1111111111, "Mecanico", "Dos", (long)1010101010);
-        Persona person3 = new Persona((long)1111111111, "Mecanico", "Tres", (long)1010101010);
+        Persona person1 = new Persona(1111111111L, "Juan", "Uno", 1010101010L);
+        Persona person2 = new Persona(1111111112L, "Pedro", "Dos", 1010101010L);
+        Persona person3 = new Persona(1111111113L, "Tirdht", "Tres", 1010101010L);
         
         tall.agregarMecanico(person1);
         tall.agregarMecanico(person2);

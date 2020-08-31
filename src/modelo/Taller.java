@@ -69,11 +69,16 @@ public class Taller{
     
     public LinkedList<Persona> getMecanicosLibres(){
         LinkedList<Persona> mecanicosLibres = new LinkedList<>();
+        boolean disp;
         for (Persona mecanico : mecanicos){
-            for (Mantenimiento mantnimiento : mantePendientes){
-                if(mecanico.getNuip() != mantnimiento.getMecanico().getNuip()){
-                mecanicosLibres.add(mecanico);
+            disp = true;
+            for (Mantenimiento mantenimiento : mantePendientes){
+                if(mecanico.getNuip().equals(mantenimiento.getMecanico().getNuip())){
+                    disp = false;
                 }
+            }
+            if(disp){
+                mecanicosLibres.add(mecanico);
             }
         }
         return mecanicosLibres;
@@ -108,7 +113,7 @@ public class Taller{
     public LinkedList<Mantenimiento> getPendientesNoMecanico(){
         LinkedList<Mantenimiento> noMecanicos = new LinkedList<>();
         for (Mantenimiento mantemimiento : mantePendientes){
-            if(mantemimiento.getMecanico() != null){
+            if(mantemimiento.getMecanico().equals(null)){
                 noMecanicos.add(mantemimiento);
             }
         }

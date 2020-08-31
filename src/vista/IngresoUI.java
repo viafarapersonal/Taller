@@ -535,11 +535,10 @@ public class IngresoUI extends javax.swing.JInternalFrame {
         }
     }
 
-    public class CancelarListener implements ActionListener {
+    public class CancelarListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e){
-            limpiarCampos();
-            IngresoUI.this.hide();
+            IngresoUI.this.setVisible(false);
         }
     }
     public void limpiarCampos(){
@@ -577,6 +576,7 @@ public class IngresoUI extends javax.swing.JInternalFrame {
         if(aFlag){
             habilitarCamposBtn(false);
             limpiarCampos();
+            mantenimientoVehiculo.getServicios().clear();
         }
     }
 }
