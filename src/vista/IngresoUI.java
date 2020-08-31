@@ -3,7 +3,6 @@ import java.awt.Container;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.LinkedList;
 import javax.swing.ComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.ListModel;
@@ -17,7 +16,7 @@ import modelo.Producto;
 import modelo.Servicio;
 import modelo.TipoVehiculo;
 import modelo.Vehiculo;
-/*  Author:  Alexander Viafara 
+/*  Author: Alexander Viafara 
     <viafarapersonal@gmail.com>
     Author: Didier Stevenson Calvache Grajales
     <didiermaxilo3@gmail.com>
@@ -411,6 +410,12 @@ public class IngresoUI extends javax.swing.JInternalFrame {
         public void actionPerformed(ActionEvent e){
             try{
                 Vehiculo vehi = taller.buscarVehiculoPlaca(txfPlaca.getText());
+                for(Mantenimiento mantenimientoL : taller.getMantePendientes()){
+                    if(mantenimientoL.getVehiculo().equals(vehi)){
+                        throw new IllegalAccessException("EL vehículo "
+                            + "YA SE ENCUENTRA EN MANTENIMIENTO");
+                    }
+                }
                 mantenimientoVehiculo.setVehiculo(vehi);
                 cboxMarca.setSelectedItem(vehi.getMarca());
                 cboxTipo.setSelectedItem(vehi.getTipoVehiculo());
@@ -428,10 +433,8 @@ public class IngresoUI extends javax.swing.JInternalFrame {
                 if (op==JOptionPane.YES_OPTION){
                     habilitarCamposBtn(true);
                 }
-            }catch(NullPointerException exe){
-                JOptionPane.showMessageDialog(IngresoUI.this, 
-                    "NULL \n"
-                    +exe.getMessage());
+            }catch(IllegalAccessException exe){
+                JOptionPane.showMessageDialog(IngresoUI.this,exe.getMessage());
             }catch(Exception exe){
                 JOptionPane.showMessageDialog(IngresoUI.this, 
                     "Error inesperado (PONERSE EN CONTACTO CON PROVEEDORES)\n"
