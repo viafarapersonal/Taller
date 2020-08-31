@@ -65,8 +65,7 @@ public class AsignacionMecanicoUI extends javax.swing.JInternalFrame {
             @Override
             public Object getValueAt(int rowIndex, int columnIndex){
                 Mantenimiento mantenimiento = taller.getPendientesNoMecanico().get(rowIndex);
-                
-                switch (columnIndex){
+                switch(columnIndex){
                     case 0:
                         return mantenimiento.getVehiculo().getPlaca();
                     case 1:
@@ -130,13 +129,17 @@ public class AsignacionMecanicoUI extends javax.swing.JInternalFrame {
                     Persona mecanicoSeleccionado;
                     if(cbMecanicos.getSelectedItem() == null){
                         throw new ClassNotFoundException("Mecanico no seleccionado");
-                    }if(tbSolicitudes.getSelectedRow() == -1){
+                    }if(tbSolicitudes.getSize().height == 0){
+                        throw new ClassNotFoundException("NO HAY SOLICITUDES "
+                            +"DE MANTENIMIENTO PENDIENTES");
+                    }if(tbSolicitudes.getSelectedRowCount() == 0){
                         throw new ClassNotFoundException("Solicitud de "
                             +"Mantenimeinto NO SELECCIONADA");
                     }
                     mecanicoSeleccionado = (Persona)cbMecanicos.getSelectedItem();
                     mantenimientoSeleccionado = taller.getPendientesNoMecanico().
                         get(tbSolicitudes.getSelectedRow());
+                    mantenimientoSeleccionado.setMecanico(mecanicoSeleccionado);
                     taller.getPendientesNoMecanico().remove(mantenimientoSeleccionado);
                     taller.getMecanicosLibres().remove(mecanicoSeleccionado);
                     tbSolicitudes.updateUI();
