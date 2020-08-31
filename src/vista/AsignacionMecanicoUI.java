@@ -18,8 +18,6 @@ import modelo.MarcaVehiculo;
 import modelo.Persona;
 import modelo.Servicio;
 import modelo.Taller;
-import modelo.Vehiculo;
-
 /*  Author:  Alexander Viafara 
     <viafarapersonal@gmail.com>
     Author: Didier Stevenson Calvache Grajales
@@ -34,7 +32,7 @@ public class AsignacionMecanicoUI extends javax.swing.JInternalFrame {
         this.taller = taller;
         initComponents();
         setTitle("Asignación de Mecánico");
-        
+
         this.addInternalFrameListener(new InternalFrameAdapter(){
             @Override
             public void internalFrameActivated(InternalFrameEvent e){
@@ -45,7 +43,7 @@ public class AsignacionMecanicoUI extends javax.swing.JInternalFrame {
                 }
             }
         });
-        
+
         this.tbSolicitudes.setModel(new AbstractTableModel(){
             private String[] nombres = {"Placa", "Marca", "Servicios"};
             private String serviciosTabla;
@@ -67,8 +65,7 @@ public class AsignacionMecanicoUI extends javax.swing.JInternalFrame {
             @Override
             public Object getValueAt(int rowIndex, int columnIndex){
                 Mantenimiento mantenimiento = taller.getPendientesNoMecanico().get(rowIndex);
-                
-                switch (columnIndex){
+                switch(columnIndex){
                     case 0:
                         return mantenimiento.getVehiculo().getPlaca();
                     case 1:
@@ -93,9 +90,8 @@ public class AsignacionMecanicoUI extends javax.swing.JInternalFrame {
             public boolean isCellEditable(int rowIndex, int columnIndex){
                 return false;
             }
-            
         });
-        
+
         this.cbMecanicos.setModel(new ComboBoxModel<Persona>(){
             private Persona personaSeleccionada;
 
@@ -124,27 +120,40 @@ public class AsignacionMecanicoUI extends javax.swing.JInternalFrame {
             @Override
             public void removeListDataListener(ListDataListener l){}
         });
-        
-        this.btAsignar.addActionListener(new ActionListener() {
+
+        this.btAsignar.addActionListener(new ActionListener(){
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e){
                 try{
-                    Mantenimiento mantenimientoSeleccionado = null;
-                    Persona mecanicoSeleccionado = null;
-                    if (cbMecanicos.getSelectedItem() == null) {
-                        JOptionPane.showMessageDialog(rootPane, "Mecanico no seleccionado");
-                    } else {
-                        mecanicoSeleccionado = (Persona) cbMecanicos.getSelectedItem();
-                        mantenimientoSeleccionado = (Mantenimiento) tbSolicitudes.getValueAt(ERROR, WIDTH);
+                    Mantenimiento mantenimientoSeleccionado;
+                    Persona mecanicoSeleccionado;
+                    if(cbMecanicos.getSelectedItem() == null){
+                        throw new ClassNotFoundException("Mecanico no seleccionado");
+                    }if(tbSolicitudes.getSize().height == 0){
+                        throw new ClassNotFoundException("NO HAY SOLICITUDES "
+                            +"DE MANTENIMIENTO PENDIENTES");
+                    }if(tbSolicitudes.getSelectedRowCount() == 0){
+                        throw new ClassNotFoundException("Solicitud de "
+                            +"Mantenimeinto NO SELECCIONADA");
                     }
+                    
+                    mecanicoSeleccionado = (Persona)cbMecanicos.getSelectedItem();
+                    mantenimientoSeleccionado = taller.getPendientesNoMecanico().
+                        get(tbSolicitudes.getSelectedRow());
+                    mantenimientoSeleccionado.setMecanico(mecanicoSeleccionado);
                     taller.getPendientesNoMecanico().remove(mantenimientoSeleccionado);
                     taller.getMecanicosLibres().remove(mecanicoSeleccionado);
                     tbSolicitudes.updateUI();
                     cbMecanicos.updateUI();
                     cbMecanicos.setSelectedItem(null);
-                    JOptionPane.showMessageDialog(rootPane, "Mecanico asignado");
+                    throw new ClassNotFoundException("Mecanico ASIGNADO");
+                }catch(ClassNotFoundException ex){
+                    JOptionPane.showMessageDialog(AsignacionMecanicoUI.this, ex.getMessage());
                 }catch(Exception ex){
-                    Logger.getLogger(AsignacionMecanicoUI.class.getName()).log(Level.SEVERE, null, ex);
+                    JOptionPane.showMessageDialog(AsignacionMecanicoUI.this, 
+                    "Error inesperado (PONERSE EN CONTACTO CON PROVEEDORES)\n"
+                    +ex.getMessage());
+                    Logger.getLogger(RegistroProductosUI.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
