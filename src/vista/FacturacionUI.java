@@ -6,6 +6,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
+import modelo.Consumo;
 import modelo.Mantenimiento;
 import modelo.Servicio;
 import modelo.Taller;
@@ -34,6 +35,7 @@ public class FacturacionUI extends javax.swing.JInternalFrame {
                     tfTipo.setText(mantenimiento.getVehiculo().getTipoVehiculo().name());
                     tfLinea.setText(mantenimiento.getVehiculo().getLinea());
                     tblServicios.updateUI();
+                    tblConsumos.updateUI();
                 }catch(ClassNotFoundException ex){
                     JOptionPane.showMessageDialog(FacturacionUI.this, ex.getMessage());
                 }catch(Exception ex){
@@ -78,41 +80,12 @@ public class FacturacionUI extends javax.swing.JInternalFrame {
             }
         });
         
-//        this.tblServicios.setModel(new AbstractTableModel(){
-//            private String[] nombres = {"Codigo", "Nombre", "Vlr.Unitario"};
-//            
-//            @Override
-//            public int getRowCount(){
-//                return taller.getMantePendientes().size();
-//            }
-//
-//            @Override
-//            public int getColumnCount(){
-//                return nombres.length;
-//            }
-//
-//            @Override
-//            public Object getValueAt(int rowIndex, int columnIndex){
-//                Mantenimiento mantenimiento = taller.getMantePendientes().get(rowIndex);
-//                switch(columnIndex){
-//                    case 0:
-//                        return mantenimiento.getServicios(); //Necesito acceder al codigo, nombre y valor;
-//                }
-//                return null;
-//            }
-//
-//            @Override
-//            public String getColumnName(int column){
-//                return nombres[column];
-//            }
-//        });
-        
         this.tblConsumos.setModel(new AbstractTableModel(){
             private String[] nombres = {"Codigo", "Nombre", "Vlr.Unitario", "Cantidad", "Costo"};
             
             @Override
             public int getRowCount(){
-                return taller.getMantePendientes().size();// no
+                return mantenimiento.getConsumos().size();
             }
 
             @Override
@@ -122,10 +95,18 @@ public class FacturacionUI extends javax.swing.JInternalFrame {
 
             @Override
             public Object getValueAt(int rowIndex, int columnIndex){
-                Mantenimiento mantenimiento = taller.getMantePendientes().get(rowIndex);
+                Consumo consumo = mantenimiento.getConsumos().get(rowIndex);
                 switch(columnIndex) {
                     case 0:
-                        return mantenimiento.getServicios(); //Necesito acceder al codigo, nombre, valor y demas;
+                        return consumo.getProducto().getCodigo();
+                    case 1:
+                        return consumo.getProducto().getNombre();
+                    case 2:
+                        return consumo.getProducto().getCosto();
+                    case 3:
+                        return consumo.getCantidad();
+                    case 4:
+                        return consumo;
                 }
                 return null;
             }
