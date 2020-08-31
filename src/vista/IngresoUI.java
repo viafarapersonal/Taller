@@ -409,6 +409,8 @@ public class IngresoUI extends javax.swing.JInternalFrame {
         @Override
         public void actionPerformed(ActionEvent e){
             try{
+                mantenimientoVehiculo = new Mantenimiento();
+                jlServicios.updateUI();
                 Vehiculo vehi = taller.buscarVehiculoPlaca(txfPlaca.getText());
                 for(Mantenimiento mantenimientoL : taller.getMantePendientes()){
                     if(mantenimientoL.getVehiculo().equals(vehi)){
@@ -490,8 +492,6 @@ public class IngresoUI extends javax.swing.JInternalFrame {
                 }
                 mantenimientoVehiculo.getServicios().add(
                     (Servicio)cboxServicios.getSelectedItem());
-                mantenimientoVehiculo.getConsumos().addLast(
-                    new Consumo(1, new Producto(), (Servicio)cboxServicios.getSelectedItem()));
                 jlServicios.updateUI();
             }catch(ClassNotFoundException exe){
                 JOptionPane.showMessageDialog(IngresoUI.this, exe.getMessage());

@@ -22,6 +22,13 @@ public class Mantenimiento{
         this.consumos = new LinkedList<>();
     }
     
+    public Mantenimiento(LocalDate date, Vehiculo vehiculo) throws Exception{
+        this.date = date;
+        setVehiculo(vehiculo);
+        this.servicios = new LinkedList<>();
+        this.consumos = new LinkedList<>();
+    }
+    
     public Mantenimiento(LocalDate date, Persona mecanico, Vehiculo vehiculo) throws Exception{
         this.date = date;
         setMecanico(mecanico);
@@ -80,17 +87,19 @@ public class Mantenimiento{
     
     public Float valorConsumos(){
         float valorConsumo=0.0F;
-        for(Consumo consumoL : this.consumos){
-            valorConsumo += consumoL.getProducto().getCosto()
-                *consumoL.getCantidad();
-            valorConsumo += consumoL.getServicio().getCosto();
+        for(Servicio servicio : servicios){
+            valorConsumo += servicio.getCosto();
+            for(Consumo consumoL : this.consumos){
+                valorConsumo += consumoL.getProducto().getCosto()
+            *consumoL.getCantidad();
+            }
         }
         return valorConsumo;
     }
 
     @Override
     public String toString(){
-        return "mecanico: "+mecanico+", vehiculo="+ vehiculo.getPlaca() + 
+        return "mecanico: "+mecanico+", vehiculo: "+ vehiculo.getPlaca() + 
                 ", Valor: " +valorConsumos();
     }
     

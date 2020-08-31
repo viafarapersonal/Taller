@@ -17,7 +17,7 @@ import modelo.Taller;
     <didiermaxilo3@gmail.com>
     Date: August 2020
  */
-public class FacturacionUI extends javax.swing.JInternalFrame {
+public class FacturacionUI extends javax.swing.JInternalFrame{
     private Taller taller;
     private Mantenimiento mantenimiento = new Mantenimiento();
     //Llamado a la ventana interna de Facturación
@@ -159,6 +159,12 @@ public class FacturacionUI extends javax.swing.JInternalFrame {
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel2.setText("Placa");
 
+        tfMarca.setEditable(false);
+
+        tfLinea.setEditable(false);
+
+        tfTipo.setEditable(false);
+
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel3.setText("Marca");
 
@@ -213,6 +219,14 @@ public class FacturacionUI extends javax.swing.JInternalFrame {
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel6.setText("Costo Mano de Obra:");
+
+        txfCostoMano.setEditable(false);
+
+        txfCostoProductos.setEditable(false);
+
+        txfIva16.setEditable(false);
+
+        txfTotal.setEditable(false);
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel7.setText("Costo Productos Requeridos:");

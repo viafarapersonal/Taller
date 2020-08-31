@@ -33,16 +33,16 @@ public class RegistroProductosUI extends javax.swing.JInternalFrame{
             @Override
             public void actionPerformed(ActionEvent e){
                 try{
+                    mantenimiento = new Mantenimiento();
                     ltServiciosSolicitados.updateUI();
                     tbConsumos.updateUI();
-                    mantenimiento = new Mantenimiento();
                     tfMarca.setText("");
                     tfTipo.setText("");
                     tfLinea.setText("");
                     tfAsignado.setText("");
                     mantenimiento = taller.buscarMantenimientoPlaca(tfPlaca.getText());
                     if(mantenimiento.getMecanico() == null){
-                    mantenimiento = new Mantenimiento();
+                        mantenimiento = new Mantenimiento();
                         throw new ClassNotFoundException("El mantenimiento del "
                             +"vehículo con placa: "+ tfPlaca.getText()+ " NO TIENE"
                             +" ASIGNADO un(a) Mecánico(a), por lo tanto no se le"
@@ -149,7 +149,7 @@ public class RegistroProductosUI extends javax.swing.JInternalFrame{
 
             @Override
             public Object getValueAt(int rowIndex, int columnIndex) {
-                switch(columnIndex) {
+                switch(columnIndex){
                     case 0:
                         return mantenimiento.getConsumos().get(rowIndex).getProducto().getCodigo();
                     case 1:
@@ -166,10 +166,9 @@ public class RegistroProductosUI extends javax.swing.JInternalFrame{
             }
 
             @Override
-            public String getColumnName(int column) {
+            public String getColumnName(int column){
                 return nombre[column];
             }
-            
         });
     }
     @SuppressWarnings("unchecked")
