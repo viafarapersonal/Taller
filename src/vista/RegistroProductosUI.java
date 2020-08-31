@@ -148,19 +148,20 @@ public class RegistroProductosUI extends javax.swing.JInternalFrame{
             }
 
             @Override
-            public Object getValueAt(int rowIndex, int columnIndex) {
+            public Object getValueAt(int rowIndex, int columnIndex){
+                Consumo consumo = mantenimiento.getConsumos().get(rowIndex);
                 switch(columnIndex){
                     case 0:
-                        return mantenimiento.getConsumos().get(rowIndex).getProducto().getCodigo();
+                        return consumo.getProducto().getCodigo();
                     case 1:
-                        return mantenimiento.getConsumos().get(rowIndex).getProducto().getNombre();
+                        return consumo.getProducto().getNombre();
                     case 2:
-                        return mantenimiento.getConsumos().get(rowIndex).getProducto().getCosto();
+                        return consumo.getProducto().getCosto();
                     case 3:
-                        return mantenimiento.getConsumos().get(rowIndex).getCantidad();
+                        return consumo.getCantidad();
                     case 4:
-                        return mantenimiento.getConsumos().get(rowIndex).getProducto().getCosto()
-                               *mantenimiento.getConsumos().get(rowIndex).getCantidad();
+                        return consumo.getProducto().getCosto()
+                               *consumo.getCantidad();
                 }
                 return null;
             }

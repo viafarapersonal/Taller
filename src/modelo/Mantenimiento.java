@@ -87,14 +87,42 @@ public class Mantenimiento{
     
     public Float valorConsumos(){
         float valorConsumo=0.0F;
-        for(Servicio servicio : servicios){
-            valorConsumo += servicio.getCosto();
-            for(Consumo consumoL : this.consumos){
-                valorConsumo += consumoL.getProducto().getCosto()
-            *consumoL.getCantidad();
-            }
+        valorConsumo += valorManoObra();
+        for(Consumo consumoL : this.consumos){
+            valorConsumo += consumoL.getProducto().getCosto()
+        *consumoL.getCantidad();
         }
         return valorConsumo;
+    }
+    
+    public Float valorConsumosEIva(){
+        float valorConsumo=0.0F;
+        valorConsumo += valorManoObra();
+        for(Consumo consumoL : this.consumos){
+            valorConsumo += consumoL.getProducto().getCosto()
+        *consumoL.getCantidad();
+        }
+        return valorConsumo+ivaValorConsumos();
+    }
+    
+    public Float ivaValorConsumos(){
+        return (valorConsumos()*0.16F);
+    }
+    
+    public Float valorManoObra(){
+        float valorManoObra=0.0F;
+        for(Servicio servicio : servicios){
+            valorManoObra += servicio.getCosto();
+        }
+        return valorManoObra;
+    }
+    
+    public Float valorProductos(){
+        float valorProductos=0.0F;
+        for(Consumo consumoL : this.consumos){
+            valorProductos += consumoL.getProducto().getCosto();
+        }
+        return valorProductos;
     }
 
     @Override
