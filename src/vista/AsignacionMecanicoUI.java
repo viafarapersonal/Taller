@@ -29,8 +29,6 @@ import modelo.Vehiculo;
 public class AsignacionMecanicoUI extends javax.swing.JInternalFrame {
     //Atributos
     private Taller taller;
-    private LinkedList<Mantenimiento> mantenimientoNoSeleccionado = new LinkedList<>();
-    private LinkedList<Persona> mecanicoNoSeleccionado = new LinkedList<>();
     //Constructor de la ventana Ingreso
     public AsignacionMecanicoUI(Taller taller){
         this.taller = taller;
@@ -42,8 +40,6 @@ public class AsignacionMecanicoUI extends javax.swing.JInternalFrame {
             public void internalFrameActivated(InternalFrameEvent e){
                 super.internalFrameActivated(e);
                 if (taller != null){
-                    mantenimientoNoSeleccionado = taller.getPendientesNoMecanico();
-                    mecanicoNoSeleccionado = taller.getMecanicosLibres();
                     tbSolicitudes.updateUI();
                     cbMecanicos.updateUI();
                 }
@@ -141,8 +137,8 @@ public class AsignacionMecanicoUI extends javax.swing.JInternalFrame {
                         mecanicoSeleccionado = (Persona) cbMecanicos.getSelectedItem();
                         mantenimientoSeleccionado = (Mantenimiento) tbSolicitudes.getValueAt(ERROR, WIDTH);
                     }
-                    mantenimientoNoSeleccionado.remove(mantenimientoSeleccionado);
-                    mecanicoNoSeleccionado.remove(mecanicoSeleccionado);
+                    taller.getPendientesNoMecanico().remove(mantenimientoSeleccionado);
+                    taller.getMecanicosLibres().remove(mecanicoSeleccionado);
                     tbSolicitudes.updateUI();
                     cbMecanicos.updateUI();
                     cbMecanicos.setSelectedItem(null);
