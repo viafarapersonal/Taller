@@ -162,7 +162,7 @@ public class PrincipalUI extends javax.swing.JFrame{
         @Override
         public void actionPerformed(ActionEvent e){
             if (this.factu == null){
-                this.factu = new FacturacionUI();
+                this.factu = new FacturacionUI(taller);
                 jDesktopPane1.add(factu);
             }
             factu.setVisible(true);

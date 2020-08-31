@@ -122,12 +122,12 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="txfPlaca" alignment="0" min="-2" pref="100" max="-2" attributes="0"/>
+                      <Component id="tfPlaca" alignment="0" min="-2" pref="100" max="-2" attributes="0"/>
                       <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="txfMarca" alignment="0" max="32767" attributes="0"/>
+                      <Component id="tfMarca" alignment="0" max="32767" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="0" pref="230" max="32767" attributes="0"/>
@@ -135,13 +135,13 @@
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="txfTipo" alignment="0" min="-2" pref="100" max="-2" attributes="0"/>
+                      <Component id="tfTipo" alignment="0" min="-2" pref="100" max="-2" attributes="0"/>
                       <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="txfLinea" alignment="0" min="-2" pref="100" max="-2" attributes="0"/>
+                      <Component id="tfLinea" alignment="0" min="-2" pref="100" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -159,10 +159,10 @@
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="txfPlaca" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="txfMarca" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="txfLinea" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="txfTipo" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="tfPlaca" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="tfMarca" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="tfLinea" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="tfTipo" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -178,13 +178,13 @@
             <Property name="text" type="java.lang.String" value="Placa"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txfPlaca">
+        <Component class="javax.swing.JTextField" name="tfPlaca">
         </Component>
-        <Component class="javax.swing.JTextField" name="txfMarca">
+        <Component class="javax.swing.JTextField" name="tfMarca">
         </Component>
-        <Component class="javax.swing.JTextField" name="txfLinea">
+        <Component class="javax.swing.JTextField" name="tfLinea">
         </Component>
-        <Component class="javax.swing.JTextField" name="txfTipo">
+        <Component class="javax.swing.JTextField" name="tfTipo">
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel3">
           <Properties>

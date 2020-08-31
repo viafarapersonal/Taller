@@ -1,4 +1,13 @@
 package vista;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.AbstractTableModel;
+import modelo.Mantenimiento;
+import modelo.Taller;
+
 /*  Author: Alexander Viafara 
     <viafarapersonal@gmail.com>
     Author: Didier Stevenson Calvache Grajales
@@ -6,10 +15,86 @@ package vista;
     Date: August 2020
  */
 public class FacturacionUI extends javax.swing.JInternalFrame {
+    private Taller taller;
+    private Mantenimiento mantenimiento = new Mantenimiento();
     //Llamado a la ventana interna de Facturación
-    public FacturacionUI() {
+    public FacturacionUI(Taller taller) {
+        this.taller = taller;
         initComponents();
         setTitle("Facturación");
+        
+        this.tfPlaca.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    mantenimiento = taller.buscarMantenimientoPlaca(tfPlaca.getText());
+                    tfMarca.setText(mantenimiento.getVehiculo().getMarca().name());
+                    tfTipo.setText(mantenimiento.getVehiculo().getTipoVehiculo().name());
+                    tfLinea.setText(mantenimiento.getVehiculo().getLinea());
+                } catch (Exception ex) {
+                    Logger.getLogger(FacturacionUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+        
+        this.tblServicios.setModel(new AbstractTableModel() {
+            private String[] nombres = {"Codigo", "Nombre", "Vlr.Unitario"};
+            
+            @Override
+            public int getRowCount() {
+                return taller.getMantePendientes().size();
+            }
+
+            @Override
+            public int getColumnCount() {
+                return nombres.length;
+            }
+
+            @Override
+            public Object getValueAt(int rowIndex, int columnIndex) {
+                Mantenimiento mantenimiento = taller.getMantePendientes().get(rowIndex);
+                switch(columnIndex) {
+                    case 0:
+                        return mantenimiento.getServicios(); //Necesito acceder al codigo, nombre y valor;
+                }
+                return null;
+            }
+
+            @Override
+            public String getColumnName(int column) {
+                return nombres[column];
+            }
+        });
+        
+        this.tblConsumos.setModel(new AbstractTableModel() {
+            private String[] nombres = {"Codigo", "Nombre", "Vlr.Unitario", "Cantidad", "Costo"};
+            
+            @Override
+            public int getRowCount() {
+                return taller.getMantePendientes().size();
+            }
+
+            @Override
+            public int getColumnCount() {
+                return nombres.length;
+            }
+
+            @Override
+            public Object getValueAt(int rowIndex, int columnIndex) {
+                Mantenimiento mantenimiento = taller.getMantePendientes().get(rowIndex);
+                switch(columnIndex) {
+                    case 0:
+                        return mantenimiento.getServicios(); //Necesito acceder al codigo, nombre, valor y demas;
+                }
+                return null;
+            }
+
+            @Override
+            public String getColumnName(int column) {
+                return nombres[column];
+            }
+            
+        });
     }
 
     @SuppressWarnings("unchecked")
@@ -19,10 +104,10 @@ public class FacturacionUI extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        txfPlaca = new javax.swing.JTextField();
-        txfMarca = new javax.swing.JTextField();
-        txfLinea = new javax.swing.JTextField();
-        txfTipo = new javax.swing.JTextField();
+        tfPlaca = new javax.swing.JTextField();
+        tfMarca = new javax.swing.JTextField();
+        tfLinea = new javax.swing.JTextField();
+        tfTipo = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -70,22 +155,22 @@ public class FacturacionUI extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txfPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txfMarca)
+                    .addComponent(tfMarca)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addGap(0, 230, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txfTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
-                    .addComponent(txfLinea, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tfLinea, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -99,10 +184,10 @@ public class FacturacionUI extends javax.swing.JInternalFrame {
                     .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txfPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txfMarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txfLinea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txfTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tfPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfMarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfLinea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -262,13 +347,13 @@ public class FacturacionUI extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable tblConsumos;
     private javax.swing.JTable tblServicios;
+    private javax.swing.JTextField tfLinea;
+    private javax.swing.JTextField tfMarca;
+    private javax.swing.JTextField tfPlaca;
+    private javax.swing.JTextField tfTipo;
     private javax.swing.JTextField txfCostoMano;
     private javax.swing.JTextField txfCostoProductos;
     private javax.swing.JTextField txfIva16;
-    private javax.swing.JTextField txfLinea;
-    private javax.swing.JTextField txfMarca;
-    private javax.swing.JTextField txfPlaca;
-    private javax.swing.JTextField txfTipo;
     private javax.swing.JTextField txfTotal;
     // End of variables declaration//GEN-END:variables
 }
