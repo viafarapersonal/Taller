@@ -2,6 +2,9 @@ package vista;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.time.LocalDate;
+import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ComboBoxModel;
@@ -15,6 +18,7 @@ import modelo.MarcaVehiculo;
 import modelo.Persona;
 import modelo.Servicio;
 import modelo.Taller;
+import modelo.Vehiculo;
 
 /*  Author:  Alexander Viafara 
     <viafarapersonal@gmail.com>
@@ -25,6 +29,8 @@ import modelo.Taller;
 public class AsignacionUI extends javax.swing.JInternalFrame {
     //Atributos
     private Taller taller;
+    private LinkedList<Mantenimiento> mantenimientoNoSeleccionado = new LinkedList<>();
+    private LinkedList<Persona> mecanicoNoSeleccionado = new LinkedList<>();
     //Constructor de la ventana Ingreso
     public AsignacionUI(Taller taller){
         this.taller = taller;
@@ -36,6 +42,8 @@ public class AsignacionUI extends javax.swing.JInternalFrame {
             public void internalFrameActivated(InternalFrameEvent e){
                 super.internalFrameActivated(e);
                 if (taller != null){
+                    mantenimientoNoSeleccionado = taller.getPendientesNoMecanico();
+                    mecanicoNoSeleccionado = taller.getMecanicosLibres();
                     tbSolicitudes.updateUI();
                     cbMecanicos.updateUI();
                 }
@@ -89,6 +97,7 @@ public class AsignacionUI extends javax.swing.JInternalFrame {
             public boolean isCellEditable(int rowIndex, int columnIndex){
                 return false;
             }
+            
         });
         
         this.cbMecanicos.setModel(new ComboBoxModel<Persona>(){
@@ -129,10 +138,11 @@ public class AsignacionUI extends javax.swing.JInternalFrame {
                     if (cbMecanicos.getSelectedItem() == null) {
                         JOptionPane.showMessageDialog(rootPane, "Mecanico no seleccionado");
                     } else {
-                        
+                        mecanicoSeleccionado = (Persona) cbMecanicos.getSelectedItem();
+                        mantenimientoSeleccionado = (Mantenimiento) tbSolicitudes.getValueAt(ERROR, WIDTH);
                     }
-                    taller.getPendientesNoMecanico().remove(mantenimientoSeleccionado);
-                    taller.getMecanicosLibres().remove(mecanicoSeleccionado);
+                    mantenimientoNoSeleccionado.remove(mantenimientoSeleccionado);
+                    mecanicoNoSeleccionado.remove(mecanicoSeleccionado);
                     tbSolicitudes.updateUI();
                     cbMecanicos.updateUI();
                     cbMecanicos.setSelectedItem(null);
