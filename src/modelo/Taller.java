@@ -101,8 +101,8 @@ public class Taller{
     }
     
     public Mantenimiento getMantenimientoPlaca(String placa) throws Exception{
-        for (Mantenimiento mantenimientoL : mantePendientes) {
-            if(mantenimientoL.getVehiculo().getPlaca().equals(placa)){
+        for (Mantenimiento mantenimientoL : mantePendientes){
+            if(mantenimientoL.getVehiculo().getPlaca() == placa){
                 return mantenimientoL;
             }
         }
@@ -112,8 +112,8 @@ public class Taller{
     
     public LinkedList<Mantenimiento> getPendientesNoMecanico(){
         LinkedList<Mantenimiento> noMecanicos = new LinkedList<>();
-        for (Mantenimiento mantemimiento : mantePendientes){
-            if(!mantemimiento.getMecanico().equals(null)){
+        for(Mantenimiento mantemimiento : mantePendientes){
+            if(mantemimiento.getMecanico() == null){
                 noMecanicos.add(mantemimiento);
             }
         }
