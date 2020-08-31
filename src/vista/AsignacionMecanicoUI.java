@@ -22,11 +22,11 @@ import modelo.Taller;
     <didiermaxilo3@gmail.com>
     Date: August 2020
  */
-public class AsignacionUI extends javax.swing.JInternalFrame {
+public class AsignacionMecanicoUI extends javax.swing.JInternalFrame {
     //Atributos
     private Taller taller;
     //Constructor de la ventana Ingreso
-    public AsignacionUI(Taller taller){
+    public AsignacionMecanicoUI(Taller taller){
         this.taller = taller;
         initComponents();
         setTitle("Asignación de Mecánico");
@@ -138,7 +138,7 @@ public class AsignacionUI extends javax.swing.JInternalFrame {
                     cbMecanicos.setSelectedItem(null);
                     JOptionPane.showMessageDialog(rootPane, "Mecanico asignado");
                 }catch(Exception ex){
-                    Logger.getLogger(AsignacionUI.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(AsignacionMecanicoUI.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });

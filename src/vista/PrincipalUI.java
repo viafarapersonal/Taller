@@ -36,8 +36,8 @@ public class PrincipalUI extends javax.swing.JFrame{
         miIngresoVehiculo = new javax.swing.JMenuItem();
         mMantenimiento = new javax.swing.JMenu();
         miAsigMecanic = new javax.swing.JMenuItem();
-        mFacturación = new javax.swing.JMenu();
         miRegisProducto = new javax.swing.JMenuItem();
+        mFacturación = new javax.swing.JMenu();
         miFacturacion = new javax.swing.JMenuItem();
         mAyuda = new javax.swing.JMenu();
         miServicios = new javax.swing.JMenuItem();
@@ -69,13 +69,13 @@ public class PrincipalUI extends javax.swing.JFrame{
         miAsigMecanic.setText("Asignación de Mecánico");
         mMantenimiento.add(miAsigMecanic);
 
+        miRegisProducto.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        miRegisProducto.setText("Registro Productos");
+        mMantenimiento.add(miRegisProducto);
+
         jMenuBar1.add(mMantenimiento);
 
         mFacturación.setText("Facturacion");
-
-        miRegisProducto.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        miRegisProducto.setText("Registro Productos");
-        mFacturación.add(miRegisProducto);
 
         miFacturacion.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         miFacturacion.setText("Facturación");
@@ -134,11 +134,11 @@ public class PrincipalUI extends javax.swing.JFrame{
     }
 
     public class AisignaMecanicoListener implements ActionListener{
-        private AsignacionUI asign = null;
+        private AsignacionMecanicoUI asign = null;
         @Override
         public void actionPerformed(ActionEvent e){
             if (this.asign == null){
-                this.asign = new AsignacionUI(taller);
+                this.asign = new AsignacionMecanicoUI(taller);
                 jDesktopPane1.add(asign);
             }
             asign.setVisible(true);
@@ -146,14 +146,14 @@ public class PrincipalUI extends javax.swing.JFrame{
     }
 
     public class RegisProductoListener implements ActionListener{
-        private RegistroUI regist = null;
+        private RegistroProductosUI mantenim = null;
         @Override
         public void actionPerformed(ActionEvent e){
-            if (this.regist == null){
-                this.regist = new RegistroUI(taller);
-                jDesktopPane1.add(regist);
+            if (this.mantenim == null){
+                this.mantenim = new RegistroProductosUI(taller);
+                jDesktopPane1.add(mantenim);
             }
-            regist.setVisible(true);
+            mantenim.setVisible(true);
         }
     }
     

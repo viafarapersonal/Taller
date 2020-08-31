@@ -100,16 +100,6 @@ public class Taller{
         return mantePendientes;
     }
     
-    public Mantenimiento getMantenimientoPlaca(String placa) throws Exception{
-        for (Mantenimiento mantenimientoL : mantePendientes){
-            if(mantenimientoL.getVehiculo().getPlaca() == placa){
-                return mantenimientoL;
-            }
-        }
-        throw new ClassNotFoundException("No se ha encontrado el MANTENIMIENTO "
-                + "PENDIENTE con la PLACA: "+placa);
-    }
-    
     public LinkedList<Mantenimiento> getPendientesNoMecanico(){
         LinkedList<Mantenimiento> noMecanicos = new LinkedList<>();
         for(Mantenimiento mantemimiento : mantePendientes){
@@ -124,6 +114,7 @@ public class Taller{
         return vehiculos;
     }
     
+    //METODOS PARA AGREGAR O ELIMINAR DE LAS LISTAS
     public void agregarMecanico (Persona newMecanico) throws Exception{
         for (Persona personaL : mecanicos) {
             if (personaL.equals(newMecanico)){
@@ -204,6 +195,18 @@ public class Taller{
         vehiculos.remove(vehiculo);
     }
     
+    // METODOS DE BUSQUEDA
+    public Mantenimiento buscarMantenimientoPlaca(String placa) throws Exception{
+        placa = placa.toUpperCase();
+        for (Mantenimiento mantenimientoL : mantePendientes){
+            if(mantenimientoL.getVehiculo().getPlaca().equals(placa)){
+                return mantenimientoL;
+            }
+        }
+        throw new ClassNotFoundException("No se ha encontrado el MANTENIMIENTO "
+                + "PENDIENTE con la PLACA: "+placa);
+    }
+    
     public Vehiculo buscarVehiculoPlaca(String placa) throws Exception{
         placa = placa.trim();
         placa = placa.toUpperCase();
@@ -217,5 +220,15 @@ public class Taller{
         }
         throw new ClassNotFoundException("El VEHÍCULO con placa: "
                     +placa+" NO SE ENCONTRÓ");
+    }
+    
+    public Producto buscarProducto(int codigo) throws Exception{
+        for (Producto productoL : productos){
+            if(productoL.getCodigo() == codigo){
+                return productoL;
+            }
+        }
+        throw new ClassNotFoundException("No se ha encontrado el PRODUCTO "
+                + "del codigo: "+codigo);
     }
 }

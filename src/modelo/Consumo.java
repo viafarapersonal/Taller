@@ -30,7 +30,7 @@ public class Consumo{
     
     public void setCantidad(int cantidad) throws Exception{
         if (cantidad <= 0){
-            throw new Exception("La Cantidad debe ser ENTERO POSITIVO");
+            throw new ClassNotFoundException("La Cantidad debe ser ENTERO POSITIVO");
         }
         this.cantidad = cantidad;
     }
@@ -41,7 +41,7 @@ public class Consumo{
     
     public void setProducto(Producto producto) throws Exception{
         if (producto == null){
-            throw new Exception("Debe ingresar un Producto");
+            throw new ClassNotFoundException("Debe ingresar un Producto");
         }
         this.producto = producto;
     }
@@ -52,7 +52,7 @@ public class Consumo{
     
     public void setServicio(Servicio servicio) throws Exception{
         if (servicio == null){
-            throw new Exception("Debe ingresar un Servicio");
+            throw new ClassNotFoundException("Debe ingresar un Servicio");
         }
         this.servicio = servicio;
     }

@@ -22,9 +22,9 @@ public class Mantenimiento{
         this.consumos = new LinkedList<>();
     }
     
-    public Mantenimiento(LocalDate date, Persona persona, Vehiculo vehiculo) throws Exception{
+    public Mantenimiento(LocalDate date, Persona mecanico, Vehiculo vehiculo) throws Exception{
         this.date = date;
-        setMecanico(persona);
+        setMecanico(mecanico);
         setVehiculo(vehiculo);
         this.servicios = new LinkedList<>();
         this.consumos = new LinkedList<>();
@@ -64,6 +64,14 @@ public class Mantenimiento{
     
     public LinkedList<Servicio> getServicios(){
         return servicios;
+    }
+
+    public void setServicios(LinkedList<Servicio> servicios) {
+        this.servicios = servicios;
+    }
+
+    public void setConsumos(LinkedList<Consumo> consumos) {
+        this.consumos = consumos;
     }
     
     public LinkedList<Consumo> getConsumos(){

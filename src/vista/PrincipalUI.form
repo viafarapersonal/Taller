@@ -32,13 +32,6 @@
                 <Property name="text" type="java.lang.String" value="Asignaci&#xf3;n de Mec&#xe1;nico"/>
               </Properties>
             </MenuItem>
-          </SubComponents>
-        </Menu>
-        <Menu class="javax.swing.JMenu" name="mFacturaci&#xf3;n">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Facturacion"/>
-          </Properties>
-          <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="miRegisProducto">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -47,6 +40,13 @@
                 <Property name="text" type="java.lang.String" value="Registro Productos"/>
               </Properties>
             </MenuItem>
+          </SubComponents>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="mFacturaci&#xf3;n">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Facturacion"/>
+          </Properties>
+          <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="miFacturacion">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
