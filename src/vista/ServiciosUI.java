@@ -21,7 +21,7 @@ public class ServiciosUI extends javax.swing.JInternalFrame{
         initComponents();
         btnPendientes.addActionListener(new ActualizarPendientesListener());
         btnRealizados.addActionListener(new ActualizarRealizadosListener());
-        
+
         jlPendientes.setModel(new ListModel<Mantenimiento>(){
             @Override
             public int getSize(){

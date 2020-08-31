@@ -4,8 +4,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 import modelo.Mantenimiento;
+import modelo.Servicio;
 import modelo.Taller;
 
 /*  Author: Alexander Viafara 
@@ -18,69 +20,108 @@ public class FacturacionUI extends javax.swing.JInternalFrame {
     private Taller taller;
     private Mantenimiento mantenimiento = new Mantenimiento();
     //Llamado a la ventana interna de Facturación
-    public FacturacionUI(Taller taller) {
+    public FacturacionUI(Taller taller){
         this.taller = taller;
         initComponents();
         setTitle("Facturación");
         
-        this.tfPlaca.addActionListener(new ActionListener() {
+        this.tfPlaca.addActionListener(new ActionListener(){
             @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
+            public void actionPerformed(ActionEvent e){
+                try{
                     mantenimiento = taller.buscarMantenimientoPlaca(tfPlaca.getText());
                     tfMarca.setText(mantenimiento.getVehiculo().getMarca().name());
                     tfTipo.setText(mantenimiento.getVehiculo().getTipoVehiculo().name());
                     tfLinea.setText(mantenimiento.getVehiculo().getLinea());
-                } catch (Exception ex) {
-                    Logger.getLogger(FacturacionUI.class.getName()).log(Level.SEVERE, null, ex);
+                    tblServicios.updateUI();
+                }catch(ClassNotFoundException ex){
+                    JOptionPane.showMessageDialog(FacturacionUI.this, ex.getMessage());
+                }catch(Exception ex){
+                    JOptionPane.showMessageDialog(FacturacionUI.this, 
+                    "Error inesperado (PONERSE EN CONTACTO CON PROVEEDORES)\n"
+                    +ex.getMessage());
+//                    Logger.getLogger(RegistroProductosUI.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
-        
-        this.tblServicios.setModel(new AbstractTableModel() {
+
+        this.tblServicios.setModel(new AbstractTableModel(){
             private String[] nombres = {"Codigo", "Nombre", "Vlr.Unitario"};
             
             @Override
-            public int getRowCount() {
-                return taller.getMantePendientes().size();
+            public int getRowCount(){
+                return mantenimiento.getServicios().size();
             }
 
             @Override
-            public int getColumnCount() {
+            public int getColumnCount(){
                 return nombres.length;
             }
 
             @Override
-            public Object getValueAt(int rowIndex, int columnIndex) {
-                Mantenimiento mantenimiento = taller.getMantePendientes().get(rowIndex);
-                switch(columnIndex) {
+            public Object getValueAt(int rowIndex, int columnIndex){
+                Servicio servicio = mantenimiento.getServicios().get(rowIndex);
+                switch(columnIndex){
                     case 0:
-                        return mantenimiento.getServicios(); //Necesito acceder al codigo, nombre y valor;
+                        return servicio.getCodigo();
+                    case 1:
+                        return servicio.getNombre();
+                    case 2:
+                        return servicio.getCosto();
                 }
                 return null;
             }
 
             @Override
-            public String getColumnName(int column) {
+            public String getColumnName(int column){
                 return nombres[column];
             }
         });
         
-        this.tblConsumos.setModel(new AbstractTableModel() {
+//        this.tblServicios.setModel(new AbstractTableModel(){
+//            private String[] nombres = {"Codigo", "Nombre", "Vlr.Unitario"};
+//            
+//            @Override
+//            public int getRowCount(){
+//                return taller.getMantePendientes().size();
+//            }
+//
+//            @Override
+//            public int getColumnCount(){
+//                return nombres.length;
+//            }
+//
+//            @Override
+//            public Object getValueAt(int rowIndex, int columnIndex){
+//                Mantenimiento mantenimiento = taller.getMantePendientes().get(rowIndex);
+//                switch(columnIndex){
+//                    case 0:
+//                        return mantenimiento.getServicios(); //Necesito acceder al codigo, nombre y valor;
+//                }
+//                return null;
+//            }
+//
+//            @Override
+//            public String getColumnName(int column){
+//                return nombres[column];
+//            }
+//        });
+        
+        this.tblConsumos.setModel(new AbstractTableModel(){
             private String[] nombres = {"Codigo", "Nombre", "Vlr.Unitario", "Cantidad", "Costo"};
             
             @Override
-            public int getRowCount() {
-                return taller.getMantePendientes().size();
+            public int getRowCount(){
+                return taller.getMantePendientes().size();// no
             }
 
             @Override
-            public int getColumnCount() {
+            public int getColumnCount(){
                 return nombres.length;
             }
 
             @Override
-            public Object getValueAt(int rowIndex, int columnIndex) {
+            public Object getValueAt(int rowIndex, int columnIndex){
                 Mantenimiento mantenimiento = taller.getMantePendientes().get(rowIndex);
                 switch(columnIndex) {
                     case 0:
@@ -90,13 +131,11 @@ public class FacturacionUI extends javax.swing.JInternalFrame {
             }
 
             @Override
-            public String getColumnName(int column) {
+            public String getColumnName(int column){
                 return nombres[column];
             }
-            
         });
     }
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -327,8 +366,6 @@ public class FacturacionUI extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnFacturar;
     private javax.swing.JLabel jLabel1;

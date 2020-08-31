@@ -22,7 +22,7 @@ import modelo.Taller;
 public class RegistroProductosUI extends javax.swing.JInternalFrame{
     //Atributos
     private Taller taller;
-    private Mantenimiento mantenimiento = new Mantenimiento();;
+    private Mantenimiento mantenimiento = new Mantenimiento();
     //Llamado a la ventana interna de RegistroUI
     public RegistroProductosUI(Taller taller){
         this.taller = taller;
@@ -33,9 +33,16 @@ public class RegistroProductosUI extends javax.swing.JInternalFrame{
             @Override
             public void actionPerformed(ActionEvent e){
                 try{
+                    ltServiciosSolicitados.updateUI();
+                    tbConsumos.updateUI();
+                    mantenimiento = new Mantenimiento();
+                    tfMarca.setText("");
+                    tfTipo.setText("");
+                    tfLinea.setText("");
+                    tfAsignado.setText("");
                     mantenimiento = taller.buscarMantenimientoPlaca(tfPlaca.getText());
                     if(mantenimiento.getMecanico() == null){
-                        ltSolicitados.updateUI();
+                    mantenimiento = new Mantenimiento();
                         throw new ClassNotFoundException("El mantenimiento del "
                             +"vehículo con placa: "+ tfPlaca.getText()+ " NO TIENE"
                             +" ASIGNADO un(a) Mecánico(a), por lo tanto no se le"
@@ -45,7 +52,8 @@ public class RegistroProductosUI extends javax.swing.JInternalFrame{
                     tfTipo.setText(mantenimiento.getVehiculo().getTipoVehiculo().name());
                     tfLinea.setText(mantenimiento.getVehiculo().getLinea());
                     tfAsignado.setText(mantenimiento.getMecanico().getNombre());
-                    ltSolicitados.updateUI();
+                    ltServiciosSolicitados.updateUI();
+                    tbConsumos.updateUI();
                 }catch(ClassNotFoundException ex){
                     JOptionPane.showMessageDialog(RegistroProductosUI.this, ex.getMessage());
                 }catch(Exception ex){
@@ -77,13 +85,23 @@ public class RegistroProductosUI extends javax.swing.JInternalFrame{
 
         this.btnAgregarConsumo.addActionListener(new ActionListener(){
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e){
                 try{
+                    for(Consumo consumo : mantenimiento.getConsumos()){
+                        if(consumo.getServicio().equals(ltServiciosSolicitados.getSelectedValue())){
+                            if(consumo.getProducto() != null){
+                                throw new ClassNotFoundException("El Consumo "
+                                  +"por el servicio de: "
+                                  +ltServiciosSolicitados.getSelectedValue()+
+                                  " YA TIENE un Producto asignado");
+                            }
+                        }
+                    }
                     mantenimiento.getConsumos().add(
-                        new Consumo(sCantidad.getComponentCount(), 
+                        new Consumo((Integer)sCantidad.getValue(), 
                             taller.buscarProducto(
                             Integer.parseInt(tfCodigoProducto.getText())), 
-                            (Servicio)ltSolicitados.getSelectedValue()));
+                            (Servicio)ltServiciosSolicitados.getSelectedValue()));
                     tbConsumos.updateUI();
                 }catch(ClassNotFoundException ex){
                     JOptionPane.showMessageDialog(RegistroProductosUI.this, ex.getMessage());
@@ -99,7 +117,7 @@ public class RegistroProductosUI extends javax.swing.JInternalFrame{
             }
         });
 
-        this.ltSolicitados.setModel(new AbstractListModel<Servicio>() {
+        this.ltServiciosSolicitados.setModel(new AbstractListModel<Servicio>() {
             @Override
             public int getSize(){
                 return mantenimiento.getServicios().size();
@@ -141,7 +159,8 @@ public class RegistroProductosUI extends javax.swing.JInternalFrame{
                     case 3:
                         return mantenimiento.getConsumos().get(rowIndex).getCantidad();
                     case 4:
-                        return mantenimiento.valorConsumos();// No se si este bien.
+                        return mantenimiento.getConsumos().get(rowIndex).getProducto().getCosto()
+                               *mantenimiento.getConsumos().get(rowIndex).getCantidad();
                 }
                 return null;
             }
@@ -180,7 +199,7 @@ public class RegistroProductosUI extends javax.swing.JInternalFrame{
         tfCostoProducto = new javax.swing.JFormattedTextField();
         tfCodigoProducto = new javax.swing.JFormattedTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        ltSolicitados = new javax.swing.JList();
+        ltServiciosSolicitados = new javax.swing.JList();
         javax.swing.JLabel jLabel11 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -333,7 +352,7 @@ public class RegistroProductosUI extends javax.swing.JInternalFrame{
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jScrollPane1.setViewportView(ltSolicitados);
+        jScrollPane1.setViewportView(ltServiciosSolicitados);
 
         jLabel11.setText("Servicios Solicitados");
 
@@ -418,7 +437,7 @@ public class RegistroProductosUI extends javax.swing.JInternalFrame{
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JList ltSolicitados;
+    private javax.swing.JList ltServiciosSolicitados;
     private javax.swing.JSpinner sCantidad;
     private javax.swing.JTable tbConsumos;
     private javax.swing.JTextField tfAsignado;

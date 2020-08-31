@@ -81,7 +81,8 @@ public class Mantenimiento{
     public Float valorConsumos(){
         float valorConsumo=0.0F;
         for(Consumo consumoL : this.consumos){
-            valorConsumo += consumoL.getProducto().getCosto();
+            valorConsumo += consumoL.getProducto().getCosto()
+                *consumoL.getCantidad();
             valorConsumo += consumoL.getServicio().getCosto();
         }
         return valorConsumo;
@@ -93,7 +94,7 @@ public class Mantenimiento{
                 ", Valor: " +valorConsumos();
     }
     
-    public void agregarServico(Servicio servicio) {
+    public void agregarServico(Servicio servicio){
         servicios.add(servicio);
     }
 }
