@@ -6,6 +6,8 @@ import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ComboBoxModel;
+import javax.swing.event.InternalFrameAdapter;
+import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.ListDataListener;
 import javax.swing.table.AbstractTableModel;
 import modelo.Mantenimiento;
@@ -29,9 +31,20 @@ public class AsignacionUI extends javax.swing.JInternalFrame {
         initComponents();
         setTitle("Asignación de Mecánico");
         
+        this.addInternalFrameListener(new InternalFrameAdapter(){
+            @Override
+            public void internalFrameActivated(InternalFrameEvent e){
+                super.internalFrameActivated(e);
+                if (taller != null){
+                    tbSolicitudes.updateUI();
+                    cbMecanicos.updateUI();
+                }
+            }
+        });
+        
         this.tbSolicitudes.setModel(new AbstractTableModel(){
             private String[] nombres = {"Placa", "Marca", "Servicios"};
-            private String[] serviciosTabla;
+            private String serviciosTabla;
 
             @Override
             public String getColumnName(int column){
@@ -40,7 +53,7 @@ public class AsignacionUI extends javax.swing.JInternalFrame {
 
             @Override
             public int getRowCount(){
-                return taller.getMantePendientes().size();
+                return taller.getPendientesNoMecanico().size();
             }
 
             @Override
@@ -50,20 +63,19 @@ public class AsignacionUI extends javax.swing.JInternalFrame {
 
             @Override
             public Object getValueAt(int rowIndex, int columnIndex){
-                Mantenimiento mantenimiento = taller.getMantePendientes().get(rowIndex);
+                Mantenimiento mantenimiento = taller.getPendientesNoMecanico().get(rowIndex);
+                
                 switch (columnIndex){
                     case 0:
                         return mantenimiento.getVehiculo().getPlaca();
                     case 1:
                         return mantenimiento.getVehiculo().getMarca();
                     case 2:
-//                        for(Servicio servicio : mantenimiento.getServicios()){
-//                            int i = 0;
-//                            serviciosTabla[i] = servicio.getNombre();
-//                            i++;
-//                        }
-//                        return this.serviciosTabla;
-                        return mantenimiento.getServicios().getFirst().toString();
+                        serviciosTabla = "";
+                        for(Servicio servicio : mantenimiento.getServicios()){
+                            serviciosTabla += servicio.getNombre()+", ";
+                        }
+                        return serviciosTabla;
                     default: return null;
                 }
             }
@@ -86,7 +98,6 @@ public class AsignacionUI extends javax.swing.JInternalFrame {
             @Override
             public void setSelectedItem(Object anItem){
                 personaSeleccionada = (Persona)anItem;
-                cbMecanicos.updateUI();
             }
 
             @Override
@@ -163,8 +174,6 @@ public class AsignacionUI extends javax.swing.JInternalFrame {
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel3.setText("Mecanicos:");
-
-        cbMecanicos.setModel(new javax.swing.DefaultComboBoxModel<Persona>());
 
         btAsignar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btAsignar.setText("Asignar Mecanico");
