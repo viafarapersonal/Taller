@@ -84,4 +84,8 @@ public class Mantenimiento{
         return "mecanico: "+mecanico+", vehiculo="+ vehiculo.getPlaca() + 
                 ", Valor: " +valorConsumos();
     }
+    
+    public void agregarServico(Servicio servicio) {
+        servicios.add(servicio);
+    }
 }

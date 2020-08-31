@@ -2,10 +2,12 @@ package vista;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ComboBoxModel;
+import javax.swing.JOptionPane;
 import javax.swing.event.ListDataListener;
 import javax.swing.table.AbstractTableModel;
 import modelo.Mantenimiento;
@@ -13,6 +15,7 @@ import modelo.MarcaVehiculo;
 import modelo.Persona;
 import modelo.Servicio;
 import modelo.Taller;
+import modelo.Vehiculo;
 
 /*  Author:  Alexander Viafara 
     <viafarapersonal@gmail.com>
@@ -31,8 +34,7 @@ public class AsignacionUI extends javax.swing.JInternalFrame {
         
         this.tbSolicitudes.setModel(new AbstractTableModel(){
             private String[] nombres = {"Placa", "Marca", "Servicios"};
-            private String[] serviciosTabla;
-
+            
             @Override
             public String getColumnName(int column){
                 return this.nombres[column];
@@ -45,7 +47,7 @@ public class AsignacionUI extends javax.swing.JInternalFrame {
 
             @Override
             public int getColumnCount(){
-                return 3;
+                return nombres.length;
             }
 
             @Override
@@ -57,15 +59,9 @@ public class AsignacionUI extends javax.swing.JInternalFrame {
                     case 1:
                         return mantenimiento.getVehiculo().getMarca();
                     case 2:
-//                        for(Servicio servicio : mantenimiento.getServicios()){
-//                            int i = 0;
-//                            serviciosTabla[i] = servicio.getNombre();
-//                            i++;
-//                        }
-//                        return this.serviciosTabla;
-                        return mantenimiento.getServicios().getFirst().toString();
-                    default: return null;
+                        return mantenimiento.getServicios().toString();
                 }
+                return null;
             }
             @Override
             public Class<?> getColumnClass(int columnIndex){
@@ -86,7 +82,6 @@ public class AsignacionUI extends javax.swing.JInternalFrame {
             @Override
             public void setSelectedItem(Object anItem){
                 personaSeleccionada = (Persona)anItem;
-                cbMecanicos.updateUI();
             }
 
             @Override
@@ -114,14 +109,19 @@ public class AsignacionUI extends javax.swing.JInternalFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try{
-//                    Mantenimiento mantenimientoSeleccionado = null;
-//                    Persona mecanicoSeleccionado = null;
-//                    mantenimientoSeleccionado.setMecanico(mecanicoSeleccionado);
-//                    taller.getMantePendientes().remove(mantenimientoSeleccionado);
-//                    taller.getMecanicosLibres().remove(mecanicoSeleccionado);
+                    Mantenimiento mantenimientoSeleccionado = null;
+                    Persona mecanicoSeleccionado = null;
+                    if (cbMecanicos.getSelectedItem() == null) {
+                        JOptionPane.showMessageDialog(rootPane, "Mecanico no seleccionado");
+                    } else {
+                        
+                    }
+                    taller.getPendientesNoMecanico().remove(mantenimientoSeleccionado);
+                    taller.getMecanicosLibres().remove(mecanicoSeleccionado);
                     tbSolicitudes.updateUI();
                     cbMecanicos.updateUI();
                     cbMecanicos.setSelectedItem(null);
+                    JOptionPane.showMessageDialog(rootPane, "Mecanico asignado");
                 }catch(Exception ex){
                     Logger.getLogger(AsignacionUI.class.getName()).log(Level.SEVERE, null, ex);
                 }

@@ -73,7 +73,7 @@ public class Taller{
         for (Persona mecanico : mecanicos){
             disp = true;
             for (Mantenimiento mantenimiento : mantePendientes){
-                if(mecanico.getNuip().equals(mantenimiento.getMecanico().getNuip())){
+                if(mecanico.equals(mantenimiento.getMecanico())){
                     disp = false;
                 }
             }
@@ -102,7 +102,7 @@ public class Taller{
     
     public Mantenimiento getMantenimientoPlaca(String placa) throws Exception{
         for (Mantenimiento mantenimientoL : mantePendientes) {
-            if(mantenimientoL.getVehiculo().getPlaca() == placa){
+            if(mantenimientoL.getVehiculo().getPlaca().equals(placa)){
                 return mantenimientoL;
             }
         }
@@ -113,7 +113,7 @@ public class Taller{
     public LinkedList<Mantenimiento> getPendientesNoMecanico(){
         LinkedList<Mantenimiento> noMecanicos = new LinkedList<>();
         for (Mantenimiento mantemimiento : mantePendientes){
-            if(mantemimiento.getMecanico().equals(null)){
+            if(!mantemimiento.getMecanico().equals(null)){
                 noMecanicos.add(mantemimiento);
             }
         }
