@@ -128,7 +128,7 @@ public class Mantenimiento{
     @Override
     public String toString(){
         return "mecanico: "+mecanico+", vehiculo: "+ vehiculo.getPlaca() + 
-                ", Valor: " +valorConsumos();
+                ", Valor: " +valorConsumosEIva();
     }
     
     public void agregarServico(Servicio servicio){
