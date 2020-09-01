@@ -88,10 +88,7 @@ public class Mantenimiento{
     public Float valorConsumos(){
         float valorConsumo=0.0F;
         valorConsumo += valorManoObra();
-        for(Consumo consumoL : this.consumos){
-            valorConsumo += consumoL.getProducto().getCosto()
-        *consumoL.getCantidad();
-        }
+        valorConsumo += valorProductos();
         return valorConsumo;
     }
     
@@ -120,7 +117,8 @@ public class Mantenimiento{
     public Float valorProductos(){
         float valorProductos=0.0F;
         for(Consumo consumoL : this.consumos){
-            valorProductos += consumoL.getProducto().getCosto();
+            valorProductos += consumoL.getProducto().getCosto()
+            *consumoL.getCantidad();
         }
         return valorProductos;
     }

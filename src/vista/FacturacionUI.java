@@ -30,6 +30,8 @@ public class FacturacionUI extends javax.swing.JInternalFrame{
             @Override
             public void actionPerformed(ActionEvent e){
                 try{
+                    mantenimiento = new Mantenimiento();
+                    limpiarTodo();
                     mantenimiento = taller.buscarMantenimientoPlaca(tfPlaca.getText());
                     tfMarca.setText(mantenimiento.getVehiculo().getMarca().name());
                     tfTipo.setText(mantenimiento.getVehiculo().getTipoVehiculo().name());
