@@ -34,9 +34,37 @@ public class FacturacionUI extends javax.swing.JInternalFrame{
                     tfMarca.setText(mantenimiento.getVehiculo().getMarca().name());
                     tfTipo.setText(mantenimiento.getVehiculo().getTipoVehiculo().name());
                     tfLinea.setText(mantenimiento.getVehiculo().getLinea());
-                    txfCostoProductos.setText(Float.toString(mantenimiento.valorConsumos()));
+                    txfCostoMano.setText(mantenimiento.valorManoObra().toString());
+                    txfCostoProductos.setText(mantenimiento.valorProductos().toString());
+                    txfIva16.setText(mantenimiento.ivaValorConsumos().toString());
+                    txfTotal.setText(mantenimiento.valorConsumosEIva().toString());
                     tblServicios.updateUI();
                     tblConsumos.updateUI();
+                }catch(ClassNotFoundException ex){
+                    JOptionPane.showMessageDialog(FacturacionUI.this, ex.getMessage());
+                }catch(Exception ex){
+                    JOptionPane.showMessageDialog(FacturacionUI.this, 
+                    "Error inesperado (PONERSE EN CONTACTO CON PROVEEDORES)\n"
+                    +ex.getMessage());
+//                    Logger.getLogger(RegistroProductosUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+        
+        this.btnFacturar.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                try{
+                    if(mantenimiento.getVehiculo() == null){
+                        throw new ClassNotFoundException("NO HA SELECCIONADO "
+                            +"NINGÚN MANTENIMIENTO");
+                    }
+                    taller.getMantePendientes().remove(mantenimiento);
+                    taller.getManteRealizados().add(mantenimiento);
+                    mantenimiento = new Mantenimiento();
+                    limpiarTodo();
+                    JOptionPane.showMessageDialog(FacturacionUI.this, 
+                        "MANTENIMIENTO FACTURADO");
                 }catch(ClassNotFoundException ex){
                     JOptionPane.showMessageDialog(FacturacionUI.this, ex.getMessage());
                 }catch(Exception ex){
@@ -389,4 +417,16 @@ public class FacturacionUI extends javax.swing.JInternalFrame{
     private javax.swing.JTextField txfIva16;
     private javax.swing.JTextField txfTotal;
     // End of variables declaration//GEN-END:variables
+
+    public void limpiarTodo(){
+        tfMarca.setText("");
+        tfTipo.setText("");
+        tfLinea.setText("");
+        txfCostoMano.setText("");
+        txfCostoProductos.setText("");
+        txfIva16.setText("");
+        txfTotal.setText("");
+        tblServicios.updateUI();
+        tblConsumos.updateUI();
+    }
 }
