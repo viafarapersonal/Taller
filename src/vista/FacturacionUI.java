@@ -34,6 +34,7 @@ public class FacturacionUI extends javax.swing.JInternalFrame{
                     tfMarca.setText(mantenimiento.getVehiculo().getMarca().name());
                     tfTipo.setText(mantenimiento.getVehiculo().getTipoVehiculo().name());
                     tfLinea.setText(mantenimiento.getVehiculo().getLinea());
+                    txfCostoProductos.setText(Float.toString(mantenimiento.valorConsumos()));
                     tblServicios.updateUI();
                     tblConsumos.updateUI();
                 }catch(ClassNotFoundException ex){
@@ -106,7 +107,7 @@ public class FacturacionUI extends javax.swing.JInternalFrame{
                     case 3:
                         return consumo.getCantidad();
                     case 4:
-                        return consumo;
+                        return consumo.getProducto().getCosto() * consumo.getCantidad();
                 }
                 return null;
             }
