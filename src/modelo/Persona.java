@@ -5,14 +5,23 @@ package modelo;
     <didiermaxilo3@gmail.com>
     Date: August 2020
  */
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.regex.Pattern;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
-public class Persona {
+@Entity
+public class Persona implements Serializable{
     // Definición de atributos
+    @Id
     private Long nuip;
+    @Column(nullable = false, length = 50)
     private String nombre;
+    @Column(nullable = false, length = 50)
     private String apellido;
+    @Column(nullable = false, length = 10)
     private Long telefono;
     
     // Constructores

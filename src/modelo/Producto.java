@@ -1,15 +1,22 @@
 package modelo;
+import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 /*  Author: Alexander Viafara 
     <viafarapersonal@gmail.com>
     Author: Didier Stevenson Calvache Grajales
     <didiermaxilo3@gmail.com>
     Date: August 2020
  */
-
-public class Producto{
+@Entity
+public class Producto implements Serializable{
     // Definición de atributos
+    @Id
     private int codigo;
+    @Column(nullable = false)
     private String nombre;
+    @Column(nullable = false)
     private int costo;
 
     // Constructores
