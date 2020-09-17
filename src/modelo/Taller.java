@@ -21,10 +21,10 @@ public class Taller{
     private String nombre;
     
 //Atributos con relación a Muchos
-    private EntityManagerFactory factory = Persistence.createEntityManagerFactory("750085M-Calvache-Viafara-ProyectoTallerMec_nicoPU");
+    private EntityManagerFactory factory = Persistence.createEntityManagerFactory("750085M-Calvache-Viafara-ProyectoTallerMecanicoPU");
     
 //    private LinkedList<Persona> mecanicos;
-    private PersonaJpaController PersonaJpaController = new PersonaJpaController(factory);
+    private PersonaJpaController MecanicoJpaController = new PersonaJpaController(factory);
 //    private LinkedList<Producto> productos;
     private ProductoJpaController ProductoJpaController = new ProductoJpaController(factory);
 //    private LinkedList<Servicio> servicios;
@@ -83,15 +83,15 @@ public class Taller{
     
     public List<Persona> getMecanicos(){
 //        return mecanicos;
-        return PersonaJpaController.findPersonaEntities();
+        return MecanicoJpaController.findPersonaEntities();
     }
     
     public List<Persona> getMecanicosLibres(){
         List<Persona> mecanicosLibres = new LinkedList<>();
         boolean disp;
-        for (Persona mecanico : PersonaJpaController.findPersonaEntities()){
+        for(Persona mecanico : MecanicoJpaController.findPersonaEntities()){
             disp = true;
-            for (Mantenimiento mantenimiento : mantePendientes){
+            for(Mantenimiento mantenimiento : mantePendientes){
                 if(mecanico.equals(mantenimiento.getMecanico())){
                     disp = false;
                 }
@@ -143,16 +143,17 @@ public class Taller{
 //            }
 //        }
 //        mecanicos.add(newMecanico);
-        PersonaJpaController.create(newMecanico);
+        MecanicoJpaController.create(newMecanico);
     }
 
-    public void eliminarMecanico (Persona mecanico){
-        try{
-            this.PersonaJpaController.destroy(mecanico.getNuip());
-        }catch(NonexistentEntityException ex){
-            Logger.getLogger(Taller.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+//    public void eliminarMecanico (Persona mecanico){
+////        mecanicos.remove(mecanico);
+//        try{
+//            this.MecanicoJpaController.destroy(mecanico.getNuip());
+//        }catch(NonexistentEntityException ex){
+//            Logger.getLogger(Taller.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
 
     public void agregarProducto (Producto newproducto) throws Exception{
 //        for (Producto productoL : productos) {
@@ -179,13 +180,14 @@ public class Taller{
         ServicioJpaController.create(newservicio);
     }
 
-    public void eliminarServico (Servicio servicio){
-        try{
-            this.ServicioJpaController.destroy(servicio.getCodigo());
-        }catch(NonexistentEntityException ex){
-            Logger.getLogger(Taller.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+//    public void eliminarServico (Servicio servicio){
+////        servicios.remove(servicio);
+//        try{
+//            this.ServicioJpaController.destroy(servicio.getCodigo());
+//        }catch(NonexistentEntityException ex){
+//            Logger.getLogger(Taller.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
     
     public void agregarRealizado (Mantenimiento newrealizado) throws Exception{
         for (Mantenimiento realizadoL : manteRealizados) {
