@@ -5,6 +5,9 @@
     <class>modelo.Persona</class>
     <class>modelo.Producto</class>
     <class>modelo.Servicio</class>
+    <class>modelo.LocalDateConverter</class>
+    <class>modelo.Consumo</class>
+    <class>modelo.Vehiculo</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/TallerMecanicoDB"/>
       <property name="javax.persistence.jdbc.user" value="TallerMecanicoDB"/>

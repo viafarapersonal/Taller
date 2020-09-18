@@ -5,9 +5,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import persistence.MantenimientoJpaController;
 import persistence.PersonaJpaController;
 import persistence.ProductoJpaController;
 import persistence.ServicioJpaController;
+import persistence.VehiculoJpaController;
 import persistence.exceptions.NonexistentEntityException;
 /*  Author: Alexander Viafara 
     <viafarapersonal@gmail.com>
@@ -31,18 +33,21 @@ public class Taller{
     private ServicioJpaController ServicioJpaController = new ServicioJpaController(factory);
     
     
-    private LinkedList<Mantenimiento> manteRealizados;
-    private LinkedList<Mantenimiento> mantePendientes;
-    private LinkedList<Vehiculo> vehiculos;
+//    private LinkedList<Mantenimiento> manteRealizados;
+    private MantenimientoJpaController MantenimientoJpaControllerR = new MantenimientoJpaController(factory);
+//    private LinkedList<Mantenimiento> mantePendientes;
+    private MantenimientoJpaController MantenimientoJpaControllerP = new MantenimientoJpaController(factory);
+//    private LinkedList<Vehiculo> vehiculos;
+    private VehiculoJpaController VehiculoJpaController = new VehiculoJpaController(factory);
 
     // Constructores
     public Taller(){
 //        this.mecanicos = new LinkedList<>();
 //        this.productos = new LinkedList<>();
 //        this.servicios = new LinkedList<>();
-        this.manteRealizados = new LinkedList<>();
-        this.mantePendientes = new LinkedList<>();
-        this.vehiculos = new LinkedList<>();
+//        this.manteRealizados = new LinkedList<>();
+//        this.mantePendientes = new LinkedList<>();
+//        this.vehiculos = new LinkedList<>();
     }
     
     public Taller(long nit, String nombre) throws Exception{
@@ -51,9 +56,9 @@ public class Taller{
 //        this.mecanicos = new LinkedList<>();
 //        this.productos = new LinkedList<>();
 //        this.servicios = new LinkedList<>();
-        this.manteRealizados = new LinkedList<>();
-        this.mantePendientes = new LinkedList<>();
-        this.vehiculos = new LinkedList<>();
+//        this.manteRealizados = new LinkedList<>();
+//        this.mantePendientes = new LinkedList<>();
+//        this.vehiculos = new LinkedList<>();
     }
     
     // Definición de los métodos
@@ -113,12 +118,12 @@ public class Taller{
         return ServicioJpaController.findServicioEntities();
     }
     
-    public LinkedList<Mantenimiento> getManteRealizados(){
-        return manteRealizados;
+    public List<Mantenimiento> getManteRealizados(){
+        return MantenimientoJpaControllerR.findMantenimientoEntities();
     }
     
-    public LinkedList<Mantenimiento> getMantePendientes(){
-        return mantePendientes;
+    public List<Mantenimiento> getMantePendientes(){
+        return MantenimientoJpaControllerP.findMantenimientoEntities();
     }
     
     public LinkedList<Mantenimiento> getPendientesNoMecanico(){
@@ -131,8 +136,8 @@ public class Taller{
         return noMecanicos;
     }
     
-    public LinkedList<Vehiculo> getVehiculos(){
-        return vehiculos;
+    public List<Vehiculo> getVehiculos(){
+        return VehiculoJpaController.findVehiculoEntities();
     }
     
     //METODOS PARA AGREGAR O ELIMINAR DE LAS LISTAS
@@ -190,79 +195,97 @@ public class Taller{
 //    }
     
     public void agregarRealizado (Mantenimiento newrealizado) throws Exception{
-        for (Mantenimiento realizadoL : manteRealizados) {
-            if (realizadoL.equals(newrealizado)){
-                throw new ClassNotFoundException("El MANTENIMIENTO REALIZADO que intenta añadir ya se encuentra registrado");
-            }
-        }
-        manteRealizados.add(newrealizado);
+//        for (Mantenimiento realizadoL : manteRealizados) {
+//            if (realizadoL.equals(newrealizado)){
+//                throw new ClassNotFoundException("El MANTENIMIENTO REALIZADO que intenta añadir ya se encuentra registrado");
+//            }
+//        }
+//        manteRealizados.add(newrealizado);
+        MantenimientoJpaControllerR.create(newrealizado);
     }
     
     public void eliminarRealizado (Mantenimiento realizado){
-        manteRealizados.remove(realizado);
+        try {
+            MantenimientoJpaControllerR.destroy(nit);
+        } catch (NonexistentEntityException ex) {
+            Logger.getLogger(Taller.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public void agregarPendiente (Mantenimiento newpendiente) throws Exception{
-        for (Mantenimiento pendienteL : mantePendientes) {
-            if (pendienteL.equals(newpendiente)){
-                throw new ClassNotFoundException("El MANTENIMIENTO PENDIENTE que intenta añadir ya se encuentra registrado");
-            }
-        }
-        mantePendientes.add(newpendiente);
+//        for (Mantenimiento pendienteL : mantePendientes) {
+//            if (pendienteL.equals(newpendiente)){
+//                throw new ClassNotFoundException("El MANTENIMIENTO PENDIENTE que intenta añadir ya se encuentra registrado");
+//            }
+//        }
+//        mantePendientes.add(newpendiente);
+        MantenimientoJpaControllerP.create(newpendiente);
     }
     
     public void eliminarPendiente (Mantenimiento pendiente){
-        mantePendientes.remove(pendiente);
+        try {
+            MantenimientoJpaControllerP.destroy(nit);
+        } catch (NonexistentEntityException ex) {
+            Logger.getLogger(Taller.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public void agregarVehiculo (Vehiculo newvehiculo) throws Exception{
-        for (Vehiculo vehiculoL : vehiculos){
-            if (vehiculoL.equals(newvehiculo)){
-                throw new ClassNotFoundException("El VEHÍCULO con placa: ["
-                    +newvehiculo.getPlaca()+"] ya se encuentra registrado");
-            }
-        }
-        this.vehiculos.add(newvehiculo);
+//        for (Vehiculo vehiculoL : vehiculos){
+//            if (vehiculoL.equals(newvehiculo)){
+//                throw new ClassNotFoundException("El VEHÍCULO con placa: ["
+//                    +newvehiculo.getPlaca()+"] ya se encuentra registrado");
+//            }
+//        }
+//        this.vehiculos.add(newvehiculo);
+        VehiculoJpaController.create(newvehiculo);
     }
     
     public void eliminarVehiculo (Vehiculo vehiculo){
-        vehiculos.remove(vehiculo);
+        try {
+            VehiculoJpaController.destroy(nombre);
+        } catch (NonexistentEntityException ex) {
+            Logger.getLogger(Taller.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     // METODOS DE BUSQUEDA
     public Mantenimiento buscarMantenimientoPlaca(String placa) throws Exception{
-        placa = placa.toUpperCase();
-        for (Mantenimiento mantenimientoL : mantePendientes){
-            if(mantenimientoL.getVehiculo().getPlaca().equals(placa)){
-                return mantenimientoL;
-            }
-        }
-        throw new ClassNotFoundException("No se ha encontrado el MANTENIMIENTO "
-                + "PENDIENTE con la PLACA: "+placa);
+//        placa = placa.toUpperCase();
+//        for (Mantenimiento mantenimientoL : mantePendientes){
+//            if(mantenimientoL.getVehiculo().getPlaca().equals(placa)){
+//                return mantenimientoL;
+//            }
+//        }
+//        throw new ClassNotFoundException("No se ha encontrado el MANTENIMIENTO "
+//                + "PENDIENTE con la PLACA: "+placa);
+        return MantenimientoJpaControllerP.findMantenimiento(nit);
     }
     
     public Vehiculo buscarVehiculoPlaca(String placa) throws Exception{
-        placa = placa.trim();
-        placa = placa.toUpperCase();
-        if (!(placa.length() == 6)){
-            throw new ClassNotFoundException("La PLACA ingresada NO es válida (6 caracteres)");
-        }
-        for (Vehiculo vehiculoL : vehiculos){
-            if(vehiculoL.getPlaca().equals(placa)){
-                return vehiculoL;
-            }
-        }
-        throw new ClassNotFoundException("El VEHÍCULO con placa: "
-                    +placa+" NO SE ENCONTRÓ");
+//        placa = placa.trim();
+//        placa = placa.toUpperCase();
+//        if (!(placa.length() == 6)){
+//            throw new ClassNotFoundException("La PLACA ingresada NO es válida (6 caracteres)");
+//        }
+//        for (Vehiculo vehiculoL : vehiculos){
+//            if(vehiculoL.getPlaca().equals(placa)){
+//                return vehiculoL;
+//            }
+//        }
+//        throw new ClassNotFoundException("El VEHÍCULO con placa: "
+//                    +placa+" NO SE ENCONTRÓ");
+        return VehiculoJpaController.findVehiculo(placa);
     }
     
     public Producto buscarProducto(int codigo) throws Exception{
-        for (Producto productoL : ProductoJpaController.findProductoEntities()){
-            if(productoL.getCodigo() == codigo){
-                return productoL;
-            }
-        }
-        throw new ClassNotFoundException("No se ha encontrado el PRODUCTO "
-                + "del codigo: "+codigo);
+//        for (Producto productoL : ProductoJpaController.findProductoEntities()){
+//            if(productoL.getCodigo() == codigo){
+//                return productoL;
+//            }
+//        }
+//        throw new ClassNotFoundException("No se ha encontrado el PRODUCTO "
+//                + "del codigo: "+codigo);
+        return ProductoJpaController.findProducto(codigo);
     }
 }

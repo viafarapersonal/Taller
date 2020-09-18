@@ -13,17 +13,16 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import modelo.Servicio;
+import modelo.Mantenimiento;
 import persistence.exceptions.NonexistentEntityException;
-import persistence.exceptions.PreexistingEntityException;
 
 /**
  *
  * @author monit
  */
-public class ServicioJpaController implements Serializable {
+public class MantenimientoJpaController implements Serializable {
 
-    public ServicioJpaController(EntityManagerFactory emf) {
+    public MantenimientoJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
     private EntityManagerFactory emf = null;
@@ -32,18 +31,13 @@ public class ServicioJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Servicio servicio) throws PreexistingEntityException, Exception {
+    public void create(Mantenimiento mantenimiento) {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            em.persist(servicio);
+            em.persist(mantenimiento);
             em.getTransaction().commit();
-        } catch (Exception ex) {
-            if (findServicio(servicio.getCodigo()) != null) {
-                throw new PreexistingEntityException("Servicio " + servicio + " already exists.", ex);
-            }
-            throw ex;
         } finally {
             if (em != null) {
                 em.close();
@@ -51,19 +45,19 @@ public class ServicioJpaController implements Serializable {
         }
     }
 
-    public void edit(Servicio servicio) throws NonexistentEntityException, Exception {
+    public void edit(Mantenimiento mantenimiento) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            servicio = em.merge(servicio);
+            mantenimiento = em.merge(mantenimiento);
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                int id = servicio.getCodigo();
-                if (findServicio(id) == null) {
-                    throw new NonexistentEntityException("The servicio with id " + id + " no longer exists.");
+                long id = mantenimiento.getPk();
+                if (findMantenimiento(id) == null) {
+                    throw new NonexistentEntityException("The mantenimiento with id " + id + " no longer exists.");
                 }
             }
             throw ex;
@@ -74,19 +68,19 @@ public class ServicioJpaController implements Serializable {
         }
     }
 
-    public void destroy(int id) throws NonexistentEntityException {
+    public void destroy(long id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Servicio servicio;
+            Mantenimiento mantenimiento;
             try {
-                servicio = em.getReference(Servicio.class, id);
-                servicio.getCodigo();
+                mantenimiento = em.getReference(Mantenimiento.class, id);
+                mantenimiento.getPk();
             } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("The servicio with id " + id + " no longer exists.", enfe);
+                throw new NonexistentEntityException("The mantenimiento with id " + id + " no longer exists.", enfe);
             }
-            em.remove(servicio);
+            em.remove(mantenimiento);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -95,19 +89,19 @@ public class ServicioJpaController implements Serializable {
         }
     }
 
-    public List<Servicio> findServicioEntities() {
-        return findServicioEntities(true, -1, -1);
+    public List<Mantenimiento> findMantenimientoEntities() {
+        return findMantenimientoEntities(true, -1, -1);
     }
 
-    public List<Servicio> findServicioEntities(int maxResults, int firstResult) {
-        return findServicioEntities(false, maxResults, firstResult);
+    public List<Mantenimiento> findMantenimientoEntities(int maxResults, int firstResult) {
+        return findMantenimientoEntities(false, maxResults, firstResult);
     }
 
-    private List<Servicio> findServicioEntities(boolean all, int maxResults, int firstResult) {
+    private List<Mantenimiento> findMantenimientoEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Servicio.class));
+            cq.select(cq.from(Mantenimiento.class));
             Query q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(maxResults);
@@ -119,20 +113,20 @@ public class ServicioJpaController implements Serializable {
         }
     }
 
-    public Servicio findServicio(int id) {
+    public Mantenimiento findMantenimiento(long id) {
         EntityManager em = getEntityManager();
         try {
-            return em.find(Servicio.class, id);
+            return em.find(Mantenimiento.class, id);
         } finally {
             em.close();
         }
     }
 
-    public int getServicioCount() {
+    public int getMantenimientoCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<Servicio> rt = cq.from(Servicio.class);
+            Root<Mantenimiento> rt = cq.from(Mantenimiento.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();

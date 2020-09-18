@@ -19,7 +19,7 @@ import persistence.exceptions.PreexistingEntityException;
 
 /**
  *
- * @author Grajales
+ * @author monit
  */
 public class PersonaJpaController implements Serializable {
 

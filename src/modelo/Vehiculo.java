@@ -1,7 +1,12 @@
 package modelo;
 
+import java.io.Serializable;
 import java.time.Year;
 import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 /*  Author: Alexander Viafara 
     <viafarapersonal@gmail.com>
@@ -10,13 +15,23 @@ import java.util.Objects;
     Date: August 2020
  */
 
-public class Vehiculo{
+@Entity
+public class Vehiculo implements Serializable{
     // Definición de atributos
+    @Id
     private String placa;
+    @Column(nullable = false)
+    @OneToOne
     private MarcaVehiculo marca;
+    @Column(nullable = false, length = 50)
     private String linea;
+    @Column(nullable = false, length = 4)
     private int modelo;
+    @Column(nullable = false)
+    @OneToOne
     private TipoVehiculo tipoVehiculo;
+    @Column(nullable = false)
+    @OneToOne
     private Persona personaPropietaria;
 
     // Constructores

@@ -5,16 +5,41 @@ package modelo;
     <didiermaxilo3@gmail.com>
     Date: August 2020
  */
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.LinkedList;
+import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
 
-public class Mantenimiento{
+@Entity
+public class Mantenimiento implements Serializable{
     // Definición de atributos
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long pk;
+    @Column(nullable = false)
+    @OneToOne
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private LocalDate date;
+    @Column(nullable = false)
+    @OneToOne
     private Persona mecanico;
+    @Column(nullable = false)
+    @OneToOne
     private Vehiculo vehiculo;
-    private LinkedList<Servicio> servicios;
-    private LinkedList<Consumo> consumos;
+    @Column(nullable = false)
+    @OneToMany
+    private List<Servicio> servicios;
+    @Column(nullable = false)
+    @OneToMany
+    private List<Consumo> consumos;
 
     // Constructores
     public Mantenimiento(){
@@ -69,7 +94,7 @@ public class Mantenimiento{
         this.vehiculo = vehiculo;
     }
     
-    public LinkedList<Servicio> getServicios(){
+    public List<Servicio> getServicios(){
         return servicios;
     }
 
@@ -81,7 +106,7 @@ public class Mantenimiento{
         this.consumos = consumos;
     }
     
-    public LinkedList<Consumo> getConsumos(){
+    public List<Consumo> getConsumos(){
         return consumos;
     }
     
@@ -131,5 +156,13 @@ public class Mantenimiento{
     
     public void agregarServico(Servicio servicio){
         servicios.add(servicio);
+    }
+
+    public long getPk() {
+        return pk;
+    }
+
+    public void setPk(long pk) {
+        this.pk = pk;
     }
 }

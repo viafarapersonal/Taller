@@ -14,7 +14,7 @@ public class Producto implements Serializable{
     // Definición de atributos
     @Id
     private int codigo;
-    @Column(nullable = false)
+    @Column(nullable = false, length = 50)
     private String nombre;
     @Column(nullable = false)
     private int costo;
