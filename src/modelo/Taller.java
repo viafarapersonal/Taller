@@ -238,12 +238,12 @@ public class Taller{
     }
     
     public void agregarVehiculo (Vehiculo newvehiculo) throws Exception{
-        for (Vehiculo vehiculoL : VehiculoJpaController.findVehiculoEntities()){
-            if (vehiculoL.equals(newvehiculo)){
-                throw new ClassNotFoundException("El VEHÍCULO con placa: ["
-                    +newvehiculo.getPlaca()+"] ya se encuentra registrado");
-            }
-        }
+//        for (Vehiculo vehiculoL : VehiculoJpaController.findVehiculoEntities()){
+//            if (vehiculoL.equals(newvehiculo)){
+//                throw new ClassNotFoundException("El VEHÍCULO con placa: ["
+//                    +newvehiculo.getPlaca()+"] ya se encuentra registrado");
+//            }
+//        }
         VehiculoJpaController.create(newvehiculo);
     }
     
