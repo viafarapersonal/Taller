@@ -7,9 +7,9 @@ import vista.PrincipalUI;
     <didiermaxilo3@gmail.com>
     Date: August 2020
  */
-public class Main {
-    public static void main(String[] args) throws Exception {
-        Taller tall = new Taller(111, "F&F Car WorkShop");
+public class Main{
+    public static void main(String[] args) throws Exception{
+        Taller tall = new Taller(111L, "F&F Car WorkShop");
         
         Servicio s1 = new Servicio(1, "Cambio de Aceite", 10000);
         tall.agregarServico(s1);

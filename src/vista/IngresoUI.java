@@ -22,7 +22,7 @@ import modelo.Vehiculo;
     <didiermaxilo3@gmail.com>
     Date: August 2020
  */
-public class IngresoUI extends javax.swing.JInternalFrame {
+public class IngresoUI extends javax.swing.JInternalFrame{
     //Atributos
     private Taller taller;
     private Mantenimiento mantenimientoVehiculo;

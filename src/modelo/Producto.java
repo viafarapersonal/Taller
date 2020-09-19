@@ -13,7 +13,7 @@ import javax.persistence.Id;
 public class Producto implements Serializable{
     // Definición de atributos
     @Id
-    private int codigo;
+    private long codigo;
     @Column(nullable = false, length = 50)
     private String nombre;
     @Column(nullable = false)
@@ -23,7 +23,7 @@ public class Producto implements Serializable{
     public Producto(){
     }
     
-    public Producto(int codigo, String nombre, int costo) throws Exception{
+    public Producto(long codigo, String nombre, int costo) throws Exception{
         setCodigo(codigo);
         setNombre(nombre);
         setCosto(costo);
@@ -31,11 +31,11 @@ public class Producto implements Serializable{
 
     // Definición de los métodos
     // Implementación de validación de valores en los metodos Set
-    public int getCodigo(){
+    public long getCodigo(){
         return codigo;
     }
     
-    public void setCodigo(int codigo) throws Exception{
+    public void setCodigo(long codigo) throws Exception{
         if(codigo <= 0){
             throw new Exception("El Código del PRODUCTO debe ser ENTERO POSITIVO");
         }

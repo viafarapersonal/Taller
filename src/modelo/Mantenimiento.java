@@ -7,8 +7,10 @@ package modelo;
  */
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,42 +26,37 @@ public class Mantenimiento implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long pk;
-    @Column(nullable = false)
     @OneToOne
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private LocalDate date;
-    @Column(nullable = false)
     @OneToOne
     private Persona mecanico;
-    @Column(nullable = false)
     @OneToOne
     private Vehiculo vehiculo;
-    @Column(nullable = false)
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Servicio> servicios;
-    @Column(nullable = false)
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Consumo> consumos;
 
     // Constructores
     public Mantenimiento(){
-        this.servicios = new LinkedList<>();
-        this.consumos = new LinkedList<>();
+        this.servicios = new ArrayList<>();
+        this.consumos = new ArrayList<>();
     }
     
     public Mantenimiento(LocalDate date, Vehiculo vehiculo) throws Exception{
         this.date = date;
         setVehiculo(vehiculo);
-        this.servicios = new LinkedList<>();
-        this.consumos = new LinkedList<>();
+        this.servicios = new ArrayList<>();
+        this.consumos = new ArrayList<>();
     }
     
     public Mantenimiento(LocalDate date, Persona mecanico, Vehiculo vehiculo) throws Exception{
         this.date = date;
         setMecanico(mecanico);
         setVehiculo(vehiculo);
-        this.servicios = new LinkedList<>();
-        this.consumos = new LinkedList<>();
+        this.servicios = new ArrayList<>();
+        this.consumos = new ArrayList<>();
     }
     
     // Definición de los métodos
@@ -98,11 +95,11 @@ public class Mantenimiento implements Serializable{
         return servicios;
     }
 
-    public void setServicios(LinkedList<Servicio> servicios) {
+    public void setServicios(List<Servicio> servicios) {
         this.servicios = servicios;
     }
 
-    public void setConsumos(LinkedList<Consumo> consumos) {
+    public void setConsumos(List<Consumo> consumos) {
         this.consumos = consumos;
     }
     

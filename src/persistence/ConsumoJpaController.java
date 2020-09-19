@@ -13,7 +13,7 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import modelo.Vehiculo;
+import modelo.Consumo;
 import persistence.exceptions.NonexistentEntityException;
 import persistence.exceptions.PreexistingEntityException;
 
@@ -21,9 +21,9 @@ import persistence.exceptions.PreexistingEntityException;
  *
  * @author Grajales
  */
-public class VehiculoJpaController implements Serializable {
+public class ConsumoJpaController implements Serializable {
 
-    public VehiculoJpaController(EntityManagerFactory emf) {
+    public ConsumoJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
     private EntityManagerFactory emf = null;
@@ -32,16 +32,16 @@ public class VehiculoJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Vehiculo vehiculo) throws PreexistingEntityException, Exception {
+    public void create(Consumo consumo) throws PreexistingEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            em.persist(vehiculo);
+            em.persist(consumo);
             em.getTransaction().commit();
         } catch (Exception ex) {
-            if (findVehiculo(vehiculo.getPlaca()) != null) {
-                throw new PreexistingEntityException("Vehiculo " + vehiculo + " already exists.", ex);
+            if (findConsumo(consumo.getCantidad()) != null) {
+                throw new PreexistingEntityException("Consumo " + consumo + " already exists.", ex);
             }
             throw ex;
         } finally {
@@ -51,19 +51,19 @@ public class VehiculoJpaController implements Serializable {
         }
     }
 
-    public void edit(Vehiculo vehiculo) throws NonexistentEntityException, Exception {
+    public void edit(Consumo consumo) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            vehiculo = em.merge(vehiculo);
+            consumo = em.merge(consumo);
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                String id = vehiculo.getPlaca();
-                if (findVehiculo(id) == null) {
-                    throw new NonexistentEntityException("The vehiculo with id " + id + " no longer exists.");
+                int id = consumo.getCantidad();
+                if (findConsumo(id) == null) {
+                    throw new NonexistentEntityException("The consumo with id " + id + " no longer exists.");
                 }
             }
             throw ex;
@@ -74,19 +74,19 @@ public class VehiculoJpaController implements Serializable {
         }
     }
 
-    public void destroy(String id) throws NonexistentEntityException {
+    public void destroy(int id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Vehiculo vehiculo;
+            Consumo consumo;
             try {
-                vehiculo = em.getReference(Vehiculo.class, id);
-                vehiculo.getPlaca();
+                consumo = em.getReference(Consumo.class, id);
+                consumo.getCantidad();
             } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("The vehiculo with id " + id + " no longer exists.", enfe);
+                throw new NonexistentEntityException("The consumo with id " + id + " no longer exists.", enfe);
             }
-            em.remove(vehiculo);
+            em.remove(consumo);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -95,19 +95,19 @@ public class VehiculoJpaController implements Serializable {
         }
     }
 
-    public List<Vehiculo> findVehiculoEntities() {
-        return findVehiculoEntities(true, -1, -1);
+    public List<Consumo> findConsumoEntities() {
+        return findConsumoEntities(true, -1, -1);
     }
 
-    public List<Vehiculo> findVehiculoEntities(int maxResults, int firstResult) {
-        return findVehiculoEntities(false, maxResults, firstResult);
+    public List<Consumo> findConsumoEntities(int maxResults, int firstResult) {
+        return findConsumoEntities(false, maxResults, firstResult);
     }
 
-    private List<Vehiculo> findVehiculoEntities(boolean all, int maxResults, int firstResult) {
+    private List<Consumo> findConsumoEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Vehiculo.class));
+            cq.select(cq.from(Consumo.class));
             Query q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(maxResults);
@@ -119,20 +119,20 @@ public class VehiculoJpaController implements Serializable {
         }
     }
 
-    public Vehiculo findVehiculo(String id) {
+    public Consumo findConsumo(int id) {
         EntityManager em = getEntityManager();
         try {
-            return em.find(Vehiculo.class, id);
+            return em.find(Consumo.class, id);
         } finally {
             em.close();
         }
     }
 
-    public int getVehiculoCount() {
+    public int getConsumoCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<Vehiculo> rt = cq.from(Vehiculo.class);
+            Root<Consumo> rt = cq.from(Consumo.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();

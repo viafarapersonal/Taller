@@ -18,7 +18,7 @@ import persistence.exceptions.NonexistentEntityException;
 
 /**
  *
- * @author monit
+ * @author Grajales
  */
 public class MantenimientoJpaController implements Serializable {
 

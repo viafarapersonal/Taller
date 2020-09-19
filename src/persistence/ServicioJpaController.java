@@ -19,7 +19,7 @@ import persistence.exceptions.PreexistingEntityException;
 
 /**
  *
- * @author monit
+ * @author Grajales
  */
 public class ServicioJpaController implements Serializable {
 

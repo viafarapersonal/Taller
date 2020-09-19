@@ -7,7 +7,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
-
 /*  Author: Alexander Viafara 
     <viafarapersonal@gmail.com>
     Author: Didier Stevenson Calvache Grajales
@@ -20,17 +19,14 @@ public class Vehiculo implements Serializable{
     // Definición de atributos
     @Id
     private String placa;
-    @Column(nullable = false)
-    @OneToOne
-    private MarcaVehiculo marca;
     @Column(nullable = false, length = 50)
     private String linea;
-    @Column(nullable = false, length = 4)
+    @Column(nullable = false)
     private int modelo;
     @Column(nullable = false)
-    @OneToOne
-    private TipoVehiculo tipoVehiculo;
+    private MarcaVehiculo marca;
     @Column(nullable = false)
+    private TipoVehiculo tipoVehiculo;
     @OneToOne
     private Persona personaPropietaria;
 

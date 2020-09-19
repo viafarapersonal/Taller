@@ -1,16 +1,25 @@
 package modelo;
 
+import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+
 /*  Author: Alexander Viafara 
     <viafarapersonal@gmail.com>
     Author: Didier Stevenson Calvache Grajales
     <didiermaxilo3@gmail.com>
     Date: August 2020
  */
-
-public class Consumo{
+@Entity
+public class Consumo implements Serializable{
     // Definición de atributos
+    @Id
     private int cantidad;
+    @OneToOne
     private Producto producto;
+    @OneToOne
     private Servicio servicio;
 
     // Constructores
