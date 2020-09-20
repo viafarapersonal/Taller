@@ -1,8 +1,8 @@
 package modelo;
-
 import java.io.Serializable;
 import java.time.Year;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -27,7 +27,7 @@ public class Vehiculo implements Serializable{
     private MarcaVehiculo marca;
     @Column(nullable = false)
     private TipoVehiculo tipoVehiculo;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Persona personaPropietaria;
 
     // Constructores

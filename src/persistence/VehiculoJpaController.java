@@ -40,7 +40,7 @@ public class VehiculoJpaController implements Serializable {
             em.persist(vehiculo);
             em.getTransaction().commit();
         } catch (Exception ex) {
-            if (findVehiculo(vehiculo.getPlaca()) != null) {
+            if (findVehiculo(vehiculo.getPlaca()) != null){
                 throw new PreexistingEntityException("Vehiculo " + vehiculo + " already exists.", ex);
             }
             throw ex;

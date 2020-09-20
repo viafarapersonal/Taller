@@ -16,7 +16,7 @@ import javax.persistence.Id;
 public class Persona implements Serializable{
     // Definición de atributos
     @Id
-    private Long nuip;
+    private long nuip;
     @Column(nullable = false, length = 50)
     private String nombre;
     @Column(nullable = false, length = 50)
@@ -28,7 +28,7 @@ public class Persona implements Serializable{
     public Persona(){
     }
     
-    public Persona(Long nuip, String nombre, String apellido, Long telefono) throws Exception{
+    public Persona(long nuip, String nombre, String apellido, Long telefono) throws Exception{
         setNuip(nuip);
         setNombre(nombre);
         setApellido(apellido);

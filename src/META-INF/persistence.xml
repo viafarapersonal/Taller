@@ -3,11 +3,12 @@
   <persistence-unit name="750085M-Calvache-Viafara-ProyectoTallerMecanicoPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>modelo.Consumo</class>
-    <class>modelo.Mantenimiento</class>
     <class>modelo.Persona</class>
     <class>modelo.Producto</class>
     <class>modelo.Servicio</class>
     <class>modelo.Vehiculo</class>
+    <class>modelo.Mantenimiento</class>
+    <class>modelo.LocalDateConverter</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/TallerMecanicoDB"/>
       <property name="javax.persistence.jdbc.user" value="TallerMecanicoDB"/>

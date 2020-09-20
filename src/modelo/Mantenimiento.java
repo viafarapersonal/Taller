@@ -29,7 +29,7 @@ public class Mantenimiento implements Serializable{
     @OneToOne
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private LocalDate date;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Persona mecanico;
     @OneToOne
     private Vehiculo vehiculo;

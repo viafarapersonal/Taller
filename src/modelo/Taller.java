@@ -32,7 +32,6 @@ public class Taller{
 //    private LinkedList<Servicio> servicios;
     private ServicioJpaController ServicioJpaController = new ServicioJpaController(factory);
     
-    
 //    private LinkedList<Mantenimiento> manteRealizados;
     private MantenimientoJpaController manteRealizadosJpaControllerR = new MantenimientoJpaController(factory);
 //    private LinkedList<Mantenimiento> mantePendientes;
@@ -121,13 +120,13 @@ public class Taller{
     public List<Mantenimiento> getManteRealizados(){
         return manteRealizadosJpaControllerR.findMantenimientoEntities();
     }
-    
+
     public List<Mantenimiento> getMantePendientes(){
         return mantePendientesJpaControllerP.findMantenimientoEntities();
     }
-    
-    public LinkedList<Mantenimiento> getPendientesNoMecanico(){
-        LinkedList<Mantenimiento> noMecanicos = new LinkedList<>();
+
+    public List<Mantenimiento> getPendientesNoMecanico(){
+        List<Mantenimiento> noMecanicos = new LinkedList<>();
         for(Mantenimiento mantemimiento : mantePendientesJpaControllerP.findMantenimientoEntities()){
             if(mantemimiento.getMecanico() == null){
                 noMecanicos.add(mantemimiento);

@@ -19,7 +19,7 @@ import persistence.exceptions.PreexistingEntityException;
 
 /**
  *
- * @author monit
+ * @author Grajales
  */
 public class PersonaJpaController implements Serializable {
 
@@ -61,7 +61,7 @@ public class PersonaJpaController implements Serializable {
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Long id = persona.getNuip();
+                long id = persona.getNuip();
                 if (findPersona(id) == null) {
                     throw new NonexistentEntityException("The persona with id " + id + " no longer exists.");
                 }
@@ -74,7 +74,7 @@ public class PersonaJpaController implements Serializable {
         }
     }
 
-    public void destroy(Long id) throws NonexistentEntityException {
+    public void destroy(long id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -119,7 +119,7 @@ public class PersonaJpaController implements Serializable {
         }
     }
 
-    public Persona findPersona(Long id) {
+    public Persona findPersona(long id) {
         EntityManager em = getEntityManager();
         try {
             return em.find(Persona.class, id);
