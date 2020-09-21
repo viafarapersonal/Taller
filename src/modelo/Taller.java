@@ -33,9 +33,9 @@ public class Taller{
     private ServicioJpaController ServicioJpaController = new ServicioJpaController(factory);
     
 //    private LinkedList<Mantenimiento> manteRealizados;
-    private MantenimientoJpaController manteRealizadosJpaControllerR = new MantenimientoJpaController(factory);
+    private MantenimientoJpaController mantenimientoJpaController = new MantenimientoJpaController(factory);
 //    private LinkedList<Mantenimiento> mantePendientes;
-    private MantenimientoJpaController mantePendientesJpaControllerP = new MantenimientoJpaController(factory);
+//    private MantenimientoJpaController mantePendientesJpaControllerP = new MantenimientoJpaController(factory);
 //    private LinkedList<Vehiculo> vehiculos;
     private VehiculoJpaController VehiculoJpaController = new VehiculoJpaController(factory);
 
@@ -95,7 +95,7 @@ public class Taller{
         boolean disp;
         for(Persona mecanico : MecanicoJpaController.findPersonaEntities()){
             disp = true;
-            for(Mantenimiento mantenimiento : mantePendientesJpaControllerP.findMantenimientoEntities()){
+            for(Mantenimiento mantenimiento : mantenimientoJpaController.findMantenimientoEntities()){
                 if(mecanico.equals(mantenimiento.getMecanico())){
                     disp = false;
                 }
@@ -118,16 +118,31 @@ public class Taller{
     }
     
     public List<Mantenimiento> getManteRealizados(){
-        return manteRealizadosJpaControllerR.findMantenimientoEntities();
+        List<Mantenimiento> mantenimientosRealizados = new LinkedList<>();
+        for (Mantenimiento mantenimientoRealizado : mantenimientoJpaController.findMantenimientoEntities()) {
+            if (mantenimientoRealizado.isState()) {
+                mantenimientosRealizados.add(mantenimientoRealizado);
+            }
+        }
+        return mantenimientosRealizados;
     }
 
     public List<Mantenimiento> getMantePendientes(){
-        return mantePendientesJpaControllerP.findMantenimientoEntities();
+        List<Mantenimiento> mantenimientosPendientes = new LinkedList<>();
+        for (Mantenimiento mantenimientoPendientes : mantenimientoJpaController.findMantenimientoEntities()) {
+            if (!mantenimientoPendientes.isState()) {
+                mantenimientosPendientes.add(mantenimientoPendientes);
+            }
+        }
+        return mantenimientosPendientes;
     }
-
+    
+    private List<Mantenimiento> mantenimientos = this.getMantePendientes();
+    //Esto fue lo ultimo que hice.
+    
     public List<Mantenimiento> getPendientesNoMecanico(){
         List<Mantenimiento> noMecanicos = new LinkedList<>();
-        for(Mantenimiento mantemimiento : mantePendientesJpaControllerP.findMantenimientoEntities()){
+        for(Mantenimiento mantemimiento : mantenimientos){
             if(mantemimiento.getMecanico() == null){
                 noMecanicos.add(mantemimiento);
             }
@@ -205,13 +220,13 @@ public class Taller{
 //            }
 //        }
 //        manteRealizados.add(newrealizado);
-        manteRealizadosJpaControllerR.create(newrealizado);
+        mantenimientoJpaController.create(newrealizado);
     }
     
     public void eliminarRealizado (Mantenimiento realizado){
 //        manteRealizados.remove(realizado);
         try{
-            manteRealizadosJpaControllerR.destroy(nit);
+            mantenimientoJpaController.destroy(nit);
         }catch(NonexistentEntityException ex){
             Logger.getLogger(Taller.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -224,13 +239,13 @@ public class Taller{
 //            }
 //        }
 //        mantePendientes.add(newpendiente);
-        mantePendientesJpaControllerP.create(newpendiente);
+        mantenimientoJpaController.create(newpendiente);
     }
     
     public void eliminarPendiente (Mantenimiento pendiente){
 //        mantePendientes.remove(pendiente);
         try {
-            mantePendientesJpaControllerP.destroy(nit);
+            mantenimientoJpaController.destroy(nit);
         }catch(NonexistentEntityException ex){
             Logger.getLogger(Taller.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -258,9 +273,9 @@ public class Taller{
     public Mantenimiento buscarMantenimientoPlaca(String placa) throws Exception{
         placa = placa.trim();
         placa = placa.toUpperCase();
-        for (Mantenimiento mantenimientoL : mantePendientesJpaControllerP.findMantenimientoEntities()){
+        for (Mantenimiento mantenimientoL : mantenimientoJpaController.findMantenimientoEntities()){
             if(mantenimientoL.getVehiculo().getPlaca().equals(placa)){
-                return mantePendientesJpaControllerP.findMantenimiento(nit);
+                return mantenimientoJpaController.findMantenimiento(nit);
             }
         }
         throw new ClassNotFoundException("No se ha encontrado el MANTENIMIENTO "

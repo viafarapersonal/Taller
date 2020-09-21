@@ -61,8 +61,7 @@ public class FacturacionUI extends javax.swing.JInternalFrame{
                         throw new ClassNotFoundException("NO HA SELECCIONADO "
                             +"NINGÚN MANTENIMIENTO");
                     }
-                    taller.getMantePendientes().remove(mantenimiento);
-                    taller.getManteRealizados().add(mantenimiento);
+                    mantenimiento.setState(true);
                     mantenimiento = new Mantenimiento();
                     limpiarTodo();
                     JOptionPane.showMessageDialog(FacturacionUI.this, 

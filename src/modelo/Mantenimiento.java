@@ -63,6 +63,7 @@ public class Mantenimiento implements Serializable{
         setVehiculo(vehiculo);
         this.servicios = new ArrayList<>();
         this.consumos = new ArrayList<>();
+        //this.state = state;
     }
     
     // Definición de los métodos
