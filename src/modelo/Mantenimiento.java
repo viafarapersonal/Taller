@@ -16,27 +16,33 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 
 @Entity
+@NamedQueries({@NamedQuery(name = "mantenimiento.buscarPorPlaca", 
+        query = "SELECT M FROM Mantenimiento AS M WHERE M.vehiculo.placa = :placa")})
 public class Mantenimiento implements Serializable{
     // Definición de atributos
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long pk;
+    @Column(nullable = false)
+    private boolean state;
     @OneToOne
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private LocalDate date;
-    @OneToOne(cascade = CascadeType.ALL)
-    private Persona mecanico;
+    @OneToOne
+    private Mecanico mecanico;
     @OneToOne
     private Vehiculo vehiculo;
+    @OneToMany
+    private List<Servicio> servicios = new ArrayList<>();;
     @OneToMany(cascade = CascadeType.ALL)
-    private List<Servicio> servicios;
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Consumo> consumos;
+    private List<Consumo> consumos = new ArrayList<>();
 
     // Constructores
     public Mantenimiento(){
@@ -51,7 +57,7 @@ public class Mantenimiento implements Serializable{
         this.consumos = new ArrayList<>();
     }
     
-    public Mantenimiento(LocalDate date, Persona mecanico, Vehiculo vehiculo) throws Exception{
+    public Mantenimiento(LocalDate date, Mecanico mecanico, Vehiculo vehiculo) throws Exception{
         this.date = date;
         setMecanico(mecanico);
         setVehiculo(vehiculo);
@@ -69,11 +75,11 @@ public class Mantenimiento implements Serializable{
         this.date = date;
     }
     
-    public Persona getMecanico(){
+    public Mecanico getMecanico(){
         return mecanico;
     }
     
-    public void setMecanico(Persona mecanico) throws Exception{
+    public void setMecanico(Mecanico mecanico) throws Exception{
         if (mecanico == null){
             throw new Exception("Debe ingresar un Mecánico");
         }
@@ -161,5 +167,13 @@ public class Mantenimiento implements Serializable{
 
     public void setPk(long pk) {
         this.pk = pk;
+    }
+
+    public boolean isState() {
+        return state;
+    }
+
+    public void setState(boolean state) {
+        this.state = state;
     }
 }

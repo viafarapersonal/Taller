@@ -15,6 +15,7 @@ import javax.swing.event.ListDataListener;
 import javax.swing.table.AbstractTableModel;
 import modelo.Mantenimiento;
 import modelo.MarcaVehiculo;
+import modelo.Mecanico;
 import modelo.Persona;
 import modelo.Servicio;
 import modelo.Taller;
@@ -126,7 +127,7 @@ public class AsignacionMecanicoUI extends javax.swing.JInternalFrame {
             public void actionPerformed(ActionEvent e){
                 try{
                     Mantenimiento mantenimientoSeleccionado;
-                    Persona mecanicoSeleccionado;
+                    Mecanico mecanicoSeleccionado;
                     if(cbMecanicos.getSelectedItem() == null){
                         throw new ClassNotFoundException("Mecanico no seleccionado");
                     }if(tbSolicitudes.getSize().height == 0){
@@ -137,7 +138,7 @@ public class AsignacionMecanicoUI extends javax.swing.JInternalFrame {
                             +"Mantenimeinto NO SELECCIONADA");
                     }
                     
-                    mecanicoSeleccionado = (Persona)cbMecanicos.getSelectedItem();
+                    mecanicoSeleccionado = (Mecanico)cbMecanicos.getSelectedItem();
                     mantenimientoSeleccionado = taller.getPendientesNoMecanico().
                         get(tbSolicitudes.getSelectedRow());
                     mantenimientoSeleccionado.setMecanico(mecanicoSeleccionado);

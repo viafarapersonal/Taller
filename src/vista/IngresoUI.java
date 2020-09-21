@@ -13,6 +13,7 @@ import modelo.Taller;
 import modelo.MarcaVehiculo;
 import modelo.Persona;
 import modelo.Producto;
+import modelo.Propietario;
 import modelo.Servicio;
 import modelo.TipoVehiculo;
 import modelo.Vehiculo;
@@ -423,10 +424,10 @@ public class IngresoUI extends javax.swing.JInternalFrame{
                 cboxTipo.setSelectedItem(vehi.getTipoVehiculo());
                 txfLinea.setText(vehi.getLinea());
                 txfModelo.setText(String.valueOf(vehi.getModelo()));
-                txfNuip.setText(vehi.getPersonaPropietaria().getNuip().toString());
-                txfNombre.setText(vehi.getPersonaPropietaria().getNombre());
-                txfApellido.setText(vehi.getPersonaPropietaria().getApellido());
-                txfTelefono.setText(vehi.getPersonaPropietaria().getTelefono().toString());
+                txfNuip.setText(vehi.getPropietario().getNuip().toString());
+                txfNombre.setText(vehi.getPropietario().getNombre());
+                txfApellido.setText(vehi.getPropietario().getApellido());
+                txfTelefono.setText(vehi.getPropietario().getTelefono().toString());
             }catch(ClassNotFoundException exe){
                 int op = JOptionPane.showConfirmDialog(IngresoUI.this, 
                     exe.getMessage()+", ¿Desea Registrar el Vehículo?",
@@ -453,7 +454,7 @@ public class IngresoUI extends javax.swing.JInternalFrame{
                     (MarcaVehiculo)cboxMarca.getSelectedItem(), 
                     txfLinea.getText(), Short.parseShort(txfModelo.getText()), 
                     (TipoVehiculo)cboxTipo.getSelectedItem(),
-                        new Persona(Long.parseLong(txfNuip.getText()), 
+                        new Propietario(Long.parseLong(txfNuip.getText()), 
                         txfNombre.getText(), txfApellido.getText(), 
                         Long.parseLong(txfTelefono.getText()))
                     );

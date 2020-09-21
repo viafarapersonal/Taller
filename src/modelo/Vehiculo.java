@@ -28,19 +28,19 @@ public class Vehiculo implements Serializable{
     @Column(nullable = false)
     private TipoVehiculo tipoVehiculo;
     @OneToOne(cascade = CascadeType.ALL)
-    private Persona personaPropietaria;
+    private Propietario propietario;
 
     // Constructores
     public Vehiculo(){
     }
     
-    public Vehiculo(String placa, MarcaVehiculo marca, String linea, int modelo, TipoVehiculo tipoVehiculo, Persona persona) throws Exception{
+    public Vehiculo(String placa, MarcaVehiculo marca, String linea, int modelo, TipoVehiculo tipoVehiculo, Propietario propietario) throws Exception{
         setPlaca(placa);
         setMarca(marca);
         setLinea(linea);
         setModelo(modelo);
         setTipoVehiculo(tipoVehiculo);
-        setPersonaPropietaria(persona);
+        setPersonaPropietaria(propietario);
     }
     
     // Definición de los métodos
@@ -107,15 +107,15 @@ public class Vehiculo implements Serializable{
         this.tipoVehiculo = tipoVehiculo;
     }
     
-    public Persona getPersonaPropietaria(){
-        return personaPropietaria;
+    public Propietario getPropietario(){
+        return propietario;
     }
     
-    public void setPersonaPropietaria(Persona personaPropietaria) throws Exception{
-        if (personaPropietaria == null){
+    public void setPersonaPropietaria(Propietario propietario) throws Exception{
+        if (propietario == null){
             throw new ClassNotFoundException("Debe ingresar un CLIENTE/DUEÑO del vehículo");
         }
-        this.personaPropietaria = personaPropietaria;
+        this.propietario = propietario;
     }
 
     @Override
