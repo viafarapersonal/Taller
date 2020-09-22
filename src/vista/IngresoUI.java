@@ -3,6 +3,8 @@ import java.awt.Container;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.ListModel;
@@ -522,12 +524,16 @@ public class IngresoUI extends javax.swing.JInternalFrame{
                         "Confirmación de Ingreso",JOptionPane.YES_NO_OPTION,
                         JOptionPane.QUESTION_MESSAGE);
                 if(op==JOptionPane.YES_OPTION){
-                    taller.getMantePendientes().add(mantenimientoVehiculo);
-                    limpiarCampos();
-                    mantenimientoVehiculo = new Mantenimiento();
-                    jlServicios.updateUI();
-                    JOptionPane.showMessageDialog(IngresoUI.this, 
-                            "Vehiculo INGRESADO SATISFACTORIAMENTE");
+                    try {
+                        taller.agregarPendiente(mantenimientoVehiculo);
+                        limpiarCampos();
+                        mantenimientoVehiculo = new Mantenimiento();
+                        jlServicios.updateUI();
+                        JOptionPane.showMessageDialog(IngresoUI.this,
+                                "Vehiculo INGRESADO SATISFACTORIAMENTE");
+                    } catch (Exception ex) {
+                        Logger.getLogger(IngresoUI.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
             }catch(ClassNotFoundException exe){
                 JOptionPane.showMessageDialog(IngresoUI.this, exe.getMessage());

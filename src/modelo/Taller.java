@@ -1,4 +1,5 @@
 package modelo;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
@@ -6,6 +7,7 @@ import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import persistence.MantenimientoJpaController;
+import persistence.MecanicoJpaController;
 import persistence.PersonaJpaController;
 import persistence.ProductoJpaController;
 import persistence.ServicioJpaController;
@@ -26,7 +28,7 @@ public class Taller{
     private EntityManagerFactory factory = Persistence.createEntityManagerFactory("750085M-Calvache-Viafara-ProyectoTallerMecanicoPU");
     
 //    private LinkedList<Persona> mecanicos;
-    private PersonaJpaController MecanicoJpaController = new PersonaJpaController(factory);
+    private MecanicoJpaController MecanicoJpaController = new MecanicoJpaController(factory);
 //    private LinkedList<Producto> productos;
     private ProductoJpaController ProductoJpaController = new ProductoJpaController(factory);
 //    private LinkedList<Servicio> servicios;
@@ -85,15 +87,15 @@ public class Taller{
         this.nombre = nombre;
     }
     
-    public List<Persona> getMecanicos(){
+    public List<Mecanico> getMecanicos(){
 //        return mecanicos;
-        return MecanicoJpaController.findPersonaEntities();
+        return MecanicoJpaController.findMecanicoEntities();
     }
     
-    public List<Persona> getMecanicosLibres(){
-        List<Persona> mecanicosLibres = new LinkedList<>();
+    public List<Mecanico> getMecanicosLibres(){
+        List<Mecanico> mecanicosLibres = new ArrayList<>();
         boolean disp;
-        for(Persona mecanico : MecanicoJpaController.findPersonaEntities()){
+        for(Mecanico mecanico : MecanicoJpaController.findMecanicoEntities()){
             disp = true;
             for(Mantenimiento mantenimiento : mantenimientoJpaController.findMantenimientoEntities()){
                 if(mecanico.equals(mantenimiento.getMecanico())){
@@ -118,7 +120,7 @@ public class Taller{
     }
     
     public List<Mantenimiento> getManteRealizados(){
-        List<Mantenimiento> mantenimientosRealizados = new LinkedList<>();
+        List<Mantenimiento> mantenimientosRealizados = new ArrayList<>();
         for (Mantenimiento mantenimientoRealizado : mantenimientoJpaController.findMantenimientoEntities()) {
             if (mantenimientoRealizado.isState()) {
                 mantenimientosRealizados.add(mantenimientoRealizado);
@@ -128,21 +130,18 @@ public class Taller{
     }
 
     public List<Mantenimiento> getMantePendientes(){
-        List<Mantenimiento> mantenimientosPendientes = new LinkedList<>();
-        for (Mantenimiento mantenimientoPendientes : mantenimientoJpaController.findMantenimientoEntities()) {
-            if (!mantenimientoPendientes.isState()) {
+        List<Mantenimiento> mantenimientosPendientes = new ArrayList<>();
+        for(Mantenimiento mantenimientoPendientes : mantenimientoJpaController.findMantenimientoEntities()){
+            if (!mantenimientoPendientes.isState()){
                 mantenimientosPendientes.add(mantenimientoPendientes);
             }
         }
         return mantenimientosPendientes;
     }
     
-    private List<Mantenimiento> mantenimientos = this.getMantePendientes();
-    //Esto fue lo ultimo que hice.
-    
     public List<Mantenimiento> getPendientesNoMecanico(){
-        List<Mantenimiento> noMecanicos = new LinkedList<>();
-        for(Mantenimiento mantemimiento : mantenimientos){
+        List<Mantenimiento> noMecanicos = new ArrayList<>();
+        for(Mantenimiento mantemimiento : this.getMantePendientes()){
             if(mantemimiento.getMecanico() == null){
                 noMecanicos.add(mantemimiento);
             }
@@ -155,7 +154,7 @@ public class Taller{
     }
     
     //METODOS PARA AGREGAR O ELIMINAR DE LAS LISTAS
-    public void agregarMecanico (Persona newMecanico) throws Exception{
+    public void agregarMecanico (Mecanico newMecanico) throws Exception{
 //        for (Persona personaL : mecanicos) {
 //            if (personaL.equals(newMecanico)){
 //                throw new ClassNotFoundException("El(la) MECANICO(A) que intenta añadir ya se encuentra registrado(a)");
@@ -165,7 +164,7 @@ public class Taller{
         MecanicoJpaController.create(newMecanico);
     }
 
-    public void eliminarMecanico (Persona mecanico){
+    public void eliminarMecanico (Mecanico mecanico){
 //        mecanicos.remove(mecanico);
         try{
             this.MecanicoJpaController.destroy(mecanico.getNuip());
@@ -242,10 +241,10 @@ public class Taller{
         mantenimientoJpaController.create(newpendiente);
     }
     
-    public void eliminarPendiente (Mantenimiento pendiente){
+    public void eliminarPendiente (Mantenimiento mantenimiento){
 //        mantePendientes.remove(pendiente);
-        try {
-            mantenimientoJpaController.destroy(nit);
+        try{
+            mantenimientoJpaController.destroy(mantenimiento.getPk());
         }catch(NonexistentEntityException ex){
             Logger.getLogger(Taller.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -275,7 +274,7 @@ public class Taller{
         placa = placa.toUpperCase();
         for (Mantenimiento mantenimientoL : mantenimientoJpaController.findMantenimientoEntities()){
             if(mantenimientoL.getVehiculo().getPlaca().equals(placa)){
-                return mantenimientoJpaController.findMantenimiento(nit);
+                return mantenimientoL;
             }
         }
         throw new ClassNotFoundException("No se ha encontrado el MANTENIMIENTO "

@@ -1,4 +1,4 @@
-package vista;
+ package vista;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -38,7 +38,7 @@ public class AsignacionMecanicoUI extends javax.swing.JInternalFrame {
             @Override
             public void internalFrameActivated(InternalFrameEvent e){
                 super.internalFrameActivated(e);
-                if (taller != null){
+                if(taller != null){
                     tbSolicitudes.updateUI();
                     cbMecanicos.updateUI();
                 }
@@ -94,11 +94,11 @@ public class AsignacionMecanicoUI extends javax.swing.JInternalFrame {
         });
 
         this.cbMecanicos.setModel(new ComboBoxModel<Persona>(){
-            private Persona personaSeleccionada;
+            private Mecanico personaSeleccionada;
 
             @Override
             public void setSelectedItem(Object anItem){
-                personaSeleccionada = (Persona)anItem;
+                personaSeleccionada = (Mecanico)anItem;
             }
 
             @Override
@@ -126,24 +126,22 @@ public class AsignacionMecanicoUI extends javax.swing.JInternalFrame {
             @Override
             public void actionPerformed(ActionEvent e){
                 try{
-                    Mantenimiento mantenimientoSeleccionado;
-                    Mecanico mecanicoSeleccionado;
-                    if(cbMecanicos.getSelectedItem() == null){
-                        throw new ClassNotFoundException("Mecanico no seleccionado");
-                    }if(tbSolicitudes.getSize().height == 0){
+                    if(tbSolicitudes.getSize().height == 0){
                         throw new ClassNotFoundException("NO HAY SOLICITUDES "
                             +"DE MANTENIMIENTO PENDIENTES");
                     }if(tbSolicitudes.getSelectedRowCount() == 0){
                         throw new ClassNotFoundException("Solicitud de "
                             +"Mantenimeinto NO SELECCIONADA");
                     }
-                    
-                    mecanicoSeleccionado = (Mecanico)cbMecanicos.getSelectedItem();
-                    mantenimientoSeleccionado = taller.getPendientesNoMecanico().
+                    Mantenimiento mantenimientoSeleccionado = taller.getPendientesNoMecanico().
                         get(tbSolicitudes.getSelectedRow());
+                    Mecanico mecanicoSeleccionado = (Mecanico)cbMecanicos.getSelectedItem();
+                    if(mecanicoSeleccionado == null){
+                        throw new ClassNotFoundException("Mecanico no seleccionado");
+                    }
                     mantenimientoSeleccionado.setMecanico(mecanicoSeleccionado);
-                    taller.getPendientesNoMecanico().remove(mantenimientoSeleccionado);
-                    taller.getMecanicosLibres().remove(mecanicoSeleccionado);
+                    taller.eliminarPendiente(mantenimientoSeleccionado);
+                    taller.agregarPendiente(mantenimientoSeleccionado);
                     tbSolicitudes.updateUI();
                     cbMecanicos.updateUI();
                     cbMecanicos.setSelectedItem(null);

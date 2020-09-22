@@ -46,6 +46,7 @@ public class Mantenimiento implements Serializable{
 
     // Constructores
     public Mantenimiento(){
+        state = false;
         this.servicios = new ArrayList<>();
         this.consumos = new ArrayList<>();
     }
@@ -53,6 +54,7 @@ public class Mantenimiento implements Serializable{
     public Mantenimiento(LocalDate date, Vehiculo vehiculo) throws Exception{
         this.date = date;
         setVehiculo(vehiculo);
+        state = false;
         this.servicios = new ArrayList<>();
         this.consumos = new ArrayList<>();
     }
@@ -61,6 +63,7 @@ public class Mantenimiento implements Serializable{
         this.date = date;
         setMecanico(mecanico);
         setVehiculo(vehiculo);
+        state = false;
         this.servicios = new ArrayList<>();
         this.consumos = new ArrayList<>();
         //this.state = state;

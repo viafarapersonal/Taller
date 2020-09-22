@@ -12,10 +12,10 @@
     <class>modelo.Mecanico</class>
     <class>modelo.Propietario</class>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/TallerDB"/>
-      <property name="javax.persistence.jdbc.user" value="TallerDB"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/TallerMecanicoDB"/>
+      <property name="javax.persistence.jdbc.user" value="TallerMecanicoDB"/>
       <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.ClientDriver"/>
-      <property name="javax.persistence.jdbc.password" value="TallerDB"/>
+      <property name="javax.persistence.jdbc.password" value="TallerMecanicoDB"/>
       <property name="javax.persistence.schema-generation.database.action" value="create"/>
     </properties>
   </persistence-unit>
