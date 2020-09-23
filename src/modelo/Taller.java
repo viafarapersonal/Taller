@@ -8,7 +8,6 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import persistence.MantenimientoJpaController;
 import persistence.MecanicoJpaController;
-import persistence.PersonaJpaController;
 import persistence.ProductoJpaController;
 import persistence.ServicioJpaController;
 import persistence.VehiculoJpaController;

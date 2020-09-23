@@ -45,7 +45,7 @@ public class RegistroProductosUI extends javax.swing.JInternalFrame{
                         mantenimiento = new Mantenimiento();
                         throw new ClassNotFoundException("El mantenimiento del "
                             +"vehículo con placa: "+ tfPlaca.getText()+ " NO TIENE"
-                            +" ASIGNADO un(a) Mecánico(a), por lo tanto no se le"
+                            +" ASIGNADO un(a) Mecánico(a), por lo tanto NO se le"
                             +" puede asignar consumo de productos");
                     }
                     tfMarca.setText(mantenimiento.getVehiculo().getMarca().name());
@@ -102,6 +102,8 @@ public class RegistroProductosUI extends javax.swing.JInternalFrame{
                             taller.buscarProducto(
                             Integer.parseInt(tfCodigoProducto.getText())), 
                             (Servicio)ltServiciosSolicitados.getSelectedValue()));
+                    taller.eliminarPendiente(mantenimiento);
+                    taller.agregarPendiente(mantenimiento);
                     tbConsumos.updateUI();
                 }catch(ClassNotFoundException ex){
                     JOptionPane.showMessageDialog(RegistroProductosUI.this, ex.getMessage());

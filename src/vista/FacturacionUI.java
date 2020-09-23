@@ -33,6 +33,10 @@ public class FacturacionUI extends javax.swing.JInternalFrame{
                     mantenimiento = new Mantenimiento();
                     limpiarTodo();
                     mantenimiento = taller.buscarMantenimientoPlaca(tfPlaca.getText());
+                    if(mantenimiento.isState()){
+                        throw new ClassNotFoundException("No se ha encontrado el MANTENIMIENTO "
+                        + "PENDIENTE con la PLACA: "+tfPlaca.getText());
+                    }
                     tfMarca.setText(mantenimiento.getVehiculo().getMarca().name());
                     tfTipo.setText(mantenimiento.getVehiculo().getTipoVehiculo().name());
                     tfLinea.setText(mantenimiento.getVehiculo().getLinea());
@@ -62,6 +66,8 @@ public class FacturacionUI extends javax.swing.JInternalFrame{
                             +"NINGÚN MANTENIMIENTO");
                     }
                     mantenimiento.setState(true);
+                    taller.eliminarPendiente(mantenimiento);
+                    taller.agregarPendiente(mantenimiento);
                     mantenimiento = new Mantenimiento();
                     limpiarTodo();
                     JOptionPane.showMessageDialog(FacturacionUI.this, 
