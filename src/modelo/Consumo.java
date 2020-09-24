@@ -3,6 +3,8 @@ package modelo;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
@@ -16,6 +18,9 @@ import javax.persistence.OneToOne;
 public class Consumo implements Serializable{
     // Definición de atributos
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long pk;
+    @Column(nullable = false)
     private int cantidad;
     @OneToOne
     private Producto producto;
@@ -32,9 +37,16 @@ public class Consumo implements Serializable{
         setServicio(servicio);
     }
     
+    public Long getPk(){
+        return pk;
+    }
+
     // Definición de los métodos
     // Implementación de validación de valores en los metodos Set
-    public int getCantidad(){
+    public void setPk(Long pk) {
+        this.pk = pk;
+    }
+    public int getCantidad() {
         return cantidad;
     }
     

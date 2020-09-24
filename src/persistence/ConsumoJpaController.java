@@ -15,7 +15,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import modelo.Consumo;
 import persistence.exceptions.NonexistentEntityException;
-import persistence.exceptions.PreexistingEntityException;
 
 /**
  *
@@ -32,18 +31,13 @@ public class ConsumoJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Consumo consumo) throws PreexistingEntityException, Exception {
+    public void create(Consumo consumo) {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
             em.persist(consumo);
             em.getTransaction().commit();
-        } catch (Exception ex) {
-            if (findConsumo(consumo.getCantidad()) != null) {
-                throw new PreexistingEntityException("Consumo " + consumo + " already exists.", ex);
-            }
-            throw ex;
         } finally {
             if (em != null) {
                 em.close();
@@ -61,7 +55,7 @@ public class ConsumoJpaController implements Serializable {
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                int id = consumo.getCantidad();
+                Long id = consumo.getPk();
                 if (findConsumo(id) == null) {
                     throw new NonexistentEntityException("The consumo with id " + id + " no longer exists.");
                 }
@@ -74,7 +68,7 @@ public class ConsumoJpaController implements Serializable {
         }
     }
 
-    public void destroy(int id) throws NonexistentEntityException {
+    public void destroy(Long id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -82,7 +76,7 @@ public class ConsumoJpaController implements Serializable {
             Consumo consumo;
             try {
                 consumo = em.getReference(Consumo.class, id);
-                consumo.getCantidad();
+                consumo.getPk();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The consumo with id " + id + " no longer exists.", enfe);
             }
@@ -119,7 +113,7 @@ public class ConsumoJpaController implements Serializable {
         }
     }
 
-    public Consumo findConsumo(int id) {
+    public Consumo findConsumo(Long id) {
         EntityManager em = getEntityManager();
         try {
             return em.find(Consumo.class, id);

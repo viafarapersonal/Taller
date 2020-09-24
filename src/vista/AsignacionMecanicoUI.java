@@ -93,17 +93,17 @@ public class AsignacionMecanicoUI extends javax.swing.JInternalFrame {
             }
         });
 
-        this.cbMecanicos.setModel(new ComboBoxModel<Persona>(){
-            private Mecanico personaSeleccionada;
+        this.cbMecanicos.setModel(new ComboBoxModel<Mecanico>(){
+            private Mecanico mecanicoSeleccionado;
 
             @Override
             public void setSelectedItem(Object anItem){
-                personaSeleccionada = (Mecanico)anItem;
+                mecanicoSeleccionado = (Mecanico)anItem;
             }
 
             @Override
             public Object getSelectedItem(){
-                return this.personaSeleccionada;
+                return this.mecanicoSeleccionado;
             }
 
             @Override
@@ -112,7 +112,7 @@ public class AsignacionMecanicoUI extends javax.swing.JInternalFrame {
             }
 
             @Override
-            public Persona getElementAt(int index){
+            public Mecanico getElementAt(int index){
                 return taller.getMecanicosLibres().get(index);
             }
 
@@ -239,7 +239,7 @@ public class AsignacionMecanicoUI extends javax.swing.JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btAsignar;
-    private javax.swing.JComboBox<Persona> cbMecanicos;
+    private javax.swing.JComboBox<Mecanico> cbMecanicos;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

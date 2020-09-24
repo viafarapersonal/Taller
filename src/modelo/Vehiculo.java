@@ -91,7 +91,8 @@ public class Vehiculo implements Serializable{
     public void setModelo(int modelo) throws Exception{
         if (modelo < 1900 || modelo > (Year.now().getValue()+1)){
             throw new ClassNotFoundException("El AÑO ingresado NO es válido "
-                    + "(sólo se aceptan de 1900 en adelante");
+                +"[sólo se aceptan de 1900 en adelante, hasta el año siguiente al actual ("
+                +(Year.now().getValue()+1)+") para el día de hoy]");
         }
         this.modelo = modelo;
     }

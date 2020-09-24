@@ -421,6 +421,12 @@ public class IngresoUI extends javax.swing.JInternalFrame{
                             + "YA SE ENCUENTRA EN MANTENIMIENTO");
                     }
                 }
+                for(Mantenimiento mantenimientoL : taller.getManteRealizados()){
+                    if(mantenimientoL.getVehiculo().equals(vehi)){
+                        throw new IllegalAccessException("EL vehículo "
+                            + "YA ha realizado su mantenimiento");
+                    }
+                }
                 mantenimientoVehiculo.setVehiculo(vehi);
                 cboxMarca.setSelectedItem(vehi.getMarca());
                 cboxTipo.setSelectedItem(vehi.getTipoVehiculo());

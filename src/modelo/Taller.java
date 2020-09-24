@@ -96,7 +96,7 @@ public class Taller{
         boolean disp;
         for(Mecanico mecanico : MecanicoJpaController.findMecanicoEntities()){
             disp = true;
-            for(Mantenimiento mantenimiento : mantenimientoJpaController.findMantenimientoEntities()){
+            for(Mantenimiento mantenimiento : getMantePendientes()){
                 if(mecanico.equals(mantenimiento.getMecanico())){
                     disp = false;
                 }
@@ -271,7 +271,7 @@ public class Taller{
     public Mantenimiento buscarMantenimientoPlaca(String placa) throws Exception{
         placa = placa.trim();
         placa = placa.toUpperCase();
-        for (Mantenimiento mantenimientoL : mantenimientoJpaController.findMantenimientoEntities()){
+        for (Mantenimiento mantenimientoL : this.getMantePendientes()){
             if(mantenimientoL.getVehiculo().getPlaca().equals(placa)){
                 return mantenimientoL;
             }
@@ -286,7 +286,7 @@ public class Taller{
         if (!(placa.length() == 6)){
             throw new ClassNotFoundException("La PLACA ingresada NO es válida (6 caracteres)");
         }
-        for (Vehiculo vehiculoL : VehiculoJpaController.findVehiculoEntities()){
+        for(Vehiculo vehiculoL : VehiculoJpaController.findVehiculoEntities()){
             if(vehiculoL.getPlaca().equals(placa)){
                 return VehiculoJpaController.findVehiculo(placa);
             }

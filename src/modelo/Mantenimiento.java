@@ -84,9 +84,9 @@ public class Mantenimiento implements Serializable{
     }
     
     public void setMecanico(Mecanico mecanico) throws Exception{
-        if (mecanico == null){
-            throw new Exception("Debe ingresar un Mecánico");
-        }
+//        if (mecanico == null){
+//            throw new Exception("Debe ingresar un Mecánico");
+//        }
         this.mecanico = mecanico;
     }
     
@@ -157,7 +157,7 @@ public class Mantenimiento implements Serializable{
 
     @Override
     public String toString(){
-        return "mecanico: "+mecanico+", vehiculo: "+ vehiculo.getPlaca() + 
+        return "Mecanico(a): "+mecanico+", vehiculo: "+ vehiculo.getPlaca() + 
                 ", Valor: " +valorConsumosEIva();
     }
     

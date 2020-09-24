@@ -16,4 +16,10 @@ public class Mecanico extends Persona implements Serializable{
     public Mecanico(Long nuip, String nombre, String apellido, Long telefono) throws Exception {
         super(nuip, nombre, apellido, telefono);
     }
+
+    @Override
+    public String toString(){
+        return getNombre()+" "+getNuip();
+    }
+    
 }

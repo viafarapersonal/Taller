@@ -33,9 +33,12 @@ public class FacturacionUI extends javax.swing.JInternalFrame{
                     mantenimiento = new Mantenimiento();
                     limpiarTodo();
                     mantenimiento = taller.buscarMantenimientoPlaca(tfPlaca.getText());
-                    if(mantenimiento.isState()){
-                        throw new ClassNotFoundException("No se ha encontrado el MANTENIMIENTO "
-                        + "PENDIENTE con la PLACA: "+tfPlaca.getText());
+                    if(mantenimiento.getMecanico() == null){
+                        mantenimiento = new Mantenimiento();
+                        throw new ClassNotFoundException("El mantenimiento del "
+                            +"vehículo con placa: "+ tfPlaca.getText()+ " NO TIENE"
+                            +" ASIGNADO un(a) Mecánico(a), por lo tanto NO se le"
+                            +" puede Facturar");
                     }
                     tfMarca.setText(mantenimiento.getVehiculo().getMarca().name());
                     tfTipo.setText(mantenimiento.getVehiculo().getTipoVehiculo().name());

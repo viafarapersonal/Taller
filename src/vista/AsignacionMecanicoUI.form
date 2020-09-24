@@ -137,7 +137,7 @@
     </Component>
     <Component class="javax.swing.JComboBox" name="cbMecanicos">
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Persona&gt;"/>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Mecanico&gt;"/>
       </AuxValues>
     </Component>
     <Component class="javax.swing.JButton" name="btAsignar">
